@@ -1,8 +1,10 @@
 package app.olauncher.ui
 
 import android.app.admin.DevicePolicyManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.LauncherApps
 import android.content.res.Configuration
 import android.os.BatteryManager
@@ -75,11 +77,47 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
         setHomeAlignment(prefs.homeAlignment)
         initSwipeTouchListener()
         initClickListeners()
+        app.olauncher.extras.HomeExtras.observe(binding, viewLifecycleOwner) // Inilauncher
+    }
+
+    // Inilauncher: keep the date line's battery % and date current while home is on screen
+    private var shownBattery = -1
+    private val dateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            var percent: Int? = null
+            if (intent.action == Intent.ACTION_BATTERY_CHANGED) {
+                // Also sent for voltage/temperature changes: only redraw when the level changes
+                val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+                val scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 100)
+                if (level < 0 || scale <= 0) return
+                percent = level * 100 / scale
+                if (percent == shownBattery) return
+            }
+            if (_binding != null) updateDateText(percent)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val filter = IntentFilter().apply {
+            addAction(Intent.ACTION_BATTERY_CHANGED)
+            addAction(Intent.ACTION_DATE_CHANGED)
+            addAction(Intent.ACTION_TIME_CHANGED)
+            addAction(Intent.ACTION_TIMEZONE_CHANGED)
+        }
+        androidx.core.content.ContextCompat.registerReceiver(requireContext(), dateReceiver, filter, androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED)
+    }
+
+    override fun onStop() {
+        runCatching { requireContext().unregisterReceiver(dateReceiver) }
+        super.onStop()
     }
 
     override fun onResume() {
         super.onResume()
         populateHomeScreen(false)
+        app.olauncher.extras.HomeExtras.decorateHomeApps(binding) // Inilauncher
+        app.olauncher.extras.gestures.GestureMotion.reset(binding.root) // Inilauncher: no half-moved home screen on return
         viewModel.isOlauncherDefault()
         if (prefs.showStatusBar) showStatusBar()
         else hideStatusBar()
@@ -132,14 +170,14 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
 
     override fun onLongClick(view: View): Boolean {
         when (view.id) {
-            R.id.homeApp1 -> showAppList(Constants.FLAG_SET_HOME_APP_1, prefs.appName1.isNotEmpty(), true)
-            R.id.homeApp2 -> showAppList(Constants.FLAG_SET_HOME_APP_2, prefs.appName2.isNotEmpty(), true)
-            R.id.homeApp3 -> showAppList(Constants.FLAG_SET_HOME_APP_3, prefs.appName3.isNotEmpty(), true)
-            R.id.homeApp4 -> showAppList(Constants.FLAG_SET_HOME_APP_4, prefs.appName4.isNotEmpty(), true)
-            R.id.homeApp5 -> showAppList(Constants.FLAG_SET_HOME_APP_5, prefs.appName5.isNotEmpty(), true)
-            R.id.homeApp6 -> showAppList(Constants.FLAG_SET_HOME_APP_6, prefs.appName6.isNotEmpty(), true)
-            R.id.homeApp7 -> showAppList(Constants.FLAG_SET_HOME_APP_7, prefs.appName7.isNotEmpty(), true)
-            R.id.homeApp8 -> showAppList(Constants.FLAG_SET_HOME_APP_8, prefs.appName8.isNotEmpty(), true)
+            R.id.homeApp1 -> homeAppLongPress(1) { showAppList(Constants.FLAG_SET_HOME_APP_1, prefs.appName1.isNotEmpty(), true) }
+            R.id.homeApp2 -> homeAppLongPress(2) { showAppList(Constants.FLAG_SET_HOME_APP_2, prefs.appName2.isNotEmpty(), true) }
+            R.id.homeApp3 -> homeAppLongPress(3) { showAppList(Constants.FLAG_SET_HOME_APP_3, prefs.appName3.isNotEmpty(), true) }
+            R.id.homeApp4 -> homeAppLongPress(4) { showAppList(Constants.FLAG_SET_HOME_APP_4, prefs.appName4.isNotEmpty(), true) }
+            R.id.homeApp5 -> homeAppLongPress(5) { showAppList(Constants.FLAG_SET_HOME_APP_5, prefs.appName5.isNotEmpty(), true) }
+            R.id.homeApp6 -> homeAppLongPress(6) { showAppList(Constants.FLAG_SET_HOME_APP_6, prefs.appName6.isNotEmpty(), true) }
+            R.id.homeApp7 -> homeAppLongPress(7) { showAppList(Constants.FLAG_SET_HOME_APP_7, prefs.appName7.isNotEmpty(), true) }
+            R.id.homeApp8 -> homeAppLongPress(8) { showAppList(Constants.FLAG_SET_HOME_APP_8, prefs.appName8.isNotEmpty(), true) }
             R.id.clock -> {
                 showAppList(Constants.FLAG_SET_CLOCK_APP)
                 prefs.clockAppPackage = ""
@@ -220,6 +258,17 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
         binding.homeApp6.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp6))
         binding.homeApp7.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp7))
         binding.homeApp8.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp8))
+        // Inilauncher: hold a home app and drag it to reorder; hold and release opens the picker
+        app.olauncher.extras.HomeReorder.attach(
+            listOf(binding.homeApp1, binding.homeApp2, binding.homeApp3, binding.homeApp4,
+                binding.homeApp5, binding.homeApp6, binding.homeApp7, binding.homeApp8),
+            upstream = { getViewSwipeTouchListener(context, it) },
+            onLongPress = { textOnLongClick(it) },
+            onMoved = {
+                populateHomeScreen(false)
+                app.olauncher.extras.HomeExtras.decorateHomeApps(binding)
+            },
+        )
     }
 
     private fun initClickListeners() {
@@ -273,13 +322,20 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
         binding.clock.isVisible = Constants.DateTime.isTimeVisible(prefs.dateTimeVisibility)
         binding.date.isVisible = Constants.DateTime.isDateVisible(prefs.dateTimeVisibility)
 
+        updateDateText() // Inilauncher: split out so the date receiver can refresh just this line
+        app.olauncher.extras.HomeExtras.bind(binding) // Inilauncher
+    }
+
+    /** [battery]: the level from a battery broadcast, or null to read it now. */
+    private fun updateDateText(battery: Int? = null) {
 //        var dateText = SimpleDateFormat("EEE, d MMM", Locale.getDefault()).format(Date())
         val dateFormat = SimpleDateFormat("EEE, d MMM", Locale.getDefault())
         var dateText = dateFormat.format(Date())
 
         if (!prefs.showStatusBar) {
-            val battery = (requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager)
+            val battery = battery ?: (requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager)
                 .getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+            shownBattery = battery // Inilauncher
             if (battery > 0)
                 dateText = getString(R.string.day_battery, dateText, battery)
         }
@@ -324,56 +380,56 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
         if (homeAppsNum == 0) return
 
         binding.homeApp1.visibility = View.VISIBLE
-        if (!setHomeAppText(binding.homeApp1, prefs.appName1, prefs.appPackage1, prefs.appUser1, prefs.isShortcut1, prefs.shortcutId1)) {
+        if (!setHomeAppText(binding.homeApp1, prefs.appName1, prefs.appPackage1, prefs.appUser1, prefs.isShortcut1, prefs.shortcutId1, prefs.appActivityClassName1)) {
             prefs.appName1 = ""
             prefs.appPackage1 = ""
         }
         if (homeAppsNum == 1) return
 
         binding.homeApp2.visibility = View.VISIBLE
-        if (!setHomeAppText(binding.homeApp2, prefs.appName2, prefs.appPackage2, prefs.appUser2, prefs.isShortcut2, prefs.shortcutId2)) {
+        if (!setHomeAppText(binding.homeApp2, prefs.appName2, prefs.appPackage2, prefs.appUser2, prefs.isShortcut2, prefs.shortcutId2, prefs.appActivityClassName2)) {
             prefs.appName2 = ""
             prefs.appPackage2 = ""
         }
         if (homeAppsNum == 2) return
 
         binding.homeApp3.visibility = View.VISIBLE
-        if (!setHomeAppText(binding.homeApp3, prefs.appName3, prefs.appPackage3, prefs.appUser3, prefs.isShortcut3, prefs.shortcutId3)) {
+        if (!setHomeAppText(binding.homeApp3, prefs.appName3, prefs.appPackage3, prefs.appUser3, prefs.isShortcut3, prefs.shortcutId3, prefs.appActivityClassName3)) {
             prefs.appName3 = ""
             prefs.appPackage3 = ""
         }
         if (homeAppsNum == 3) return
 
         binding.homeApp4.visibility = View.VISIBLE
-        if (!setHomeAppText(binding.homeApp4, prefs.appName4, prefs.appPackage4, prefs.appUser4, prefs.isShortcut4, prefs.shortcutId4)) {
+        if (!setHomeAppText(binding.homeApp4, prefs.appName4, prefs.appPackage4, prefs.appUser4, prefs.isShortcut4, prefs.shortcutId4, prefs.appActivityClassName4)) {
             prefs.appName4 = ""
             prefs.appPackage4 = ""
         }
         if (homeAppsNum == 4) return
 
         binding.homeApp5.visibility = View.VISIBLE
-        if (!setHomeAppText(binding.homeApp5, prefs.appName5, prefs.appPackage5, prefs.appUser5, prefs.isShortcut5, prefs.shortcutId5)) {
+        if (!setHomeAppText(binding.homeApp5, prefs.appName5, prefs.appPackage5, prefs.appUser5, prefs.isShortcut5, prefs.shortcutId5, prefs.appActivityClassName5)) {
             prefs.appName5 = ""
             prefs.appPackage5 = ""
         }
         if (homeAppsNum == 5) return
 
         binding.homeApp6.visibility = View.VISIBLE
-        if (!setHomeAppText(binding.homeApp6, prefs.appName6, prefs.appPackage6, prefs.appUser6, prefs.isShortcut6, prefs.shortcutId6)) {
+        if (!setHomeAppText(binding.homeApp6, prefs.appName6, prefs.appPackage6, prefs.appUser6, prefs.isShortcut6, prefs.shortcutId6, prefs.appActivityClassName6)) {
             prefs.appName6 = ""
             prefs.appPackage6 = ""
         }
         if (homeAppsNum == 6) return
 
         binding.homeApp7.visibility = View.VISIBLE
-        if (!setHomeAppText(binding.homeApp7, prefs.appName7, prefs.appPackage7, prefs.appUser7, prefs.isShortcut7, prefs.shortcutId7)) {
+        if (!setHomeAppText(binding.homeApp7, prefs.appName7, prefs.appPackage7, prefs.appUser7, prefs.isShortcut7, prefs.shortcutId7, prefs.appActivityClassName7)) {
             prefs.appName7 = ""
             prefs.appPackage7 = ""
         }
         if (homeAppsNum == 7) return
 
         binding.homeApp8.visibility = View.VISIBLE
-        if (!setHomeAppText(binding.homeApp8, prefs.appName8, prefs.appPackage8, prefs.appUser8, prefs.isShortcut8, prefs.shortcutId8)) {
+        if (!setHomeAppText(binding.homeApp8, prefs.appName8, prefs.appPackage8, prefs.appUser8, prefs.isShortcut8, prefs.shortcutId8, prefs.appActivityClassName8)) {
             prefs.appName8 = ""
             prefs.appPackage8 = ""
         }
@@ -386,6 +442,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
         userString: String,
         isShortcut: Boolean,
         shortcutId: String?,
+        activityClassName: String? = null, // Inilauncher: folder id for folder entries
     ): Boolean {
         // Get user handle for the app/shortcut
         val userHandle = getUserHandleFromString(requireContext(), userString)
@@ -415,6 +472,10 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
                 return false
             }
         }
+
+        // Inilauncher: folders and the Widgets panel aren't installed apps
+        if (app.olauncher.extras.InternalEntries.isInternal(packageName))
+            return app.olauncher.extras.InternalEntries.exists(requireContext(), packageName, activityClassName).also { textView.text = if (it) appName else "" }
 
         // Regular app check
         if (isPackageInstalled(requireContext(), packageName, userString)) {
@@ -508,6 +569,9 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun openSwipeRightApp() {
+        if (!prefs.swipeRightEnabled || prefs.appNameSwipeRight.isEmpty()) // Inilauncher: bounce
+            app.olauncher.extras.gestures.GestureMotion.nothingHere(app.olauncher.extras.gestures.GestureMotion.Dir.RIGHT)
+        else app.olauncher.extras.gestures.GestureMotion.launching(app.olauncher.extras.gestures.GestureMotion.Dir.RIGHT) // Inilauncher
         if (!prefs.swipeRightEnabled) return
         launchAppOrShortcut(
             appName = prefs.appNameSwipeRight,
@@ -521,6 +585,9 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun openSwipeLeftApp() {
+        if (!prefs.swipeLeftEnabled || prefs.appNameSwipeLeft.isEmpty()) // Inilauncher: bounce
+            app.olauncher.extras.gestures.GestureMotion.nothingHere(app.olauncher.extras.gestures.GestureMotion.Dir.LEFT)
+        else app.olauncher.extras.gestures.GestureMotion.launching(app.olauncher.extras.gestures.GestureMotion.Dir.LEFT) // Inilauncher
         if (!prefs.swipeLeftEnabled) return
         launchAppOrShortcut(
             appName = prefs.appNameSwipeLeft,
@@ -534,14 +601,16 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun showAppList(flag: Int, rename: Boolean = false, includeHiddenApps: Boolean = false) {
-        viewModel.getAppList(includeHiddenApps)
+        // Inilauncher: with "Lock hidden apps" on, hidden apps stay out until the lock is opened
+        viewModel.getAppList(includeHiddenApps && app.olauncher.extras.privacy.HiddenApps.showInPickers(requireContext()))
         try {
             findNavController().navigate(
                 R.id.action_mainFragment_to_appListFragment,
                 bundleOf(
                     Constants.Key.FLAG to flag,
                     Constants.Key.RENAME to rename
-                )
+                ),
+                app.olauncher.extras.gestures.GestureMotion.drawerNavOptions(), // Inilauncher: slides in after a swipe up
             )
         } catch (e: Exception) {
             findNavController().navigate(
@@ -592,6 +661,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
 
     private fun changeAppTheme() {
         if (prefs.dailyWallpaper.not()) return
+        app.olauncher.extras.daynight.DayNight.onManualTheme(requireContext()) // Inilauncher
         val changedAppTheme = getChangedAppTheme(requireContext(), prefs.appTheme)
         prefs.appTheme = changedAppTheme
         if (prefs.dailyWallpaper) {
@@ -638,6 +708,10 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
 
     private fun textOnLongClick(view: View) = onLongClick(view)
 
+    // Inilauncher: Change app / App info / Uninstall instead of going straight to the picker
+    private fun homeAppLongPress(slot: Int, change: () -> Unit) =
+        app.olauncher.extras.AppActions.homeAppLongPress(requireContext(), slot, change)
+
     private fun getSwipeGestureListener(context: Context): View.OnTouchListener {
         return object : OnSwipeTouchListener(context) {
             override fun onSwipeLeft() {
@@ -652,11 +726,13 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
 
             override fun onSwipeUp() {
                 super.onSwipeUp()
+                app.olauncher.extras.gestures.GestureMotion.swipeUp() // Inilauncher
                 showAppList(Constants.FLAG_LAUNCH_APP)
             }
 
             override fun onSwipeDown() {
                 super.onSwipeDown()
+                app.olauncher.extras.gestures.GestureMotion.swipeDown() // Inilauncher
                 expandNotificationDrawer(requireContext())
             }
 
@@ -673,14 +749,18 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
             override fun onDoubleClick() {
                 super.onDoubleClick()
                 if (!prefs.lockModeOn) return
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-                    binding.lock.performClick()
-                else
-                    lockPhone()
+                app.olauncher.extras.gestures.GestureMotion.dimThenLock(requireActivity()) { // Inilauncher: dim first
+                    if (_binding == null) return@dimThenLock
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+                        binding.lock.performClick()
+                    else
+                        lockPhone()
+                }
             }
 
             override fun onClick() {
                 super.onClick()
+                if (app.olauncher.extras.HomeExtras.tapOutside(binding)) return // Inilauncher
                 viewModel.checkForMessages.call()
             }
         }
@@ -690,21 +770,25 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
         return object : ViewSwipeTouchListener(context, view) {
             override fun onSwipeLeft() {
                 super.onSwipeLeft()
+                if (app.olauncher.extras.HomeExtras.slotSwipe(binding, view, left = true)) return // Inilauncher
                 openSwipeLeftApp()
             }
 
             override fun onSwipeRight() {
                 super.onSwipeRight()
+                if (app.olauncher.extras.HomeExtras.slotSwipe(binding, view, left = false)) return // Inilauncher
                 openSwipeRightApp()
             }
 
             override fun onSwipeUp() {
                 super.onSwipeUp()
+                app.olauncher.extras.gestures.GestureMotion.swipeUp() // Inilauncher
                 showAppList(Constants.FLAG_LAUNCH_APP)
             }
 
             override fun onSwipeDown() {
                 super.onSwipeDown()
+                app.olauncher.extras.gestures.GestureMotion.swipeDown() // Inilauncher
                 expandNotificationDrawer(requireContext())
             }
 

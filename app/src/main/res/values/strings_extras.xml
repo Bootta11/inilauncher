@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher's own strings (English only for now; other languages fall back to English). -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="extras" translatable="false">Extras</string>
+    <string name="extras_settings_row">Extras…</string>
+    <string name="extras_intro">Extra features on top of the minimal launcher. Each one is off until you turn it on, and asks for a permission only when it needs one.</string>
+    <string name="extras_section_home">Home screen</string>
+    <string name="extras_section_search">Search &amp; app list</string>
+    <string name="extras_section_look">Look</string>
+    <string name="extras_section_privacy">Privacy &amp; security</string>
+    <string name="extras_nothing_yet">Nothing here yet.</string>
+    <string name="home_app_change">Change app</string>
+    <string name="about_inilauncher">About</string>
+    <string name="about_inilauncher_title" translatable="false">Inilauncher</string>
+    <string name="about_inilauncher_message">Inilauncher is a minimal Android launcher with optional extras.
+        \n\nIt is a modified version of Olauncher by Tanuj (github.com/tanujnotes/Olauncher) and, like Olauncher, is free software under the GNU General Public License v3. You may share and change it under that license; it comes with no warranty.
+        \n\nNo ads, no analytics. Features that use the internet are off by default and say so when you turn them on.</string>
+    <string name="olauncher_on_github">Olauncher on GitHub</string>
+    <!-- Look -->
+    <string name="font">Font</string>
+    <string name="font_default">Default</string>
+    <string name="font_sans">Sans</string>
+    <string name="font_condensed">Condensed</string>
+    <string name="font_serif">Serif</string>
+    <string name="font_mono">Monospace</string>
+    <string name="font_casual">Casual</string>
+    <string name="font_bold_hint">The "Bold font" setting in Appearance only changes the default font.</string>
+    <string name="background_blur">Blur background</string>
+    <string name="background_blur_hint">Blurs the wallpaper behind the app list and settings. Android 12+.</string>
+    <string name="background_blur_unsupported">Needs Android 12 or newer and isn\'t used on e-ink screens.</string>
+    <string name="force_eink">Force e-ink mode</string>
+    <string name="gesture_motion">Gesture animations</string>
+    <string name="gesture_motion_hint">The home screen follows your finger when you swipe, and swipes, holds and double-taps animate. Off on e-ink screens.</string>
+    <string name="force_eink_hint">Light theme, no animations and no blur, for e-ink screens that aren\'t detected automatically.</string>
+
+    <!-- Home: note -->
+    <string name="note">Note</string>
+    <string name="note_on_home">Note on home screen</string>
+    <string name="note_tap_to_add">Tap to write a note</string>
+    <string name="note_hint">Write something to see on your home screen</string>
+    <string name="save">Save</string>
+
+    <!-- Folders -->
+    <string name="folder">Folder</string>
+    <string name="folders">Folders</string>
+    <string name="folders_hint">Long-press an app in the app list and tap Folder to add it. Folders appear at the top of the list and can be put on the home screen like an app. Hold an app inside a folder and drag it to move it.</string>
+    <string name="folder_add_to">Add to folder</string>
+    <string name="folder_create">Create</string>
+    <string name="folder_name">Folder name</string>
+    <string name="folder_new_name_hint">New folder name</string>
+    <string name="folder_name_needed">Type a folder name first</string>
+    <string name="folder_added">%1$s added to %2$s</string>
+    <string name="folder_empty">This folder is empty.</string>
+    <string name="folder_edit">Edit</string>
+    <string name="folder_delete">Delete folder</string>
+    <string name="folder_move_up">Move up</string>
+    <string name="folder_move_down">Move down</string>
+    <string name="folder_remove_app">Remove from folder</string>
+
+    <!-- Privacy: hidden apps lock -->
+    <string name="lock_hidden_apps">Lock hidden apps</string>
+    <string name="lock_hidden_apps_hint">Asks for your fingerprint, face or screen lock before showing hidden apps, and before turning this off. Until then hidden apps stay out of every app picker. Stays unlocked until the screen turns off.</string>
+    <string name="lock_prompt_title">Hidden apps</string>
+    <string name="lock_prompt_subtitle">Unlock to see your hidden apps</string>
+    <string name="lock_prompt_subtitle_off">Unlock to turn off the lock on hidden apps</string>
+    <string name="lock_no_screen_lock">Set up a screen lock on your phone to lock hidden apps</string>
+    <plurals name="folder_count">
+        <item quantity="one">%d folder</item>
+        <item quantity="other">%d folders</item>
+    </plurals>
+
+    <!-- Weather -->
+    <string name="weather">Weather</string>
+    <string name="weather_hint">Shows the temperature under the date. Asks Open-Meteo (open-meteo.com) about once an hour, sending only your approximate location (about 1 km) or the city you choose.</string>
+    <string name="weather_place">Place</string>
+    <string name="weather_place_auto">My location</string>
+    <string name="weather_place_search">Search city</string>
+    <string name="weather_place_none">No city found</string>
+    <string name="weather_units">Units</string>
+    <string name="weather_celsius">°C</string>
+    <string name="weather_fahrenheit">°F</string>
+    <string name="weather_app">Tap opens</string>
+    <string name="weather_app_none">Nothing</string>
+    <string name="weather_need_location">Weather needs your approximate location, or pick a city under Place</string>
+    <string name="weather_format">%1$d° %2$s</string>
+    <string name="weather_clear">Clear</string>
+    <string name="weather_partly_cloudy">Partly cloudy</string>
+    <string name="weather_cloudy">Cloudy</string>
+    <string name="weather_fog">Fog</string>
+    <string name="weather_drizzle">Drizzle</string>
+    <string name="weather_rain">Rain</string>
+    <string name="weather_snow">Snow</string>
+    <string name="weather_thunder">Thunderstorm</string>
+    <string name="weather_unknown">–</string>
+    <string name="weather_attribution">Weather data by Open-Meteo.com (CC BY 4.0)</string>
+
+    <!-- Events -->
+    <string name="events">Upcoming events</string>
+    <string name="events_hint">Shows the next events of the coming 24 hours from your phone\'s calendars. Nothing leaves your phone.</string>
+    <string name="events_need_permission">Upcoming events need calendar access</string>
+    <string name="events_all_day">All day</string>
+
+    <!-- Notifications -->
+    <string name="notifications">Notifications</string>
+    <string name="notifications_on_home">Notifications on home screen</string>
+    <string name="notifications_hint">Shows a dot next to apps with notifications and a "notifications" line you can tap to read, reply to or clear them. Needs Notification access; nothing leaves your phone.</string>
+    <string name="notifications_grant">Turn on Inilauncher in the list that opens</string>
+    <string name="notifications_none">No notifications</string>
+    <string name="notifications_clear_all">Clear all</string>
+    <string name="notifications_reply">Reply</string>
+    <string name="notifications_reply_hint">Reply…</string>
+    <string name="notifications_send">Send</string>
+    <string name="notifications_sent">Sent</string>
+    <string name="notifications_reply_failed">Couldn\'t send the reply</string>
+    <string name="notify_channel_updates">App updates</string>
+
+    <!-- Media -->
+    <string name="media_controls">Music controls</string>
+    <string name="media_hint">Shows what\'s playing with previous, play/pause and next. Uses the same Notification access.</string>
+    <string name="media_previous">Previous</string>
+    <string name="media_play_pause">Play or pause</string>
+    <string name="media_next">Next</string>
+    <string name="media_symbol_previous" translatable="false">⏮</string>
+    <string name="media_symbol_play" translatable="false">▶</string>
+    <string name="media_symbol_pause" translatable="false">⏸</string>
+    <string name="media_symbol_next" translatable="false">⏭</string>
+    <string name="events_line" translatable="false">%1$s  %2$s</string>
+    <plurals name="notifications_count">
+        <item quantity="one">%d notification</item>
+        <item quantity="other">%d notifications</item>
+    </plurals>
+    <plurals name="notifications_hidden_count">
+        <item quantity="one">%d hidden notification</item>
+        <item quantity="other">%d hidden notifications</item>
+    </plurals>
+    <plurals name="notifications_show_hidden">
+        <item quantity="one">Show %d hidden</item>
+        <item quantity="other">Show %d hidden</item>
+    </plurals>
+
+    <!-- Widgets -->
+    <string name="widgets">Widgets</string>
+    <string name="widgets_hint">Adds a "Widgets ›" entry at the top of the app list. Put it on a swipe gesture (Settings → Swipe left/right app) to open your widgets with a swipe.</string>
+    <string name="widgets_empty">No widgets yet. Add one below. Hold a widget and drag it to move it; hold and let go to resize it, open its settings or remove it.</string>
+    <string name="widgets_add">+ Add widget</string>
+    <string name="widgets_edit">Widget</string>
+    <string name="widgets_taller">Taller</string>
+    <string name="widgets_shorter">Shorter</string>
+    <string name="widgets_wider">Wider</string>
+    <string name="widgets_narrower">Narrower</string>
+    <string name="widgets_remove">Remove</string>
+    <string name="widgets_settings">Widget settings</string>
+    <string name="widgets_edit_settings">Settings</string>
+    <string name="widgets_resize">Drag the dots to resize the widget</string>
+    <string name="widgets_settings_failed">This widget\'s settings can\'t be opened</string>
+    <string name="widgets_none_installed">None of your apps offer widgets</string>
+    <string name="widgets_picker_title">Add widget</string>
+    <string name="widgets_picker_search">Search widgets or apps</string>
+    <string name="widgets_picker_no_match">No widgets match</string>
+    <string name="widgets_picker_recent">Recent</string>
+    <string name="widgets_picker_all">All apps</string>
+    <string name="widgets_picker_added">Added</string>
+    <string name="widgets_picker_more">More widgets</string>
+    <string name="widgets_picker_back">Previous widgets</string>
+    <string name="widgets_picker_show">tap to show widgets</string>
+    <string name="widgets_picker_show_all">tap to show all as a grid</string>
+    <string name="widgets_picker_hide">tap to hide widgets</string>
+    <plurals name="widgets_picker_count">
+        <item quantity="one">%d widget</item>
+        <item quantity="other">%d widgets</item>
+    </plurals>
+
+    <!-- Search & app list -->
+    <string name="search_contacts">Contacts</string>
+    <string name="search_contacts_hint">Shows matching contacts when you search. Needs contacts access; nothing leaves your phone.</string>
+    <string name="search_contacts_need">Contact search needs contacts access</string>
+    <string name="search_calculator">Calculator</string>
+    <string name="search_calculator_hint">Type a sum like 12*3+4 to see the answer. Tap it or press Enter to copy it. While you type a sum, the app list doesn\'t open an app by itself.</string>
+    <string name="search_hold_toggle">Auto-open switch in search bar</string>
+    <string name="search_hold_toggle_hint">Shows an auto-open switch next to the app search. Tap it to find an app without it opening by itself, for example to check its app info or uninstall it. It switches back each time you open the app list. Starting a search with a space does the same without the switch.</string>
+    <string name="search_hold_actions">Show actions for a single match</string>
+    <string name="search_hold_actions_hint">In a search that doesn\'t open apps by itself (started with a space, or with the switch on Hold), shows the app\'s actions (uninstall, app info…) as soon as only one app is left.</string>
+    <string name="hold_search_on">Auto</string>
+    <string name="hold_search_off">Hold</string>
+    <string name="hold_search_on_description">Auto-open on</string>
+    <string name="hold_search_off_description">Auto-open paused</string>
+    <string name="search_web">Web suggestions</string>
+    <string name="search_web_hint">Shows search suggestions from DuckDuckGo. Everything you type in the search box is sent to DuckDuckGo while this is on.</string>
+    <string name="search_shortcuts">App shortcuts</string>
+    <string name="search_shortcuts_hint">Finds app shortcuts (like "New message") when you search. Works while Inilauncher is your default home app.</string>
+    <string name="search_shortcut_line">%1$s · %2$s</string>
+    <string name="search_copied">Copied %1$s</string>
+    <string name="search_copy_failed">Couldn\'t copy the answer</string>
+    <string name="az_scroller">A–Z scroller</string>
+    <string name="az_scroller_hint">A letter strip on the side of the app list: drag along it to jump. Touching it puts the keyboard away; double-tap it or tap ⌨ at its bottom to open or close the keyboard. Letters without apps are fainter.</string>
+    <string name="az_side">Scroller side</string>
+    <string name="az_side_auto">Opposite the names</string>
+    <string name="az_side_left">Left</string>
+    <string name="az_side_right">Right</string>
+    <string name="az_height">Scroller height</string>
+    <string name="az_height_full">Full</string>
+    <string name="az_height_thumb">Thumb reach</string>
+    <string name="suggested_apps">Suggested apps</string>
+    <string name="sort_by_usage">Sort by usage</string>
+    <string name="sort_by_usage_hint">Keeps the list A to Z, but puts the apps you open most first within each letter (last 30 days). Uses usage access, computed on your phone.</string>
+    <string name="suggested_apps_hint">A row of four apps above the list, based on what you use often, recently and at this time of day. Hold one to pin it to the front of the row. Uses usage access, computed on your phone.</string>
+    <string name="suggested_no_suggest">Don\'t suggest</string>
+    <string name="suggested_no_suggest_hint">Apps that never show in the suggested row. Long-press an app in the row to add it.</string>
+    <string name="suggested_pin">Pin</string>
+    <string name="suggested_unpin">Unpin</string>
+    <string name="suggested_no_suggest_none">None</string>
+    <plurals name="suggested_no_suggest_count">
+        <item quantity="one">%d app</item>
+        <item quantity="other">%d apps</item>
+    </plurals>
+    <string name="icons">App icons</string>
+    <string name="icons_off">Off</string>
+    <string name="icons_system">System icons</string>
+    <string name="icons_mono">Monochrome</string>
+    <string name="icons_gray">Grayscale</string>
+    <string name="icons_letter">Letter dots</string>
+    <string name="icons_letter_color">Colour letter dots</string>
+    <string name="icons_letter_outline">Colour outline dots</string>
+    <string name="slot_swipes">Per-app swipe actions</string>
+    <string name="slot_swipes_hint">Swipe left or right on a home-screen app name to open another app. Other swipes keep the usual swipe apps.</string>
+    <string name="slot_swipes_left">Swipe left on %1$s</string>
+    <string name="slot_swipes_right">Swipe right on %1$s</string>
+    <string name="slot_swipes_none">Usual swipe app</string>
+    <string name="slot_swipes_empty_slot">Home app %1$d</string>
+
+    <!-- App updates (direct build) -->
+    <string name="update_available">Version %1$s is available</string>
+    <string name="update_no_notes">A new version of Inilauncher.</string>
+    <string name="update_now">Update</string>
+    <string name="update_later">Later</string>
+    <string name="update_permission">Allow Inilauncher to install apps ("Install unknown apps"), then tap Update again.</string>
+    <string name="update_open_settings">Open settings</string>
+    <string name="update_failed">The download or install didn\'t work. Check your connection and try again.</string>
+    <string name="update_retry">Try again</string>
+    <string name="version_line" translatable="false">Inilauncher %1$s</string>
+
+    <!-- Home sub list -->
+    <string name="sublist">Sub list</string>
+    <string name="sublist_hint">A small ⋯ under the home apps opens a row of apps you use often but don\'t want in the main list. Long-press ⋯ to choose apps and change how it looks, or tap Sub list when you long-press an app in the app list. Hold an app in the row and drag it to move it.</string>
+    <string name="sublist_dots" translatable="false">⋯</string>
+    <string name="sublist_peek_more" translatable="false">›</string>
+    <string name="sublist_count" translatable="false">+%1$d</string>
+    <string name="sublist_empty_hint">Long-press ⋯ to choose apps</string>
+    <string name="sublist_apps">Sub list apps</string>
+    <string name="sublist_choose_apps">Choose apps…</string>
+    <string name="sublist_choose_apps_count">Choose apps… (%1$d)</string>
+    <string name="sublist_button">Sub list button</string>
+    <string name="sublist_button_row">Button: %1$s</string>
+    <string name="sublist_button_dots">Dots ⋯</string>
+    <string name="sublist_button_grid">Grid icon</string>
+    <string name="sublist_button_count">Count +N</string>
+    <string name="sublist_button_peek">Peek of icons</string>
+    <string name="sublist_style">Sub list shows</string>
+    <string name="sublist_style_row">Show: %1$s</string>
+    <string name="sublist_style_icons">Icons</string>
+    <string name="sublist_style_icons_names">Icons with names</string>
+    <string name="sublist_style_names">Names</string>
+    <string name="sublist_auto">Add most-used apps</string>
+    <string name="sublist_auto_row">Add most-used apps: %1$s</string>
+    <string name="sublist_auto_hint">Fills the sub list up to 10 apps with the ones you opened most in the last 30 days, leaving out apps on the home screen. Uses usage access, counted on your phone.</string>
+    <string name="sublist_move_earlier">Move earlier</string>
+    <string name="sublist_move_later">Move later</string>
+    <string name="sublist_remove">Remove from sub list</string>
+    <string name="sublist_keep">Keep in sub list</string>
+    <string name="sublist_no_suggest">Don\'t suggest</string>
+    <string name="sublist_added">%1$s added to the sub list</string>
+    <string name="sublist_removed">%1$s removed from the sub list</string>
+    <string name="sublist_other_profile">%1$s (work)</string>
+    <string name="sublist_done">Done</string>
+
+    <!-- App picker (full screen, search + A–Z) -->
+    <string name="app_picker_search">Search apps…</string>
+    <string name="app_picker_selected">Selected</string>
+    <string name="app_picker_most_used">Most used</string>
+    <string name="app_picker_all">All apps</string>
+    <string name="app_picker_no_match">No apps match.</string>
+    <string name="app_picker_check" translatable="false">✓</string>
+    <string name="app_picker_done">Done</string>
+    <string name="app_picker_selected_state">selected</string>
+
+    <!-- Notification dot options -->
+    <string name="notifications_line">Notifications line under the clock</string>
+    <string name="notification_dots">Dots on apps</string>
+    <string name="notification_dot_style">Dot style</string>
+    <string name="notification_dot_style_dot">Dot •</string>
+    <string name="notification_dot_style_count">Count •3</string>
+    <string name="notification_dots_folders">Dots on folders</string>
+    <string name="notification_dots_hint">Turn the line off to keep only the dots; the notification shade still lists everything. Count shows how many notifications an app has. Dots on folders marks a folder when an app inside it has notifications.</string>
+
+    <!-- Day & night by sun -->
+    <string name="daily_wallpaper_photos">Daily wallpaper photos</string>
+    <string name="daily_wallpaper_from_list">Inilauncher list</string>
+    <string name="daily_wallpaper_from_folders">My folders</string>
+    <string name="daily_wallpaper_light_folder">Light photos</string>
+    <string name="daily_wallpaper_dark_folder">Dark photos</string>
+    <string name="daily_wallpaper_choose_folder">Choose folder</string>
+    <string name="daily_wallpaper_folder_gone">Can\'t read folder</string>
+    <string name="daily_wallpaper_other_folder">Choose another folder</string>
+    <string name="daily_wallpaper_remove_folder">Remove folder</string>
+    <string name="daily_wallpaper_folder_empty">No photos directly in that folder</string>
+    <string name="daily_wallpaper_folder_failed">Couldn\'t open that folder</string>
+    <string name="daily_wallpaper_cant_open">Couldn\'t open the wallpaper</string>
+    <string name="daily_wallpaper_list_hint">Where the daily wallpaper (Settings → Daily wallpaper) comes from. The Inilauncher list is a set of light and dark Unsplash photos, downloaded once a day; the same pair shows all day. The light photo is used with the light theme or by day, the dark one with the dark theme or at night.</string>
+    <string name="daily_wallpaper_folders_hint">A different photo each day from your own folders, no internet needed. Light photos are used with the light theme or by day, dark ones with the dark theme or at night. Only photos directly in the folder count. If one folder is empty, the other is used. Turn the daily wallpaper on in Settings.</string>
+    <string name="daynight">Day &amp; night by sun</string>
+    <string name="daynight_times">Switch times</string>
+    <string name="daynight_times_sun">☀ %1$s – %2$s</string>
+    <string name="daynight_times_polar">No sunrise or sunset today</string>
+    <string name="daynight_times_fixed">Fixed %1$s – %2$s</string>
+    <string name="daynight_fixed_times">Fixed times</string>
+    <string name="daynight_day_starts">Day starts at</string>
+    <string name="daynight_night_starts">Night starts at</string>
+    <string name="daynight_day_wallpaper">Day wallpaper</string>
+    <string name="daynight_night_wallpaper">Night wallpaper</string>
+    <string name="daynight_wallpaper_photo">Your photo</string>
+    <string name="daynight_wallpaper_daily">Daily wallpaper</string>
+    <string name="daynight_wallpaper_unchanged">Unchanged</string>
+    <string name="daynight_pick_photo">Pick a photo</string>
+    <string name="daynight_remove_photo">Remove photo</string>
+    <string name="daynight_photo_failed">Couldn\'t read that photo</string>
+    <string name="daynight_need_location">Without your location, pick a city or fixed times under Switch times</string>
+    <string name="daynight_turned_off">Day &amp; night by sun turned off</string>
+    <string name="daynight_hint">Light theme and the day wallpaper from sunrise, dark theme and the night wallpaper from sunset, on the home and lock screen. Sunrise and sunset are worked out on the phone from the weather city or your approximate location. Without your own photo, the daily wallpaper is used if it\'s on in Settings; otherwise the wallpaper stays as it is. Picking a theme by hand turns this off.</string>
+</resources>

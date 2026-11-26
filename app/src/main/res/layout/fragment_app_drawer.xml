@@ -14,9 +14,9 @@
         android:layout_weight="0.1" />
 
     <LinearLayout
+        android:id="@+id/searchRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.SearchView
@@ -37,6 +37,24 @@
             app:searchIcon="@null"
             app:theme="@style/AppSearchText" />
 
+        <!-- Inilauncher: "no auto-open" while the query starts with a space; optional auto-open toggle -->
+        <TextView
+            android:id="@+id/holdIndicator"
+            style="@style/TextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="20dp"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="11dp"
+            android:paddingBottom="4dp"
+            android:text="@string/hold_search_on"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/appRename"
             style="@style/TextSmall"
@@ -56,15 +74,34 @@
         android:layout_height="0dp"
         android:layout_weight="0.06" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <!-- Inilauncher: suggested apps and extra search results (contacts, shortcuts, calculator, web) -->
+    <include
+        android:id="@+id/extrasDrawerTop"
+        layout="@layout/extras_drawer_top" />
+
+    <!-- Inilauncher: the list sits in a frame so the A–Z scroller can overlay its edge -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginBottom="24dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:fadingEdgeLength="24dp"
-        android:requiresFadingEdge="vertical" />
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="24dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:fadingEdgeLength="24dp"
+            android:requiresFadingEdge="vertical" />
+
+        <app.olauncher.extras.search.AlphabetScrollerView
+            android:id="@+id/extrasAzScroller"
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginBottom="24dp"
+            android:visibility="gone" />
+    </FrameLayout>
 
 </LinearLayout>

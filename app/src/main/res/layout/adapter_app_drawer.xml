@@ -85,6 +85,39 @@
             android:textSize="12sp"
             app:drawableTopCompat="@drawable/ic_hide" />
 
+        <!-- Inilauncher: add to folder -->
+        <TextView
+            android:id="@+id/appFolder"
+            style="@style/TextSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="2dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingHorizontal="8dp"
+            android:text="@string/folder"
+            android:textSize="12sp"
+            app:drawableTopCompat="@drawable/ic_extras_folder" />
+
+        <!-- Inilauncher: add to / remove from the home sub list -->
+        <TextView
+            android:id="@+id/appSubList"
+            style="@style/TextSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="2dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingHorizontal="8dp"
+            android:text="@string/sublist"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:drawableTopCompat="@drawable/ic_extras_sublist" />
+
         <TextView
             android:id="@+id/appInfo"
             style="@style/TextSmall"
@@ -139,7 +172,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:gravity="center_vertical"
-            android:inputType="textCapWords"
+            android:inputType="textCapWords|textNoSuggestions"
             android:maxLength="30"
             android:maxLines="1"
             android:paddingVertical="@dimen/app_padding_vertical"

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher: styles for the Extras screen, matching upstream's settings cards. -->
+<resources>
+    <style name="ExtrasCard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:background">@drawable/rounded_rect_shade_color</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+    </style>
+
+    <style name="ExtrasSectionTitle" parent="TextLarge">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:textColor">?attr/primaryColor</item>
+    </style>
+
+    <!-- A setting row: label on the start side, value on the end side. -->
+    <style name="ExtrasRowLabel" parent="TextSmall">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_gravity">start|center_vertical</item>
+    </style>
+
+    <style name="ExtrasRowValue" parent="TextSmall">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">end|center_vertical</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="ExtrasRowHint" parent="TextSmallLight">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- Font choices: override upstream's mainFontFamily (see extras/look/Fonts.kt) -->
+    <style name="FontOverlay" />
+    <style name="FontOverlay.Sans"><item name="mainFontFamily">sans-serif</item></style>
+    <style name="FontOverlay.Condensed"><item name="mainFontFamily">sans-serif-condensed</item></style>
+    <style name="FontOverlay.Serif"><item name="mainFontFamily">serif</item></style>
+    <style name="FontOverlay.Mono"><item name="mainFontFamily">monospace</item></style>
+    <style name="FontOverlay.Casual"><item name="mainFontFamily">casual</item></style>
+
+    <style name="ExtrasHomeText" parent="TextDefault">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">3dp</item>
+        <item name="android:paddingEnd">3dp</item>
+        <item name="android:textSize">@dimen/date_size</item>
+        <item name="android:fontFamily">?attr/mainFontFamily</item>
+    </style>
+
+    <style name="ExtrasHomeButton" parent="ExtrasHomeText">
+        <item name="android:paddingStart">3dp</item>
+        <item name="android:paddingEnd">14dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
+    <!-- Full-screen app picker window: only window options, so the app's theme (font, colours) carries over -->
+    <style name="ExtrasFullScreenPicker">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowSoftInputMode">adjustResize|stateHidden</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+    </style>
+</resources>

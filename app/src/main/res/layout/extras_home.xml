@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher: extras shown under the clock and date. Each line is hidden while its feature is off. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/extrasHome"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="gone">
+
+    <TextView
+        android:id="@+id/extrasWeather"
+        style="@style/ExtrasHomeText"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/extrasEvents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/extras_home_gap"
+        android:orientation="vertical"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/extrasNote"
+        style="@style/ExtrasHomeText"
+        android:layout_marginTop="@dimen/extras_home_gap"
+        android:ellipsize="end"
+        android:maxLines="6"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/extrasMedia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/extras_home_gap"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/extrasMediaPrev"
+            style="@style/ExtrasHomeButton"
+            android:contentDescription="@string/media_previous"
+            android:text="@string/media_symbol_previous" />
+
+        <TextView
+            android:id="@+id/extrasMediaPlay"
+            style="@style/ExtrasHomeButton"
+            android:contentDescription="@string/media_play_pause"
+            android:text="@string/media_symbol_play" />
+
+        <TextView
+            android:id="@+id/extrasMediaNext"
+            style="@style/ExtrasHomeButton"
+            android:contentDescription="@string/media_next"
+            android:text="@string/media_symbol_next" />
+
+        <TextView
+            android:id="@+id/extrasMediaTitle"
+            style="@style/ExtrasHomeText"
+            android:ellipsize="end"
+            android:maxWidth="240dp"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/extrasNotifications"
+        style="@style/ExtrasHomeText"
+        android:layout_marginTop="@dimen/extras_home_gap"
+        android:visibility="gone" />
+</LinearLayout>

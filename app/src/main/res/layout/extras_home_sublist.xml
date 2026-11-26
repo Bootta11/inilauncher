@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher: the sub list under the home apps (filled by extras/sublist/SubList). Hidden while the feature is off. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/extrasSubList"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="gone">
+
+    <!-- The button: dots, grid icon, count or a peek of icons, set in code -->
+    <LinearLayout
+        android:id="@+id/extrasSubListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/extras_sublist_button_gap"
+        android:clickable="true"
+        android:contentDescription="@string/sublist"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/extras_sublist_button_height"
+        android:orientation="horizontal"
+        android:paddingHorizontal="3dp" />
+
+    <app.olauncher.extras.sublist.SubListScroll
+        android:id="@+id/extrasSubListScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:visibility="gone">
+
+        <app.olauncher.extras.sublist.SubListFlow
+            android:id="@+id/extrasSubListItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp" />
+    </app.olauncher.extras.sublist.SubListScroll>
+</LinearLayout>

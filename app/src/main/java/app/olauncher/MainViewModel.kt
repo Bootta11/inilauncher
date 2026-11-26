@@ -365,6 +365,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun launchApp(packageName: String, activityClassName: String?, userHandle: UserHandle) {
+        // Inilauncher: a folder entry opens the folder
+        if (app.olauncher.extras.folders.Folders.isFolder(packageName))
+            return app.olauncher.extras.folders.Folders.requestOpen(activityClassName)
+        if (app.olauncher.extras.widgets.WidgetPanel.isPanel(packageName))
+            return app.olauncher.extras.widgets.WidgetPanel.requestOpen()
         val launcher = appContext.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
         val activityInfo = launcher.getActivityList(packageName, userHandle)
 
@@ -385,8 +390,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }.also { prefs.updateAppActivityClassName(packageName, it.className) }
         }
 
+        // Inilauncher: opens from the screen edge after a gesture swipe (null otherwise)
+        val options = app.olauncher.extras.gestures.GestureMotion.launchOptions(appContext)
         try {
-            launcher.startMainActivity(component, userHandle, null, null)
+            launcher.startMainActivity(component, userHandle, null, options)
         } catch (e: SecurityException) {
             try {
                 launcher.startMainActivity(component, android.os.Process.myUserHandle(), null, null)
@@ -401,7 +408,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun getAppList(includeHiddenApps: Boolean = false) {
         viewModelScope.launch {
             val apps = getAppsList(appContext, prefs, includeRegularApps = true, includeHiddenApps)
-            appList.value = apps
+            appList.value = app.olauncher.extras.widgets.WidgetPanel.withPanel( // Inilauncher
+                appContext, app.olauncher.extras.folders.Folders.withFolders(appContext, apps))
         }
         getPrivateSpaceAppList()
     }
@@ -418,20 +426,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun setWallpaperWorker() {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-        val uploadWorkRequest = PeriodicWorkRequestBuilder<WallpaperWorker>(4, TimeUnit.HOURS)
-            .setBackoffCriteria(BackoffPolicy.LINEAR, 1, TimeUnit.HOURS)
-            .setConstraints(constraints)
-            .build()
-        WorkManager
-            .getInstance(appContext)
-            .enqueueUniquePeriodicWork(
-                Constants.WALLPAPER_WORKER_NAME,
-                ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
-                uploadWorkRequest
-            )
+        app.olauncher.extras.wallpaper.DailyWallpapers.scheduleWorker(appContext) // Inilauncher: no network needed for photo folders
     }
 
     fun cancelWallpaperWorker() {

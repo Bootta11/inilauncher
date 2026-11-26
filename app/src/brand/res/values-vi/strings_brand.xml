@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher branding: upstream's translations with the app name changed (generated from
+     app/src/main/res/values-vi/strings.xml). See values/strings_brand.xml. -->
+<resources>
+    <string name="set_as_default_launcher_first">Vui lòng đặt Inilauncher làm mặc định trước</string>
+    <string name="admin_permission_message">Inilauncher cam kết sử dụng quyền trợ năng một cách có trách nhiệm. Inilauncher không thu thập hoặc chia sẻ bất kỳ dữ liệu nào.</string>
+    <string name="keyboard_message">Xin chào, bàn phím là cách nhanh nhất để tìm và mở ứng dụng trong Inilauncher. Chúng tôi có thể xin bạn giữ tính năng này bật thêm vài ngày rồi quyết định sau không?
+        \n\nLựa chọn luôn là của bạn.</string>
+    <string name="wallpaper_message">Inilauncher cung cấp những hình nền mới đẹp mắt mỗi ngày, hoàn toàn miễn phí. Hãy cho màn hình chính của bạn một diện mạo mới mỗi ngày, miễn phí!
+        \n\nBạn có muốn thử không?</string>
+    <string name="accessibility_service_description">Quyền trợ năng là bắt buộc để bật cử chỉ - chạm hai lần để khóa. Không có bất kỳ dữ liệu nào mà Inilauncher thu được qua dịch vụ này rời khỏi thiết bị của bạn.</string>
+    <string name="please_set_olauncher_as_default_first">Vui lòng đặt Inilauncher làm mặc định trước</string>
+    <string name="hidden_apps_message">Lưu ý: Nhấn vào \'Inilauncher\' ở đầu trang Cài đặt này để tìm các ứng dụng ẩn của bạn.\n\nCó thêm chi tiết trên trang Giới thiệu của chúng tôi.</string>
+    <string name="accessibility_disclosure">Inilauncher chỉ dùng Accessibility Service API cho một tính năng: Chạm hai lần để khóa. Tính năng này cho phép Inilauncher khóa màn hình khi bạn chạm hai lần vào màn hình chính.\n\nDịch vụ chỉ thấy các lần chạm bên trong Inilauncher và chỉ dùng chúng để khóa màn hình. Dịch vụ không xem các ứng dụng khác hay bất cứ nội dung nào bạn nhập.\n\nKhông có dữ liệu nào được thu thập, lưu trữ hay chia sẻ. Không có gì rời khỏi thiết bị của bạn.\n\nNhấn Đồng ý, sau đó bật Inilauncher trong phần cài đặt Hỗ trợ tiếp cận của thiết bị.</string>
+    <string name="launcher_failed_to_lock_device">Inilauncher không thể khóa thiết bị.\nVui lòng kiểm tra cài đặt ứng dụng của bạn.</string>
+    <string name="olauncher_is_not_default_launcher">Inilauncher không phải là mặc định. Việc cập nhật hình nền sẽ thất bại.</string>
+</resources>

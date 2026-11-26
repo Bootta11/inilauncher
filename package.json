@@ -1,0 +1,12 @@
+{
+  "name": "inilauncher",
+  "private": true,
+  "description": "Docs site for Inilauncher (the app itself builds with Gradle)",
+  "scripts": {
+    "docs": "echo \"Docs: http://inilauncher-docs.localhost:${DOCS_PORT:-4410}\" && cd docmd && docmd dev -p ${DOCS_PORT:-4410}",
+    "wallpapers": "node scripts/review-wallpapers.mjs"
+  },
+  "devDependencies": {
+    "@docmd/core": "^0.9.8"
+  }
+}

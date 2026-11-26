@@ -55,6 +55,11 @@
             android:paddingHorizontal="3dp"
             android:textSize="@dimen/date_size"
             tools:text="Thu, 30 Dec" />
+
+        <!-- Inilauncher: note, weather, events, media -->
+        <include
+            android:id="@+id/extrasHome"
+            layout="@layout/extras_home" />
     </LinearLayout>
 
     <!-- Screen time-->
@@ -178,6 +183,11 @@
             android:tag="@string/tag_8"
             android:visibility="gone"
             tools:visibility="visible" />
+
+        <!-- Inilauncher: the sub list (⋯ under the home apps) -->
+        <include
+            android:id="@+id/extrasSubList"
+            layout="@layout/extras_home_sublist" />
 
     </LinearLayout>
 

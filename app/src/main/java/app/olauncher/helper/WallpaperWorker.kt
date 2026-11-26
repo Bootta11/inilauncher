@@ -14,11 +14,12 @@ class WallpaperWorker(appContext: Context, workerParams: WorkerParameters) : Cor
 
     override suspend fun doWork(): Result = coroutineScope {
         val success =
-            if (prefs.appTheme == AppCompatDelegate.MODE_NIGHT_YES && isOlauncherDefault(applicationContext).not())
+            if (app.olauncher.extras.daynight.DayNight.ownPhotoShowing(applicationContext)) true // Inilauncher: keep the day/night photo
+            else if (prefs.appTheme == AppCompatDelegate.MODE_NIGHT_YES && isOlauncherDefault(applicationContext).not())
                 true
             else if (prefs.dailyWallpaper) {
                 val wallType = checkWallpaperType()
-                val wallpaperUrl = getTodaysWallpaper(wallType, prefs.firstOpenTime)
+                val wallpaperUrl = getTodaysWallpaper(applicationContext, wallType, prefs.firstOpenTime)
                 if (prefs.dailyWallpaperUrl == wallpaperUrl)
                     true
                 else {

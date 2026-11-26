@@ -53,6 +53,28 @@
             app:exitAnim="@anim/fade_exit"
             app:popEnterAnim="@anim/fade_enter"
             app:popExitAnim="@anim/fade_exit" />
+        <!-- Inilauncher: Extras screen -->
+        <action
+            android:id="@+id/action_settingsFragment_to_extrasSettingsFragment"
+            app:destination="@id/extrasSettingsFragment"
+            app:enterAnim="@anim/fade_enter"
+            app:exitAnim="@anim/fade_exit"
+            app:popEnterAnim="@anim/fade_enter"
+            app:popExitAnim="@anim/fade_exit" />
     </fragment>
+
+    <!-- Inilauncher: widget panel -->
+    <fragment
+        android:id="@+id/widgetPanelFragment"
+        android:name="app.olauncher.extras.widgets.WidgetPanelFragment"
+        android:label="WidgetPanelFragment"
+        tools:layout="@layout/fragment_extras_widgets" />
+
+    <!-- Inilauncher: Extras screen -->
+    <fragment
+        android:id="@+id/extrasSettingsFragment"
+        android:name="app.olauncher.extras.ExtrasSettingsFragment"
+        android:label="ExtrasSettingsFragment"
+        tools:layout="@layout/fragment_extras_settings" />
 
 </navigation>

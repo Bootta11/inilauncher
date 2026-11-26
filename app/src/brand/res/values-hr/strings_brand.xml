@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher branding: upstream's translations with the app name changed (generated from
+     app/src/main/res/values-hr/strings.xml). See values/strings_brand.xml. -->
+<resources>
+    <string name="set_as_default_launcher_first">Prvo postavite Inilauncher kao zadani</string>
+    <string name="admin_permission_message">Inilauncher obećava da će odgovorno koristiti dozvolu pristupačnosti. Inilauncher ne prikuplja niti dijeli nikakve podatke.</string>
+    <string name="keyboard_message">Bok, tipkovnica je najbrži način za pronalaženje i pokretanje aplikacija u Inilauncheru. Možemo li vas zamoliti da to zadržite uključeno još nekoliko dana, a zatim odlučite?
+        \n\nIzbor je uvijek vaš.</string>
+    <string name="wallpaper_message">Inilauncher nudi predivne nove pozadine svaki dan. Daj svom početnom ekranu svjež izgled svaki dan, besplatno!
+        \n\nŽeliš li isprobati?</string>
+    <string name="accessibility_service_description">Dozvola pristupačnosti potrebna je za omogućavanje geste dvostrukog dodira za zaključavanje. Nikakvi podaci koje Inilauncher prikupi putem ove usluge neće napustiti vaš uređaj.</string>
+    <string name="please_set_olauncher_as_default_first">Prvo postavite Inilauncher kao zadani pokretač</string>
+    <string name="hidden_apps_message">Napomena: Dodirnite \'Inilauncher\' na vrhu ove stranice postavki da biste pronašli svoje skrivene aplikacije.\n\nViše detalja dostupno je na našoj stranici Informacije.</string>
+    <string name="accessibility_disclosure">Inilauncher koristi Accessibility Service API samo za jednu značajku: Dvostruki dodir za zaključavanje. Ona omogućuje Inilauncheru da zaključa zaslon kada dvaput dodirnete početni zaslon.\n\nUsluga vidi samo dodire unutar Inilaunchera i koristi ih samo za zaključavanje zaslona. Ne gleda druge aplikacije ni bilo što što upisujete.\n\nNikakvi podaci se ne prikupljaju, ne pohranjuju niti dijele. Ništa ne napušta vaš uređaj.\n\nDodirnite Prihvati, a zatim uključite Inilauncher u postavkama Pristupačnosti na uređaju.</string>
+    <string name="launcher_failed_to_lock_device">Inilauncher nije uspio zaključati uređaj.\nMolimo provjerite postavke aplikacije.</string>
+    <string name="olauncher_is_not_default_launcher">Inilauncher nije zadani. Ažuriranje pozadine neće uspjeti.</string>
+</resources>

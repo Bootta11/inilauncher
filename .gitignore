@@ -16,3 +16,11 @@
 .externalNativeBuild
 .cxx
 google-services.json
+
+# Inilauncher
+*.keystore
+*.pem
+app-signing.properties
+keystore.properties
+/.run/
+node_modules/

@@ -1,43 +1,39 @@
-![Olauncher](https://repository-images.githubusercontent.com/278638069/db0acb80-661b-11eb-803e-926cae5dccb4)
+# Inilauncher
 
+A minimal, text-first Android launcher with optional extras. Out of the box it behaves like [Olauncher](https://github.com/tanujnotes/Olauncher). Weather, widgets, folders, notifications on apps, smarter search, a day & night look by the sun and more are on the **Extras** screen (Settings → Extras…), and each one is off until you turn it on.
 
-# Olauncher | Minimal AF Launcher
-AF stands for Ad-Free! :D
+No ads, no analytics. Features that use the internet are opt-in.
 
-[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-    alt="Get it on Play Store"
-    height="80" align="middle">](https://play.google.com/store/apps/details?id=app.olauncher)
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-    alt="Get it on F-Droid"
-    height="80" align="middle">](https://f-droid.org/packages/app.olauncher)
-[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroidButtonGreyBorder_nofont.png"
-    alt="Get it on IzzyOnDroid"
-    height="54" hspace="13" align="middle">](https://apt.izzysoft.de/packages/app.olauncher)
+## Build and install
 
-#### Install using [Play Store,](https://play.google.com/store/apps/details?id=app.olauncher) [F-Droid,](https://f-droid.org/packages/app.olauncher) [IzzyOnDroid](https://apt.izzysoft.de/packages/app.olauncher) or the [latest APK.](https://github.com/tanujnotes/Olauncher/releases/)
+Requirements: JDK 17 and the Android SDK (`local.properties` with `sdk.dir=…`).
 
-To maintain the simplicity of the launcher, a few niche features are available but hidden.
+```sh
+./gradlew assembleDirectDebug testDirectDebugUnitTest lintDirectDebug
+adb install -r app/build/outputs/apk/direct/debug/app-direct-debug.apk
+```
 
-Please check out the **[About](https://tanujnotes.substack.com/p/olauncher-minimal-af-launcher?utm_source=github)** page in the Olauncher settings for a complete list of features and **FAQs**.
+Then pick Inilauncher as your home app (Settings → Set as default launcher).
 
-##
+Two flavors: `direct` (released as an APK on Zealot and updates itself) and `play` (for Google Play, no self-update). Releases are built by CI from `vX.Y.Z` tags; see [App releases & updates](docs/app-updates.md).
 
-License: [GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html)
+## Scripts
 
-Developer: [@tanujnotes](https://x.com/tanujnotes)
+- `scripts/release-setup.sh`: one-time setup for releases (signing key, Zealot app and channel, GitHub environment and secrets). Try `--dry-run` first.
+- `npm run wallpapers`: a review page for the daily wallpaper list; `scripts/publish-wallpapers.sh` publishes it (see [Daily wallpapers](docs/wallpapers.md)).
+- `scripts/brand-translations.py`: refreshes the translated "Inilauncher" strings after an upstream merge (see [Syncing with Olauncher](docs/upstream-sync.md)).
 
-##
+## Docs
 
-### Other apps from team Olauncher:
+- [Features](docs/features.md): what each extra does
+- [Permissions & privacy](docs/permissions.md): what each feature needs and whether it uses the network
+- [Architecture](docs/architecture.md): how the fork is laid out
+- [Syncing with Olauncher](docs/upstream-sync.md): pulling in upstream fixes
+- [App releases & updates](docs/app-updates.md)
+- [Daily wallpapers](docs/wallpapers.md): the photo list, reviewing and publishing it, and your own folders
 
-- [Pro Launcher](https://play.google.com/store/apps/details?id=app.prolauncher) - Pro version of Olauncher with extra features like widgets, weather, folders, etc.
+`npm install && npm run docs` serves these docs at `http://inilauncher-docs.localhost:4410`.
 
-- [Note to Self](https://play.google.com/store/apps/details?id=com.makenotetoself) - Free and [open source](https://github.com/jeerovan/ntsapp) notes app with chat like interface and end-to-end encryption.
+## License and credit
 
-- [Pentastic](https://play.google.com/store/apps/details?id=app.pentastic) - Free and [open source](https://github.com/tanujnotes/Pentastic). A minimal tasks, notes and reminders app.
-
-- [Supernova](https://github.com/tanujnotes/Supernova) - Free and [open source](https://github.com/tanujnotes/Supernova) alternative of Nova Launcher.
-
-##
-
-Thank you!
+Inilauncher is a modified version of [Olauncher](https://github.com/tanujnotes/Olauncher) by Tanuj ([@tanujnotes](https://github.com/tanujnotes)), changed in 2026 to add the optional extras. Like Olauncher it is free software under the [GNU GPL v3](LICENSE). It comes with no warranty.

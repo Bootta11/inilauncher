@@ -24,7 +24,8 @@ internal open class ViewSwipeTouchListener(c: Context?, v: View) : OnTouchListen
             MotionEvent.ACTION_DOWN -> view.isPressed = true
             MotionEvent.ACTION_UP -> view.isPressed = false
         }
-        return gestureDetector.onTouchEvent(motionEvent)
+        // Inilauncher: optional gesture animations (home follows the finger)
+        return app.olauncher.extras.gestures.GestureMotion.feed(view, motionEvent) { gestureDetector.onTouchEvent(it) }
     }
 
     private inner class GestureListener(private val view: View) : SimpleOnGestureListener() {

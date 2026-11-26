@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher branding: upstream's translations with the app name changed (generated from
+     app/src/main/res/values-sv/strings.xml). See values/strings_brand.xml. -->
+<resources>
+    <string name="set_as_default_launcher_first">Ange Inilauncher som förvald först</string>
+    <string name="admin_permission_message">Inilauncher lovar att använda tillgänglighetsbehörigheten ansvarsfullt. Inilauncher varken samlar in eller delar några data.</string>
+    <string name="keyboard_message">Hejsan, tangentbordet är det snabbaste sättet att hitta och starta appar i Inilauncher. Får vi be dig att behålla denna På i några dagar till innan du bestämmer dig?
+        \n\nValet är alltid ditt.</string>
+    <string name="wallpaper_message">Inilauncher erbjuder vackra nya bakgrundsbilder varje dag. Ge din hemskärm ett fräscht utseende varje dag, gratis!
+        \n\nVill du prova?</string>
+    <string name="accessibility_service_description">Tillgänglighetsbehörigheten krävs för att aktivera gesten dubbeltryck för att låsa. Inga data som Inilauncher får via denna tjänst lämnar din enhet.</string>
+    <string name="please_set_olauncher_as_default_first">Vänligen ange Inilauncher som förvald först</string>
+    <string name="hidden_apps_message">Observera: Tryck på \'Inilauncher\' högst upp på denna Inställningar-sida för att hitta dina dolda appar.\n\nMer information finns på vår Om-sida.</string>
+    <string name="accessibility_disclosure">Inilauncher använder Accessibility Service API för endast en funktion: Dubbeltryck för att låsa. Den låter Inilauncher låsa skärmen när du dubbeltrycker på startskärmen.\n\nTjänsten ser bara tryck inuti Inilauncher och använder dem bara för att låsa skärmen. Den tittar inte på andra appar eller på något du skriver.\n\nIngen data samlas in, lagras eller delas. Inget lämnar din enhet.\n\nTryck på Godkänn och aktivera sedan Inilauncher under Tillgänglighet i enhetens inställningar.</string>
+    <string name="launcher_failed_to_lock_device">Inilauncher lyckades inte låsa enheten.\nVänligen kontrollera dina appinställningar.</string>
+    <string name="olauncher_is_not_default_launcher">Inilauncher är inte förvald. Uppdatering av bakgrundsbild kommer att misslyckas.</string>
+</resources>

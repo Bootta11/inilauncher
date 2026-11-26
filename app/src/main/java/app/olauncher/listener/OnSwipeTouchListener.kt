@@ -29,7 +29,8 @@ internal open class OnSwipeTouchListener(c: Context?) : OnTouchListener {
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
         if (motionEvent.action == MotionEvent.ACTION_UP)
             longPressOn = false
-        return gestureDetector.onTouchEvent(motionEvent)
+        // Inilauncher: optional gesture animations (home follows the finger)
+        return app.olauncher.extras.gestures.GestureMotion.feed(view, motionEvent) { gestureDetector.onTouchEvent(it) }
     }
 
     private inner class GestureListener : SimpleOnGestureListener() {
@@ -63,11 +64,14 @@ internal open class OnSwipeTouchListener(c: Context?) : OnTouchListener {
 
         override fun onLongPress(e: MotionEvent) {
             longPressOn = true
+            app.olauncher.extras.gestures.GestureMotion.holdStart() // Inilauncher
             GlobalScope.launch {
                 delay(Constants.LONG_PRESS_DELAY_MS)
                 withContext(Dispatchers.Main) {
-                    if (isActive && longPressOn)
+                    if (isActive && longPressOn) {
+                        app.olauncher.extras.gestures.GestureMotion.held() // Inilauncher
                         onLongClick()
+                    }
                 }
             }
             super.onLongPress(e)

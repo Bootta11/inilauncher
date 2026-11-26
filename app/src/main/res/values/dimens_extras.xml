@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="extras_row_gap">12dp</dimen>
+    <dimen name="extras_background_blur_radius">40dp</dimen>
+    <dimen name="extras_home_gap">12dp</dimen>
+    <!-- Home sub list -->
+    <dimen name="extras_sublist_button_gap">4dp</dimen>
+    <dimen name="extras_sublist_button_height">40dp</dimen>
+    <dimen name="extras_sublist_icon">36dp</dimen>
+    <dimen name="extras_sublist_icon_named">32dp</dimen>
+    <dimen name="extras_sublist_icon_peek">16dp</dimen>
+    <dimen name="extras_sublist_cell_named">76dp</dimen>
+    <dimen name="extras_sublist_name_size">12sp</dimen>
+</resources>

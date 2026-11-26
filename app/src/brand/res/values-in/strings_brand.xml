@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher branding: upstream's translations with the app name changed (generated from
+     app/src/main/res/values-in/strings.xml). See values/strings_brand.xml. -->
+<resources>
+    <string name="set_as_default_launcher_first">Tetapkan Inilauncher sebagai default terlebih dahulu</string>
+    <string name="admin_permission_message">Inilauncher berjanji untuk menggunakan izin aksesibilitas secara bertanggung jawab. Inilauncher tidak mengumpulkan atau membagikan data apa pun.</string>
+    <string name="keyboard_message">Hai, keyboard adalah cara tercepat untuk menemukan dan membuka aplikasi di Inilauncher. Bisakah kami meminta Anda untuk tetap mengaktifkannya selama beberapa hari lagi lalu memutuskan?\n\nPilihan selalu ada di tangan Anda.</string>
+    <string name="wallpaper_message">Inilauncher menawarkan wallpaper baru yang indah setiap hari. Berikan tampilan baru pada layar utama Anda setiap hari, secara gratis!
+        \n\nIngin mencobanya?</string>
+    <string name="accessibility_service_description">Izin aksesibilitas diperlukan untuk mengaktifkan gerakan ketuk dua kali untuk mengunci. Data apa pun yang diperoleh Inilauncher melalui layanan ini tidak akan meninggalkan perangkat Anda.</string>
+    <string name="please_set_olauncher_as_default_first">Silakan atur Inilauncher sebagai peluncur default Anda terlebih dahulu</string>
+    <string name="hidden_apps_message">Catatan: Ketuk \'Inilauncher\' di bagian atas halaman Pengaturan ini untuk menemukan aplikasi tersembunyi Anda.\n\nRincian lebih lanjut tersedia di halaman Tentang kami.</string>
+    <string name="accessibility_disclosure">Inilauncher menggunakan Accessibility Service API hanya untuk satu fitur: Ketuk dua kali untuk mengunci. Fitur ini memungkinkan Inilauncher mengunci layar Anda saat Anda mengetuk dua kali layar utama.\n\nLayanan ini hanya melihat ketukan di dalam Inilauncher, dan hanya menggunakannya untuk mengunci layar Anda. Layanan ini tidak melihat aplikasi lain atau apa pun yang Anda ketik.\n\nTidak ada data yang dikumpulkan, disimpan, atau dibagikan. Tidak ada yang keluar dari perangkat Anda.\n\nKetuk Terima, lalu aktifkan Inilauncher di setelan Aksesibilitas perangkat Anda.</string>
+    <string name="launcher_failed_to_lock_device">Inilauncher gagal mengunci perangkat.\nSilakan periksa pengaturan aplikasi Anda.</string>
+    <string name="olauncher_is_not_default_launcher">Inilauncher bukan peluncur default.\nPembaruan wallpaper harian mungkin gagal.</string>
+</resources>

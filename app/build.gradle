@@ -1,6 +1,22 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
+// Inilauncher: release signing (both files git-ignored, see app-signing.properties.example):
+// - app-signing.properties: the app signing key, signs the direct APK (Zealot), see docs/app-updates.md;
+// - keystore.properties: the upload key, signs the Play bundle (only once the app goes to Google Play).
+def loadProperties(String name) {
+    def file = rootProject.file(name)
+    def props = new Properties()
+    if (file.exists()) file.withInputStream { props.load(it) }
+    return file.exists() ? props : null
+}
+def appSigning = loadProperties('app-signing.properties')
+def uploadSigning = loadProperties('keystore.properties')
+
+// CI passes the version from the git tag (vX.Y.Z → -PversionName=X.Y.Z -PversionCode=X*10000+Y*100+Z).
+def appVersionCode = (project.findProperty('versionCode') ?: '1') as Integer
+def appVersionName = (project.findProperty('versionName') ?: '0.1.0') as String
+
 android {
     compileSdk 36
 
@@ -14,26 +30,57 @@ android {
     }
 
     defaultConfig {
-        applicationId "app.olauncher"
+        applicationId "app.inilauncher"
         minSdkVersion 24
         targetSdkVersion 36
-        versionCode 117
-        versionName "v6.11.5"
+        // From the git tag in CI (see above); every Zealot release needs a higher versionCode.
+        versionCode appVersionCode
+        versionName appVersionName
+        buildConfigField "String", "GIT_SHA", "\"${System.getenv('GIT_SHA') ?: 'dev'}\""
 
         resourceConfigurations += ["en", "ar", "cs", "da", "de", "el", "es-rES", "es-rUS", "fa", "fi", "fr", "iw", "hi", "hr", "hu", "in", "it", "ja", "ko", "nb", "nl", "pl", "pt-rBR", "ro", "ru-rRU", "sv", "th", "tr", "uk", "vi", "zh", "zh-rTW"]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        [app: appSigning, upload: uploadSigning].each { name, props ->
+            if (props != null) {
+                create(name) {
+                    storeFile rootProject.file(props['storeFile'])
+                    storePassword props['storePassword']
+                    keyAlias props['keyAlias']
+                    keyPassword props['keyPassword']
+                }
+            }
+        }
+    }
+    // direct: the APK on Zealot, which updates itself (src/direct). play: the Google Play bundle, which can't.
+    flavorDimensions = ["store"]
+    productFlavors {
+        direct {
+            dimension "store"
+            if (appSigning != null) signingConfig signingConfigs.app
+        }
+        play {
+            dimension "store"
+            if (uploadSigning != null) signingConfig signingConfigs.upload
+        }
+    }
+
     buildTypes {
         release {
+            // No signingConfig here: a build type's signingConfig would win over the flavors'
             debuggable false
             minifyEnabled true
+            // Inilauncher: drops unused resources from the APK (our own are never looked up by name)
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             debuggable true
             minifyEnabled false
             applicationIdSuffix ".debug"
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -44,6 +91,18 @@ android {
     dependenciesInfo {
         includeInApk = false
         includeInBundle = true
+    }
+    // Inilauncher branding overrides upstream strings without touching them
+    sourceSets {
+        debug.res.srcDirs += 'src/brand/res'
+        release.res.srcDirs += 'src/brand/res'
+    }
+    lint {
+        baseline = file("lint-baseline.xml")
+        // Inilauncher: AndroidX Fragment's UnsafeFragmentLifecycleObserverDetector follows every call made from
+        // onViewCreated & co. again and again (its "already visited" set never matches), which made lint run for
+        // hours on this app. Its three checks (observe/addCallback/addMenuProvider with the fragment as owner) are off.
+        disable += ['FragmentLiveDataObserve', 'FragmentBackPressedCallback', 'FragmentAddMenuProvider']
     }
     namespace 'app.olauncher'
 }
@@ -69,4 +128,8 @@ dependencies {
     implementation libs.material
 
     testImplementation libs.junit
+
+    // Inilauncher
+    implementation libs.biometric
+    testImplementation libs.org.json // Android's org.json is a stub in local unit tests
 }

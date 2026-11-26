@@ -10,6 +10,8 @@ navigationFragmentKtx = "2.9.0"
 recyclerview = "1.4.0"
 workRuntimeKtx = "2.10.1"
 junit = "4.13.2"
+biometric = "1.1.0"
+orgJson = "20240303"
 [libraries]
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -23,3 +25,5 @@ navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-kt
 recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
 junit = { module = "junit:junit", version.ref = "junit" }
+org-json = { module = "org.json:json", version.ref = "orgJson" }
+biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }

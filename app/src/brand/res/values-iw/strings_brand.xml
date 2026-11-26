@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher branding: upstream's translations with the app name changed (generated from
+     app/src/main/res/values-iw/strings.xml). See values/strings_brand.xml. -->
+<resources>
+    <string name="set_as_default_launcher_first">הגדר תחילה את Inilauncher כברירת מחדל</string>
+    <string name="admin_permission_message">יישום Inilauncher מתחייב להשתמש בהרשאת הנגישות באופן אחראי. יישום Inilauncher אינו אוסף או משתף נתונים כלל.</string>
+    <string name="keyboard_message">היי, המקלדת היא הדרך המהירה ביותר למצוא ולפתוח יישומים ב־Inilauncher. האם נוכל לבקש מכם להשאיר את ההגדרה הזאת פעילה עוד כמה ימים ואז להחליט?\n\nהבחירה תמיד שלכם.</string>
+    <string name="wallpaper_message">Inilauncher מציע טפטים חדשים ויפים מדי יום. תנו למסך הבית שלכם מראה חדש ורענן בכל יום, בחינם!\n\nרוצים לנסות?</string>
+    <string name="accessibility_service_description">הרשאת הנגישות נחוצה להפעלת המחווה של נעילה בהקשה כפולה. כל הנתונים שייאספו על ידי Inilauncher דרך שירות זה לא יעזבו את המכשיר שלכם.</string>
+    <string name="please_set_olauncher_as_default_first">ראשית, נא להגדיר את Inilauncher בתור ברירת המחדל למסך בית.</string>
+    <string name="hidden_apps_message">הערה: כדי להגיע ליישומים המוסתרים, יש ללחוץ על הכיתוב \'Inilauncher\' שנמצא בראש עמוד ההגדרות.\n\nפרטים נוספים אפשר למצוא בעמוד \"מידע כללי\" שלנו.</string>
+    <string name="accessibility_disclosure">האפליקציה Inilauncher משתמשת ב-Accessibility Service API לתכונה אחת בלבד: לחיצה כפולה לנעילת המסך. התכונה מאפשרת ל-Inilauncher לנעול את המסך כשמקישים פעמיים על מסך הבית.\n\nהשירות רואה רק הקשות בתוך Inilauncher, ומשתמש בהן רק כדי לנעול את המסך. הוא לא מסתכל על אפליקציות אחרות או על מה שמקלידים.\n\nשום מידע לא נאסף, נשמר או משותף. שום דבר לא יוצא מהמכשיר.\n\nיש להקיש על \"הסכמה\" ואז להפעיל את Inilauncher בהגדרות הנגישות של המכשיר.</string>
+    <string name="launcher_failed_to_lock_device">ל־Inilauncher אין אפשרות לנעול את המסך.\nנא לבדוק את הגדרות היישום.</string>
+    <string name="olauncher_is_not_default_launcher">יישום Inilauncher לא מוגדר בתור ברירת מחדל.\nייתכן שעדכון הרקע היומי לא יצליח.</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher branding: upstream's translations with the app name changed (generated from
+     app/src/main/res/values-fi/strings.xml). See values/strings_brand.xml. -->
+<resources>
+    <string name="set_as_default_launcher_first">Aseta ensin Inilauncher oletukseksi</string>
+    <string name="admin_permission_message">Inilauncher lupaa käyttää esteettömyysoikeutta vastuullisesti. Inilauncher ei kerää tai jaa mitään tietoja.</string>
+    <string name="keyboard_message">Hei, näppäimistö on nopein tapa löytää ja avata sovelluksia Inilauncherissa. Voisitko pitää sen päällä vielä muutaman päivän ja päättää sitten?
+        \n\nValinta on aina sinun.</string>
+    <string name="wallpaper_message">Inilauncher tarjoaa kauniita uusia taustakuvia päivittäin. Anna aloitusnäytöllesi uusi ilme joka päivä, ilmaiseksi!
+        \n\nHaluatko kokeilla?</string>
+    <string name="accessibility_service_description">Esteettömyysoikeus vaaditaan Lukitse kaksoisnapautuksella -eleen käyttöönottoon. Mitään Inilauncherin tämän palvelun kautta hankkimaa tietoa ei lähetetä laitteestasi pois.</string>
+    <string name="please_set_olauncher_as_default_first">Aseta ensin Inilauncher oletukseksi</string>
+    <string name="hidden_apps_message">Huomio: Napauta \'Inilauncher\' tämän asetussivun yläreunassa löytääksesi piilotetut sovelluksesi.\n\nLisätietoja Tietoja-sivulla.</string>
+    <string name="accessibility_disclosure">Inilauncher käyttää Accessibility Service API:a vain yhteen ominaisuuteen: Lukitse kaksoisnapautuksella. Sen avulla Inilauncher voi lukita näytön, kun napautat aloitusnäyttöä kahdesti.\n\nPalvelu näkee vain Inilauncherin sisällä tehdyt napautukset ja käyttää niitä vain näytön lukitsemiseen. Se ei katso muita sovelluksia eikä mitään, mitä kirjoitat.\n\nMitään tietoja ei kerätä, tallenneta eikä jaeta. Mikään ei poistu laitteeltasi.\n\nNapauta Hyväksy ja ota sitten Inilauncher käyttöön laitteesi Esteettömyys-asetuksista.</string>
+    <string name="launcher_failed_to_lock_device">Inilauncher ei pystynyt lukitsemaan laitetta.\nTarkista sovelluksen asetukset.</string>
+    <string name="olauncher_is_not_default_launcher">Inilauncher ei ole oletuksena. Taustakuvan päivitys epäonnistuu.</string>
+</resources>

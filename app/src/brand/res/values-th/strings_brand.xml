@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher branding: upstream's translations with the app name changed (generated from
+     app/src/main/res/values-th/strings.xml). See values/strings_brand.xml. -->
+<resources>
+    <string name="set_as_default_launcher_first">โปรดตั้งค่า Inilauncher เป็นค่าเริ่มต้นก่อน</string>
+    <string name="admin_permission_message">Inilauncher สัญญาว่าจะใช้สิทธิ์การเข้าถึงอย่างรับผิดชอบ Inilauncher ไม่เก็บรวบรวมหรือแชร์ข้อมูลใดๆ</string>
+    <string name="keyboard_message">สวัสดี แป้นพิมพ์เป็นวิธีที่เร็วที่สุดในการค้นหาและเปิดแอปใน Inilauncher เราขอให้คุณเปิดฟีเจอร์นี้ไว้อีกสองสามวันแล้วค่อยตัดสินใจได้ไหม
+        \n\nทางเลือกเป็นของคุณเสมอ</string>
+    <string name="wallpaper_message">Inilauncher มอบวอลเปเปอร์ใหม่ที่สวยงามให้ทุกวัน ให้หน้าจอหลักของคุณมีลุคใหม่ทุกวันโดยไม่เสียค่าใช้จ่าย!
+        \n\nอยากลองไหม</string>
+    <string name="accessibility_service_description">จำเป็นต้องมีสิทธิ์การเข้าถึงเพื่อเปิดใช้งานท่าทาง - แตะสองครั้งเพื่อล็อก ข้อมูลใดๆ ที่ Inilauncher ได้รับผ่านบริการนี้จะไม่ออกจากอุปกรณ์ของคุณ</string>
+    <string name="please_set_olauncher_as_default_first">โปรดตั้งค่า Inilauncher เป็นค่าเริ่มต้นก่อน</string>
+    <string name="hidden_apps_message">หมายเหตุ: แตะที่ \'Inilauncher\' ที่ด้านบนของหน้าการตั้งค่านี้เพื่อค้นหาแอปที่ซ่อนอยู่\n\nดูรายละเอียดเพิ่มเติมได้ที่หน้าเกี่ยวกับเรา</string>
+    <string name="accessibility_disclosure">Inilauncher ใช้ Accessibility Service API สำหรับฟีเจอร์เดียวเท่านั้น คือ แตะสองครั้งเพื่อล็อก ซึ่งช่วยให้ Inilauncher ล็อกหน้าจอได้เมื่อคุณแตะสองครั้งบนหน้าจอหลัก\n\nบริการนี้เห็นเฉพาะการแตะภายใน Inilauncher และใช้เพื่อล็อกหน้าจอเท่านั้น โดยจะไม่ดูแอปอื่นหรือสิ่งที่คุณพิมพ์\n\nไม่มีการเก็บรวบรวม จัดเก็บ หรือแชร์ข้อมูลใดๆ และไม่มีข้อมูลใดออกจากอุปกรณ์ของคุณ\n\nแตะ ยอมรับ จากนั้นเปิด Inilauncher ในการตั้งค่าการช่วยการเข้าถึงของอุปกรณ์</string>
+    <string name="launcher_failed_to_lock_device">Inilauncher ล็อกอุปกรณ์ไม่สำเร็จ\nโปรดตรวจสอบการตั้งค่าแอปของคุณ</string>
+    <string name="olauncher_is_not_default_launcher">Inilauncher ไม่ใช่ตัวเปิดใช้งานเริ่มต้น การอัปเดตวอลเปเปอร์จะล้มเหลว</string>
+</resources>

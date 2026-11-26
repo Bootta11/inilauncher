@@ -1,18 +1,24 @@
 package app.olauncher.helper
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.FrameLayout
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import app.olauncher.R
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.DialogBaseBinding
 
@@ -33,19 +39,48 @@ fun View.showPopupMenu(
         true
     }
     popup.show()
+    app.olauncher.extras.HomeButton.track(popup) // Inilauncher: Home closes it
     return popup
 }
 
 /**
  * App dialog: shows without bringing back a hidden status bar, and blurs the
  * screen behind it on Android 12+, fading blur and dialog out together on dismiss.
+ *
+ * The rounded card is a view inside a full-height, see-through window (not the window's own
+ * background), so when its content grows or shrinks the card resizes smoothly inside the app
+ * instead of the system resizing and re-centring the whole window every frame. It opens
+ * centred, then its top stays put; only the bottom edge moves. See [DialogFrame].
  */
 class OlDialog(context: Context) : AlertDialog(context) {
 
     private var blur: WindowBlur? = null
+    private var cancelOutside = true
+
+    override fun setView(view: View) {
+        val card = FrameLayout(context).apply {
+            background = ContextCompat.getDrawable(context, R.drawable.bg_dialog)
+            addView(view, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+        }
+        super.setView(DialogFrame(context, card) { if (cancelOutside && isShowing) cancel() })
+    }
+
+    override fun setCanceledOnTouchOutside(cancel: Boolean) {
+        super.setCanceledOnTouchOutside(cancel)
+        cancelOutside = cancel
+    }
+
+    override fun show() {
+        super.show()
+        app.olauncher.extras.HomeButton.track(this) // Inilauncher: Home closes it
+    }
 
     fun showRespectingStatusBar() {
         val window = window
+        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        window?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        // The keyboard shrinks the window; DialogFrame then lifts the card above it
+        window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         if (window == null || Prefs(context).showStatusBar) {
             show()
         } else {
@@ -61,6 +96,47 @@ class OlDialog(context: Context) : AlertDialog(context) {
         val blur = blur ?: return super.dismiss()
         this.blur = null
         blur.fadeOut { super.dismiss() }
+    }
+}
+
+/**
+ * Fills the dialog window and holds the card: centred when it first opens, then pinned at
+ * that top so content changes only move its bottom edge (smoothly, via the content's
+ * LayoutTransitions). If the space shrinks (keyboard), the card moves up just enough to fit.
+ * A touch outside the card counts as "outside the dialog".
+ */
+private class DialogFrame(context: Context, private val card: View, private val onOutside: () -> Unit) : FrameLayout(context) {
+
+    private var pinnedTop = -1
+
+    init {
+        addView(card, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT))
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        // Take all the height the window offers, even if asked to wrap
+        val height = MeasureSpec.getSize(heightMeasureSpec)
+        val spec = if (MeasureSpec.getMode(heightMeasureSpec) != MeasureSpec.UNSPECIFIED && height > 0)
+            MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY) else heightMeasureSpec
+        super.onMeasure(widthMeasureSpec, spec)
+    }
+
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        val space = bottom - top
+        val h = card.measuredHeight
+        if (pinnedTop < 0 && h > 0 && space > 0) pinnedTop = ((space - h) / 2).coerceAtLeast(0)
+        val y = pinnedTop.coerceAtMost(space - h).coerceAtLeast(0)
+        card.layout(0, y, right - left, y + h)
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        if (event.actionMasked == MotionEvent.ACTION_DOWN &&
+            (event.y < card.top || event.y > card.bottom || event.x < card.left || event.x > card.right)
+        ) {
+            onOutside()
+            return true
+        }
+        return super.onTouchEvent(event)
     }
 }
 

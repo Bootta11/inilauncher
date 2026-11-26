@@ -24,7 +24,13 @@ import app.olauncher.data.AppModel
 import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.FragmentAppDrawerBinding
+import app.olauncher.extras.ExtrasKeys
+import app.olauncher.extras.ExtrasPrefs
+import app.olauncher.extras.search.HoldPill
+import app.olauncher.extras.search.HoldSearch
+import app.olauncher.helper.animateChanges
 import app.olauncher.helper.deletePinnedShortcut
+import app.olauncher.helper.fadeVisible
 import app.olauncher.helper.hideKeyboard
 import app.olauncher.helper.isEinkDisplay
 import app.olauncher.helper.isSystemAnimationsDisabled
@@ -77,7 +83,13 @@ class AppDrawerFragment : BaseFragment() {
         initAdapter()
         initObservers()
         initClickListeners()
+        initHoldIndicator() // Inilauncher
+        // Inilauncher: suggested apps, extra search results, A–Z scroller, sort by usage
+        drawerExtras = app.olauncher.extras.search.DrawerExtras(this, binding, flag, { adapter }) { viewModel.selectedApp(it, flag) }
+            .also { it.attach { updateCombinedAppList() } }
     }
+
+    private var drawerExtras: app.olauncher.extras.search.DrawerExtras? = null
 
     private fun initViews() {
         if (flag == Constants.FLAG_HIDDEN_APPS)
@@ -95,6 +107,7 @@ class AppDrawerFragment : BaseFragment() {
     private fun initSearch() {
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                if (drawerExtras?.submit(query.orEmpty()) == true) return true // Inilauncher: Enter on a sum copies the answer
                 if (query?.startsWith("!") == true)
                     requireContext().openUrl(Constants.URL_DUCK_SEARCH + query.replace(" ", "%20"))
                 else if (adapter.itemCount == 0)
@@ -108,6 +121,8 @@ class AppDrawerFragment : BaseFragment() {
                 try {
                     adapter.allowAutoLaunch = !isSearchComposing()
                     adapter.filter.filter(newText)
+                    drawerExtras?.onQuery(newText) // Inilauncher
+                    updateHoldIndicator(newText) // Inilauncher
                     binding.appRename.visibility =
                         if (canRename && newText.isNotBlank()) View.VISIBLE else View.GONE
                     return true
@@ -117,6 +132,39 @@ class AppDrawerFragment : BaseFragment() {
                 return false
             }
         })
+    }
+
+    // Inilauncher: hold search: show when auto-open is paused, and the optional switch
+    private val holdSwitch by lazy {
+        flag == Constants.FLAG_LAUNCH_APP && ExtrasPrefs(requireContext()).bool(ExtrasKeys.SEARCH_HOLD_TOGGLE)
+    }
+
+    private fun initHoldIndicator() {
+        adapter.autoMenuEnabled = flag == Constants.FLAG_LAUNCH_APP &&
+            ExtrasPrefs(requireContext()).bool(ExtrasKeys.SEARCH_HOLD_ACTIONS)
+        binding.searchRow.animateChanges()
+        updateHoldIndicator(binding.search.query)
+        if (!holdSwitch) return
+        binding.holdIndicator.setOnClickListener {
+            val query = binding.search.query.toString()
+            if (HoldSearch.spaced(query, flag)) {
+                // Paused by a leading space: back to auto-open by dropping it
+                adapter.holdToggled = false
+                binding.search.setQuery(query.trimStart(), false)
+            } else {
+                adapter.holdToggled = !adapter.holdToggled
+                adapter.filter.filter(query)
+                updateHoldIndicator(query)
+            }
+        }
+    }
+
+    private fun updateHoldIndicator(query: CharSequence?) {
+        val view = binding.holdIndicator
+        val spaced = HoldSearch.spaced(query, flag)
+        val hold = spaced || adapter.holdToggled
+        HoldPill.set(view, hold)
+        view.fadeVisible(holdSwitch || spaced)
     }
 
     private fun isSearchComposing(): Boolean {
@@ -294,7 +342,7 @@ class AppDrawerFragment : BaseFragment() {
 
     private fun updateCombinedAppList() {
         val apps = currentAppList ?: return
-        val combined = apps.toMutableList()
+        val combined = (drawerExtras?.sortByUsage(apps) ?: apps).toMutableList() // Inilauncher: sort by usage
 
         if (flag == Constants.FLAG_LAUNCH_APP && currentPrivateSpaceAvailable) {
             combined.add(AppModel.PrivateSpaceHeader(isLocked = currentPrivateSpaceLocked))

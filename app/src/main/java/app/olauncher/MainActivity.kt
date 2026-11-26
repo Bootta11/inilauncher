@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
     private var profileReceiver: BroadcastReceiver? = null
     private var launcherAppsCallback: LauncherApps.Callback? = null
     private var messageDialog: OlDialog? = null
+    private var builtNightMode = 0 // Inilauncher: night bit the views were inflated with
 
 //    override fun onBackPressed() {
 //        if (navController.currentDestination?.id != R.id.mainFragment)
@@ -79,11 +80,14 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(prefs.appTheme)
         super.onCreate(savedInstanceState)
         if (prefs.boldFont) theme.applyStyle(R.style.BoldFontOverlay, true)
+        app.olauncher.extras.look.Fonts.applyTheme(this) // Inilauncher
         if (isEinkDisplay() || isSystemAnimationsDisabled()) theme.applyStyle(R.style.NoAnimationOverlay, true)
+        builtNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK // Inilauncher
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         navController = this.findNavController(R.id.nav_host_fragment)
+        app.olauncher.extras.look.BackgroundBlur.attach(this, navController) // Inilauncher
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         val onBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -180,7 +184,10 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         // Home button for recents feature disabled
         // val alreadyHome = navController.currentDestination?.id == R.id.mainFragment
+        app.olauncher.extras.ExtrasState.awaitingSystemScreen = false // Inilauncher: Home always goes home
+        app.olauncher.extras.ExtrasState.clearWidgetTap() // Inilauncher
         backToHomeScreen()
+        app.olauncher.extras.HomeButton.pressed() // Inilauncher: close dialogs, menus, the sub list
         // if (alreadyHome && isResumed && prefs.homeButtonShowRecents)
         //     viewModel.showRecentApps.call()
         super.onNewIntent(intent)
@@ -192,6 +199,10 @@ class MainActivity : AppCompatActivity() {
         if (prefs.dailyWallpaper && AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
             setPlainWallpaper()
             viewModel.setWallpaperWorker()
+            recreate()
+        } else if ((newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK) != builtNightMode) {
+            // Inilauncher: uiMode is handled here (manifest), so AppCompat won't recreate when the
+            // theme changes in the background (day & night by sun). Rebuild the views in the new colours.
             recreate()
         }
     }
@@ -206,6 +217,7 @@ class MainActivity : AppCompatActivity() {
             else
                 showLauncherSelector(Constants.REQUEST_CODE_LAUNCHER_SELECTOR)
         }
+        app.olauncher.extras.ExtrasActivityHooks.observe(this, viewModel) // Inilauncher
         viewModel.checkForMessages.observe(this) {
             checkForMessages()
         }
@@ -297,6 +309,9 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        // Inilauncher: keep only upstream's wallpaper tip, no review/rate/share prompts
+        if (prefs.userState != Constants.UserState.START && prefs.userState != Constants.UserState.WALLPAPER) return
+
         when (prefs.userState) {
             Constants.UserState.START -> {
                 if (prefs.firstOpenTime.hasBeenMinutes(10))
@@ -345,6 +360,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun backToHomeScreen() {
         if (viewModel.isPrivateSpaceToggling) return
+        if (app.olauncher.extras.ExtrasState.awaitingSystemScreen) return // Inilauncher: widget setup
+        if (app.olauncher.extras.ExtrasState.leavingForWidget()) return // Inilauncher: a widget opened its app
         messageDialog?.dismiss()
         if (navController.currentDestination?.id != R.id.mainFragment)
             navController.popBackStack(R.id.mainFragment, false)

@@ -110,6 +110,7 @@ fun Context.openSearch(query: String? = null) {
 private var isEinkDevice: Boolean? = null
 
 fun Context.isEinkDisplay(): Boolean {
+    if (app.olauncher.extras.look.EinkMode.isForced(this)) return true // Inilauncher
     isEinkDevice?.let { return it }
     return (hasEinkRefreshRate() || isOnyxDevice() || isKnownEinkModel())
         .also { isEinkDevice = it }

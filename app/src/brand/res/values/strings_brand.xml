@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Inilauncher branding. Added to the debug and release source sets (see app/build.gradle),
+  so these English strings override upstream Olauncher's without editing its strings.xml files.
+-->
+<resources>
+    <string name="app_name" translatable="false">Inilauncher</string>
+    <string name="set_as_default_launcher_first">Set Inilauncher as default first</string>
+    <string name="admin_permission_message">Inilauncher uses the accessibility permission only to lock your screen. It does not collect or share any data.</string>
+    <string name="keyboard_message">The keyboard is the fastest way to find and open apps in Inilauncher. Try keeping it on for a few days before you decide.</string>
+    <string name="wallpaper_message">Inilauncher can set a new wallpaper every day.\n\nWant to try it?</string>
+    <string name="accessibility_service_description">Needed for one gesture only: double tap to lock. Nothing this service sees leaves your device.</string>
+    <string name="please_set_olauncher_as_default_first">Please set Inilauncher as default first</string>
+    <string name="hidden_apps_message">Tip: tap \'Inilauncher\' at the top of this settings page to see your hidden apps.</string>
+    <string name="accessibility_disclosure">Inilauncher uses the Accessibility Service API for one feature only: double tap on the home screen to lock your phone.
+    \n\nThe service only sees taps inside Inilauncher and uses them only to lock the screen. It does not look at other apps or at anything you type.
+    \n\nNothing is collected, stored or shared, and nothing leaves your device.
+    \n\nTap Accept, then turn on Inilauncher in your device\'s Accessibility settings.</string>
+    <string name="launcher_failed_to_lock_device">Inilauncher could not lock the device.\nPlease check the app\'s settings.</string>
+    <string name="olauncher_is_not_default_launcher">Inilauncher is not the default launcher, so the wallpaper can\'t be updated.</string>
+</resources>

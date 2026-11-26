@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Inilauncher: which icon a TextView is waiting for (AppIcons loads icons off the main thread) -->
+    <item name="extras_icon_key" type="id" />
+    <!-- Inilauncher: where the home apps were when the sub list opened (SubList keeps them there) -->
+    <item name="extras_sublist_anchor" type="id" />
+    <item name="motion_changing" type="id" />
+    <item name="motion_hiding" type="id" />
+    <item name="gesture_row_alpha" type="id" />
+    <item name="motion_expand" type="id" />
+    <item name="motion_expand_dir" type="id" />
+    <item name="motion_expand_margins" type="id" />
+    <item name="extras_events_shown" type="id" />
+    <item name="extras_sublist_items_shown" type="id" />
+    <!-- Inilauncher: hold search pill state and the icon it shows -->
+    <item name="hold_pill_state" type="id" />
+    <item name="hold_pill_icon" type="id" />
+    <!-- Inilauncher: the drag running in a container, and whether a refresh waits for it -->
+    <item name="drag_session" type="id" />
+    <item name="extras_sublist_bind_waits" type="id" />
+</resources>

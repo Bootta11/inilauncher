@@ -11,5 +11,9 @@
     <attr name="primaryShadeColor" format="color" />
     <attr name="dialogShadeColor" format="color" />
     <attr name="primaryShadeDarkColor" format="color" />
+    <!-- Inilauncher: page background of the settings screens, over the wallpaper -->
+    <attr name="settingsScrimColor" format="color" />
+    <!-- Inilauncher: full-screen app picker over the home screen; nearly opaque so the home text doesn't show through -->
+    <attr name="pickerScrimColor" format="color" />
     <attr name="mainFontFamily" format="string" />
 </resources>

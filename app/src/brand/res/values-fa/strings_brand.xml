@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher branding: upstream's translations with the app name changed (generated from
+     app/src/main/res/values-fa/strings.xml). See values/strings_brand.xml. -->
+<resources>
+    <string name="set_as_default_launcher_first">ابتدا Inilauncher را به عنوان پیش‌فرض تنظیم کنید</string>
+    <string name="admin_permission_message">برنامهٔ Inilauncher متعهد می‌شود از مجوز دسترس‌پذیری مسئولانه استفاده کند. Inilauncher هیچ داده‌ای را جمع‌آوری نمی‌کند یا به اشتراک نمی‌گذارد.</string>
+    <string name="keyboard_message">سلام، صفحه‌کلید سریع‌ترین راه برای یافتن و اجرای برنامه‌ها در Inilauncher است. می‌توانیم از شما خواهش کنیم این گزینه را چند روز دیگر روشن نگه دارید و سپس تصمیم بگیرید؟\n\nانتخاب همیشه با شماست.</string>
+    <string name="wallpaper_message">برنامهٔ Inilauncher هر روز تصاویر زمینهٔ زیبای جدیدی ارائه می‌دهد. هر روز به صفحهٔ اصلی خود جلوه‌ای تازه ببخشید، کاملاً رایگان!\n\nمی‌خواهید امتحانش کنید؟</string>
+    <string name="accessibility_service_description">برای فعال کردن حرکت «دو ضربه برای قفل»، مجوز دسترس‌پذیری لازم است. هیچ داده‌ای که Inilauncher از طریق این سرویس به دست می‌آورد از دستگاه شما خارج نخواهد شد.</string>
+    <string name="please_set_olauncher_as_default_first">لطفاً ابتدا Inilauncher را به عنوان پیش‌فرض تنظیم کنید</string>
+    <string name="hidden_apps_message">نکته: برای یافتن برنامه‌های پنهان خود، روی «Inilauncher» در بالای این صفحهٔ «تنظیمات» ضربه بزنید.\n\nجزئیات بیشتر در صفحهٔ «درباره» ما موجود است.</string>
+    <string name="accessibility_disclosure">برنامهٔ Inilauncher از Accessibility Service API فقط برای یک قابلیت استفاده می‌کند: «دو ضربه برای قفل». این قابلیت به Inilauncher اجازه می‌دهد وقتی روی صفحهٔ اصلی دو ضربه می‌زنید، صفحه را قفل کند.\n\nاین سرویس فقط ضربه‌های داخل Inilauncher را می‌بیند و فقط برای قفل کردن صفحه از آن‌ها استفاده می‌کند. به برنامه‌های دیگر یا چیزهایی که تایپ می‌کنید نگاه نمی‌کند.\n\nهیچ داده‌ای جمع‌آوری، ذخیره یا به اشتراک گذاشته نمی‌شود. هیچ چیزی از دستگاه شما خارج نمی‌شود.\n\nروی «پذیرش» ضربه بزنید، سپس Inilauncher را در تنظیمات «دسترس‌پذیری» دستگاه خود روشن کنید.</string>
+    <string name="launcher_failed_to_lock_device">برنامهٔ Inilauncher موفق به قفل کردن دستگاه نشد.\nلطفاً تنظیمات برنامهٔ خود را بررسی کنید.</string>
+    <string name="olauncher_is_not_default_launcher">برنامهٔ Inilauncher پیش‌فرض نیست. به‌روزرسانی تصویر زمینه با شکست مواجه خواهد شد.</string>
+</resources>

@@ -25,7 +25,6 @@ import app.olauncher.MainViewModel
 import app.olauncher.R
 import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
-import app.olauncher.databinding.DialogNotWorkingBinding
 import app.olauncher.databinding.DialogTextSizeBinding
 import app.olauncher.databinding.FragmentSettingsBinding
 import app.olauncher.helper.appUsagePermissionGranted
@@ -78,7 +77,8 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
         checkAdminPermission()
 
         binding.homeAppsNum.text = prefs.homeAppsNum.toString()
-        populateProMessage()
+        // Inilauncher: no "Pro" upsell
+        // populateProMessage()
         populateKeyboardText()
         populateScreenTimeOnOff()
         populateLockSettings()
@@ -95,6 +95,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
         populateActionHints()
         initClickListeners()
         initObservers()
+        app.olauncher.extras.UpstreamSettingsHooks.apply(binding)
 
         if (showPentastic)
             binding.footer.text = getText(R.string.new_app_minimal_todo_lists)
@@ -103,7 +104,8 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
     override fun onClick(view: View) {
         when (view.id) {
             R.id.olauncherHiddenApps -> showHiddenApps()
-            R.id.moreFeatures -> viewModel.showDialog.postValue(Constants.Dialog.PRO_MESSAGE)
+            // Inilauncher: "More features" opens the Extras screen
+            R.id.moreFeatures -> findNavController().navigate(R.id.action_settingsFragment_to_extrasSettingsFragment)
             R.id.screenTimeOnOff -> viewModel.showDialog.postValue(Constants.Dialog.DIGITAL_WELLBEING)
             R.id.appInfo -> openAppInfo(requireContext(), Process.myUserHandle(), BuildConfig.APPLICATION_ID)
             R.id.setLauncher -> viewModel.resetLauncherLiveData.call()
@@ -112,7 +114,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
             // R.id.homeButtonRecents -> toggleHomeButtonRecents()
             R.id.autoShowKeyboard -> toggleKeyboardText()
             R.id.homeAppsNum -> showHomeAppsNumMenu(view)
-            R.id.dailyWallpaperUrl -> requireContext().openUrl(prefs.dailyWallpaperUrl)
+            R.id.dailyWallpaperUrl -> app.olauncher.extras.wallpaper.DailyWallpapers.openCurrent(requireContext()) // Inilauncher: photo page or folder photo
             R.id.dailyWallpaper -> toggleDailyWallpaperUpdate()
             R.id.alignment -> showAlignmentMenu(view)
             R.id.statusBar -> toggleStatusBar()
@@ -126,7 +128,8 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
 
             R.id.aboutOlauncher -> {
                 prefs.aboutClicked = true
-                requireContext().openUrl(Constants.URL_ABOUT_OLAUNCHER)
+                // Inilauncher: in-app About with credit and license
+                app.olauncher.extras.UpstreamSettingsHooks.showAbout(requireContext())
             }
 
             R.id.share -> requireActivity().shareApp()
@@ -310,11 +313,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
                 message = R.string.accessibility_disclosure,
                 neutral = R.string.not_now,
                 onAction = { openAccessibilityService() },
-            ) { container ->
-                DialogNotWorkingBinding.inflate(layoutInflater, container, false).root.apply {
-                    setOnClickListener { requireContext().openUrl(Constants.URL_DOUBLE_TAP) }
-                }
-            }
+            ) // Inilauncher: no "Not working?" link, it opened Olauncher's own help page
         )
     }
 
@@ -376,6 +375,9 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
             requireContext().showToast(getString(R.string.no_hidden_apps))
             return
         }
+        // Inilauncher: optional fingerprint/PIN lock
+        val lock = app.olauncher.extras.privacy.HiddenAppsLock
+        if (!lock.isUnlocked(requireContext())) return lock.unlock(this) { showHiddenApps() }
         viewModel.getHiddenApps()
         findNavController().navigate(
             R.id.action_settingsFragment_to_appListFragment,
@@ -518,6 +520,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
     }
 
     private fun applyTheme(appTheme: Int) {
+        app.olauncher.extras.daynight.DayNight.onManualTheme(requireContext()) // Inilauncher
         prefs.appTheme = appTheme
         populateAppThemeText(appTheme)
         setAppTheme(appTheme)

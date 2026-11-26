@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher branding: upstream's translations with the app name changed (generated from
+     app/src/main/res/values-pl/strings.xml). See values/strings_brand.xml. -->
+<resources>
+    <string name="set_as_default_launcher_first">Najpierw ustaw Inilauncher jako domyślny</string>
+    <string name="olauncher_is_not_default_launcher">Inilauncher nie jest domyślnym programem uruchamiającym. Codzienna aktualizacja tapety może się nie powieść.</string>
+    <string name="hidden_apps_message">Uwaga: Stuknij w „Inilauncher” u góry tej strony ustawień, aby znaleźć ukryte aplikacje.\n\nWięcej informacji znajdziesz na naszej stronie Informacje.</string>
+    <string name="accessibility_disclosure">Inilauncher używa Accessibility Service API tylko do jednej funkcji: Dotknij dwukrotnie, aby zablokować. Pozwala ona Inilauncherowi zablokować ekran, gdy dwukrotnie dotkniesz ekranu głównego.\n\nUsługa widzi tylko dotknięcia wewnątrz Inilaunchera i używa ich wyłącznie do zablokowania ekranu. Nie patrzy na inne aplikacje ani na nic, co wpisujesz.\n\nŻadne dane nie są zbierane, przechowywane ani udostępniane. Nic nie opuszcza Twojego urządzenia.\n\nDotknij Akceptuj, a następnie włącz Inilauncher w ustawieniach Ułatwień dostępu na urządzeniu.</string>
+    <string name="launcher_failed_to_lock_device">Inilauncherowi nie udało się zablokować urządzenia. Sprawdź ustawienia aplikacji.</string>
+    <string name="admin_permission_message">Inilauncher obiecuje odpowiedzialnie korzystać z uprawnienia ułatwień dostępu. Inilauncher nie gromadzi ani nie udostępnia żadnych danych.</string>
+    <string name="keyboard_message">Cześć, klawiatura to najszybszy sposób znajdowania i uruchamiania aplikacji w Inilauncher. Czy możemy poprosić o pozostawienie tego włączonego jeszcze przez kilka dni, a następnie podjęcie decyzji?\n\nWybór zawsze należy do Ciebie.</string>
+    <string name="wallpaper_message">Inilauncher oferuje piękne nowe tapety codziennie. Nadaj swojemu ekranowi głównemu świeży wygląd każdego dnia, za darmo!
+        \n\nChcesz spróbować?</string>
+    <string name="accessibility_service_description">Uprawnienie ułatwień dostępu jest wymagane, aby włączyć gest podwójnego dotknięcia do zablokowania. Żadne dane pozyskane przez Inilauncher za pośrednictwem tej usługi nie opuszczą Twojego urządzenia.</string>
+    <string name="please_set_olauncher_as_default_first">Najpierw ustaw Inilauncher jako domyślny program uruchamiający</string>
+</resources>

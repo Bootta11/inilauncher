@@ -41,6 +41,9 @@
         <item name="primaryColorInverseTrans90">@color/blackInverseTrans90</item>
         <item name="primaryShadeColor">@color/blackInverseTrans10</item>
         <item name="primaryShadeDarkColor">@color/blackInverseTrans25</item>
+        <!-- Inilauncher: nearly opaque, so black text stays readable over a busy light wallpaper -->
+        <item name="settingsScrimColor">#D9FFFFFF</item>
+        <item name="pickerScrimColor">#F5FFFFFF</item>
         <item name="dialogShadeColor">@color/blackInverseTrans50</item>
 
         <item name="mainFontFamily">sans-serif-light</item>

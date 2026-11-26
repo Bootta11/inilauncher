@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher: settings screen for the optional extras. Sections get rows phase by phase. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/settingsScrimColor"
+        android:fadingEdgeLength="48dp"
+        android:overScrollMode="never"
+        android:requiresFadingEdge="vertical"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/extrasLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="64dp">
+
+            <LinearLayout
+                style="@style/ExtrasCard"
+                android:layout_marginTop="0dp">
+
+                <TextView
+                    style="@style/TextLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/extras" />
+
+                <TextView
+                    style="@style/TextSmallLight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/extras_intro" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sectionHome"
+                style="@style/ExtrasCard">
+
+                <TextView
+                    style="@style/ExtrasSectionTitle"
+                    android:text="@string/extras_section_home" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sectionSearch"
+                style="@style/ExtrasCard">
+
+                <TextView
+                    style="@style/ExtrasSectionTitle"
+                    android:text="@string/extras_section_search" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sectionLook"
+                style="@style/ExtrasCard">
+
+                <TextView
+                    style="@style/ExtrasSectionTitle"
+                    android:text="@string/extras_section_look" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sectionPrivacy"
+                style="@style/ExtrasCard">
+
+                <TextView
+                    style="@style/ExtrasSectionTitle"
+                    android:text="@string/extras_section_privacy" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/versionLine"
+                style="@style/ExtrasRowHint"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:textIsSelectable="true" />
+        </LinearLayout>
+</ScrollView>

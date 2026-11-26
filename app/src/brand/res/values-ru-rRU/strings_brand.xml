@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher branding: upstream's translations with the app name changed (generated from
+     app/src/main/res/values-ru-rRU/strings.xml). See values/strings_brand.xml. -->
+<resources>
+    <string name="set_as_default_launcher_first">Сначала сделайте Inilauncher лаунчером по умолчанию</string>
+    <string name="admin_permission_message">Inilauncher обещает ответственно использовать разрешение специальных возможностей. Inilauncher не собирает и не передаёт какие-либо данные.</string>
+    <string name="keyboard_message">Привет, клавиатура — это самый быстрый способ найти и запустить приложения в Inilauncher. Могли бы вы продолжить использовать Автопоказ клавиатуры еще несколько дней, прежде чем принять окончательное решение?
+        \n\nВыбор всегда за вами.</string>
+    <string name="wallpaper_message">Inilauncher предлагает красивые новые обои каждый день. Обновите свой главный экран каждый день, бесплатно!
+        \n\nХотите попробовать?</string>
+    <string name="accessibility_service_description">Разрешение специальных возможностей требуется для включения жеста двойного касания для блокировки. Любые данные, полученные Inilauncher через этот сервис, не покинут ваше устройство.</string>
+    <string name="please_set_olauncher_as_default_first">Сначала установите Inilauncher в качестве лаунчера по умолчанию.</string>
+    <string name="hidden_apps_message">Примечание: для доступа к скрытым приложениям нажмите «Inilauncher» в верхней части страницы настроек.\n\nБолее подробная информация доступна на нашей странице «О приложении».</string>
+    <string name="accessibility_disclosure">Inilauncher использует Accessibility Service API только для одной функции: «Блокировка двойным касанием». Она позволяет Inilauncher блокировать экран, когда вы дважды касаетесь главного экрана.\n\nСлужба видит только касания внутри Inilauncher и использует их только для блокировки экрана. Она не следит за другими приложениями и за тем, что вы вводите.\n\nНикакие данные не собираются, не хранятся и не передаются. Ничто не покидает ваше устройство.\n\nНажмите «Принять», а затем включите Inilauncher в настройках специальных возможностей устройства.</string>
+    <string name="launcher_failed_to_lock_device">Inilauncher не удалось заблокировать устройство.\nПожалуйста, проверьте настройки вашего приложения.</string>
+    <string name="olauncher_is_not_default_launcher">Inilauncher не является лаунчером по умолчанию.\nЕжедневное обновление обоев может завершиться ошибкой.</string>
+</resources>

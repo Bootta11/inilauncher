@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher branding: upstream's translations with the app name changed (generated from
+     app/src/main/res/values-zh/strings.xml). See values/strings_brand.xml. -->
+<resources>
+    <string name="set_as_default_launcher_first">请先将 Inilauncher 设为默认启动器</string>
+    <string name="olauncher_is_not_default_launcher">Inilauncher 不是默认启动器。 每日壁纸更新可能会失败。</string>
+    <string name="hidden_apps_message">注意：点击此设置页面顶部的“Inilauncher”即可找到隐藏的应用程序。\n\n更多详细信息请参阅“关于”页面。</string>
+    <string name="accessibility_disclosure">Inilauncher 仅将 Accessibility Service API 用于一项功能：“双击即可锁定”。它可让 Inilauncher 在您双击主屏幕时锁定屏幕。\n\n该服务只能看到 Inilauncher 内的点按操作，并且仅用于锁定屏幕。它不会查看其他应用或您输入的任何内容。\n\n不会收集、存储或共享任何数据。任何数据都不会离开您的设备。\n\n请点按“接受”，然后在设备的无障碍设置中开启 Inilauncher。</string>
+    <string name="launcher_failed_to_lock_device">Inilauncher 无法锁定设备。\n请检查您的应用程序设置。</string>
+    <string name="admin_permission_message">Inilauncher 承诺负责任地使用无障碍权限。Inilauncher 不收集或共享任何数据。</string>
+    <string name="keyboard_message">您好，键盘是在 Inilauncher 中查找和启动应用程序的最快方式。我们能否请您再保持开启几天，然后再做决定？\n\n选择权永远在您手中。</string>
+    <string name="wallpaper_message">Inilauncher每天提供美丽的新壁纸。让你的主屏幕每天焕然一新，免费！
+        \n\n想试试吗？</string>
+    <string name="accessibility_service_description">需要无障碍权限才能启用双击锁屏手势。Inilauncher 通过此服务获取的任何数据都不会离开您的设备。</string>
+    <string name="please_set_olauncher_as_default_first">请先将 Inilauncher 设置为默认启动器</string>
+</resources>

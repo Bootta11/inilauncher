@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher branding: upstream's translations with the app name changed (generated from
+     app/src/main/res/values-zh-rTW/strings.xml). See values/strings_brand.xml. -->
+<resources>
+    <string name="set_as_default_launcher_first">請先將 Inilauncher 設為預設啟動器</string>
+    <string name="admin_permission_message">Inilauncher 承諾以負責任的方式使用這項權限，且不會收集或分享任何資料。</string>
+    <string name="keyboard_message">嗨，在 Inilauncher 中，使用鍵盤搜尋並開啟應用程式是最快的方式。可以請您先讓這項功能維持開啟幾天，再決定是否關閉嗎？\n\n選擇權一直都在您手上。</string>
+    <string name="app_usage_message">若要在主畫面顯示或隱藏螢幕使用時間，請允許或拒絕應用程式使用情況存取權。\n\n注意：Inilauncher 不會收集任何應用程式使用情況資料，所有處理都在裝置上完成。</string>
+    <string name="wallpaper_message">Inilauncher 每天都會提供精美的新桌布，免費讓主畫面天天煥然一新！\n\n想試試看嗎？</string>
+    <string name="accessibility_service_description">必須啟用無障礙服務，才能使用 [輕觸兩下鎖定螢幕] 手勢。Inilauncher 透過這項服務取得的任何資料都不會離開裝置。</string>
+    <string name="please_set_olauncher_as_default_first">請先將 Inilauncher 設為預設啟動器</string>
+    <string name="hidden_apps_message">注意：輕觸此設定頁面頂端的 [Inilauncher]，即可找到隱藏的應用程式。\n\n如需更多詳細資料，請前往 [關於與常見問題] 頁面。</string>
+    <string name="accessibility_disclosure">Inilauncher 只會將 Accessibility Service API 用於一項功能：[輕觸兩下鎖定螢幕]。這項功能可讓 Inilauncher 在你輕觸兩下主畫面時鎖定螢幕。\n\n這項服務只會看到你在 Inilauncher 內的輕觸動作，而且只會用來鎖定螢幕，不會查看其他應用程式或你輸入的任何內容。\n\nInilauncher 不會收集、儲存或分享任何資料，也不會有任何資料離開你的裝置。\n\n請輕觸 [接受]，然後在裝置的無障礙設定中開啟 Inilauncher。</string>
+    <string name="launcher_failed_to_lock_device">Inilauncher 無法鎖定裝置。\n請檢查應用程式設定。</string>
+    <string name="olauncher_is_not_default_launcher">Inilauncher 不是預設啟動器，桌布將無法更新。</string>
+</resources>

@@ -4,7 +4,7 @@
     android:id="@+id/mainActivityLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/primaryShadeDarkColor">
+    android:background="?attr/settingsScrimColor">
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -246,6 +246,34 @@
                         android:layout_marginEnd="4dp"
                         android:padding="8dp"
                         android:text="@string/on" />
+                </FrameLayout>
+
+                <!-- Inilauncher: app icon style (app list + home) -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        android:id="@+id/appIconsLabel"
+                        style="@style/TextSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="80dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/icons"
+                        android:textColor="?attr/primaryColor" />
+
+                    <TextView
+                        android:id="@+id/appIcons"
+                        style="@style/TextSmallBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|bottom"
+                        android:layout_marginEnd="4dp"
+                        android:padding="8dp"
+                        android:text="@string/icons_off" />
                 </FrameLayout>
 
                 <FrameLayout

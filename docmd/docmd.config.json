@@ -1,0 +1,28 @@
+{
+  "title": "Inilauncher docs",
+  "src": "..",
+  "out": "../.run/docs-site",
+  "favicon": "assets/favicon.svg",
+  "theme": {
+    "customJs": [
+      "assets/js/github-anchors.js"
+    ]
+  },
+  "markdown": {
+    "breaks": false
+  },
+  "plugins": {
+    "ai": {
+      "enabled": false
+    }
+  },
+  "navigation": [
+    { "title": "Overview", "path": "/" },
+    { "title": "Features", "path": "/docs/features" },
+    { "title": "Permissions & privacy", "path": "/docs/permissions" },
+    { "title": "Architecture", "path": "/docs/architecture" },
+    { "title": "Syncing with Olauncher", "path": "/docs/upstream-sync" },
+    { "title": "App releases & updates", "path": "/docs/app-updates" },
+    { "title": "Daily wallpapers", "path": "/docs/wallpapers" }
+  ]
+}

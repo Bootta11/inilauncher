@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher branding: upstream's translations with the app name changed (generated from
+     app/src/main/res/values-ja/strings.xml). See values/strings_brand.xml. -->
+<resources>
+    <string name="set_as_default_launcher_first">まず Inilauncher をデフォルトに設定してください</string>
+    <string name="olauncher_is_not_default_launcher">Inilauncher はデフォルトのランチャーではありません。壁紙の更新は失敗します。</string>
+    <string name="hidden_apps_message">注: この設定ページの上部にある「Inilauncher」をタップすると、非表示のアプリを確認できます。\n\n詳細については「アプリについて」ページをご覧ください。</string>
+    <string name="accessibility_disclosure">Inilauncher は Accessibility Service API を「ダブルタップでロック」機能にのみ使用します。ホーム画面をダブルタップしたときに、Inilauncher が画面をロックできるようにするためのものです。\n\nこのサービスが認識するのは Inilauncher 内でのタップのみで、画面のロックにのみ使用されます。他のアプリや、入力した内容を見ることはありません。\n\nデータの収集、保存、共有は一切行いません。データがデバイスの外に送信されることもありません。\n\n「同意する」をタップしてから、デバイスのユーザー補助設定で Inilauncher をオンにしてください。</string>
+    <string name="launcher_failed_to_lock_device">Inilauncher がデバイスをロックできませんでした。\nアプリの設定を確認してください。</string>
+    <string name="admin_permission_message">Inilauncher は、ユーザー補助の権限を責任を持って使用することを約束します。Inilauncher はデータを収集したり共有したりしません。</string>
+    <string name="keyboard_message">こんにちは、キーボードは Inilauncher でアプリを見つけて起動する最も速い方法です。あと数日間オンにしたままにして、それから判断していただけませんか？\n\n選択は常にあなた次第です。</string>
+    <string name="wallpaper_message">Inilauncherは毎日美しい新しい壁紙を提供します。毎日ホーム画面に新しい外観を無料で提供！
+        \n\n試してみますか？</string>
+    <string name="accessibility_service_description">ダブルタップでロックのジェスチャーを有効にするには、ユーザー補助の権限が必要です。このサービスを通じて Inilauncher が取得したデータがデバイスの外に出ることはありません。</string>
+    <string name="please_set_olauncher_as_default_first">まず Inilauncher をデフォルトのランチャーとして設定してください</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher: icon for the home sub list (a 3×3 grid of small dots), used on its button and in the app list. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="22dp"
+    android:height="22dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="?attr/primaryColor"
+        android:pathData="M5,3a2,2 0,1 1,0 4a2,2 0,1 1,0 -4zM12,3a2,2 0,1 1,0 4a2,2 0,1 1,0 -4zM19,3a2,2 0,1 1,0 4a2,2 0,1 1,0 -4zM5,10a2,2 0,1 1,0 4a2,2 0,1 1,0 -4zM12,10a2,2 0,1 1,0 4a2,2 0,1 1,0 -4zM19,10a2,2 0,1 1,0 4a2,2 0,1 1,0 -4zM5,17a2,2 0,1 1,0 4a2,2 0,1 1,0 -4zM12,17a2,2 0,1 1,0 4a2,2 0,1 1,0 -4zM19,17a2,2 0,1 1,0 4a2,2 0,1 1,0 -4z" />
+</vector>

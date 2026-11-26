@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher icon for Android 7 (no adaptive icons): overrides upstream's density PNGs. Android 8+ uses mipmap-anydpi-v26. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/inilauncher_icon_background" />
+        </shape>
+    </item>
+    <item android:drawable="@drawable/ic_inilauncher_foreground" />
+</layer-list>
