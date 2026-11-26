@@ -8,7 +8,7 @@ object AppRelease {
     const val ZEALOT_URL = "https://apps.bootta.dev"
 
     /** The Zealot channel the direct APK is uploaded to. Empty: the app doesn't look for APK updates. */
-    const val ZEALOT_CHANNEL_KEY = ""
+    const val ZEALOT_CHANNEL_KEY = "b506f9af44a66adf997514524416e55c"
 }
 
 /** A newer APK on Zealot. Only the direct build ever has one (ApkUpdates in src/direct). */
