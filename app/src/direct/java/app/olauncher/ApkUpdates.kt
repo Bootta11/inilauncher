@@ -1,6 +1,8 @@
 package app.olauncher
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import java.util.concurrent.Executors
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,15 +27,34 @@ object ApkUpdates {
 
     fun check(context: Context) {
         if (!supported || System.currentTimeMillis() - lastCheck < CHECK_EVERY_MS) return
+        ask(context, null)
+    }
+
+    /**
+     * Asks Zealot now, whatever the 6 hours (Settings → Check for updates), and reports on the main thread.
+     * A release offered again shows its card again, even after Later.
+     */
+    fun checkNow(context: Context, onDone: (UpdateCheck) -> Unit) {
+        if (!supported) return
+        ask(context, onDone)
+    }
+
+    private fun ask(context: Context, onDone: ((UpdateCheck) -> Unit)?) {
         lastCheck = System.currentTimeMillis()
         val app = context.applicationContext
         worker.execute {
-            try {
+            val result = try {
                 val release = ZealotClient.latest(app, AppRelease.ZEALOT_URL, AppRelease.ZEALOT_CHANNEL_KEY)
-                newer.value = release?.let { ApkRelease(it.versionName, it.versionCode, it.changelog, it.url) }
+                    ?.let { ApkRelease(it.versionName, it.versionCode, it.changelog, it.url) }
+                // The same release again wouldn't emit, and the card only re-reads "Later" when it does
+                if (onDone != null && release != null && release == newer.value) newer.value = null
+                newer.value = release
+                if (release != null) UpdateCheck.NEWER else UpdateCheck.LATEST
             } catch (e: Exception) {
                 Log.w("ApkUpdates", "Update check failed", e)
+                UpdateCheck.FAILED
             }
+            if (onDone != null) Handler(Looper.getMainLooper()).post { onDone(result) }
         }
     }
 

@@ -28,7 +28,7 @@ Everything Olauncher does still works the same way. The extras below are on **Se
 | Sort by usage | Search & app list | done |
 | App icons and icon packs | Search & app list | done |
 | Per-app swipe actions | Search & app list | done |
-| Self-update from the release server | Extras | planned (phase 4) |
+| Self-update from the release server (card on the home screen, Settings → Check for updates) | Settings | done |
 
 ## How the extras work
 

@@ -14,6 +14,9 @@ object AppRelease {
 /** A newer APK on Zealot. Only the direct build ever has one (ApkUpdates in src/direct). */
 data class ApkRelease(val versionName: String, val versionCode: Long, val changelog: String, val url: String)
 
+/** The result of a check the user asked for (Settings → Check for updates). */
+enum class UpdateCheck { NEWER, LATEST, FAILED }
+
 /** Where an APK install stands (ApkUpdates.installState); one runs at a time, whichever screen started it. */
 sealed interface InstallState {
     data object Idle : InstallState

@@ -11,6 +11,8 @@ object ApkUpdates {
 
     fun check(context: Context) {}
 
+    fun checkNow(context: Context, onDone: (UpdateCheck) -> Unit) {}
+
     fun canInstall(context: Context) = false
 
     fun openInstallSettings(context: Context) {}

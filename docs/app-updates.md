@@ -46,6 +46,7 @@ build file.
   The Zealot URL and channel key are in `app/src/main/java/app/olauncher/AppRelease.kt`; they aren't secret. The channel's downloads must
   be public.
 - The banner shows the newer version with its changelog. **Later** hides it until a newer one.
+- **Settings → Check for updates** (footer, direct build only) asks Zealot right away, ignoring the 6 hours. A newer version shows the banner again, even after **Later**; otherwise a toast says it's the latest version or that the check failed.
 - **Update** checks *Install unknown apps* for the app (and opens that setting if needed), then the native
   `ApkInstaller` (`src/direct`) downloads the APK and installs it with Android's `PackageInstaller`. Android checks that
   it's signed with the same key as the installed app.

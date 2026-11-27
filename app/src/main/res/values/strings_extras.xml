@@ -237,6 +237,10 @@
     <string name="update_open_settings">Open settings</string>
     <string name="update_failed">The download or install didn\'t work. Check your connection and try again.</string>
     <string name="update_retry">Try again</string>
+    <string name="update_check">Check for updates</string>
+    <string name="update_checking">Checking…</string>
+    <string name="update_latest">You have the latest version (%1$s)</string>
+    <string name="update_check_failed">Couldn\'t check for updates. Check your connection and try again.</string>
     <string name="version_line" translatable="false">Inilauncher %1$s</string>
 
     <!-- Home sub list -->
