@@ -324,6 +324,9 @@
     <string name="daynight_remove_photo">Remove photo</string>
     <string name="daynight_photo_failed">Couldn\'t read that photo</string>
     <string name="daynight_need_location">Without your location, pick a city or fixed times under Switch times</string>
+    <string name="daynight_offer_daily_title">Change the wallpaper too?</string>
+    <string name="daynight_offer_daily_message">Turn on the daily wallpaper to get a light photo by day and a dark one at night. Without it, your wallpaper and theme stay as they are. You can also pick your own day and night photos below.</string>
+    <string name="daynight_offer_daily_action">Turn on daily wallpaper</string>
     <string name="daynight_turned_off">Day &amp; night by sun turned off</string>
-    <string name="daynight_hint">Light theme and the day wallpaper from sunrise, dark theme and the night wallpaper from sunset, on the home and lock screen. Sunrise and sunset are worked out on the phone from the weather city or your approximate location. Without your own photo, the daily wallpaper is used if it\'s on in Settings; otherwise the wallpaper stays as it is. Picking a theme by hand turns this off.</string>
+    <string name="daynight_hint">Light theme and the day wallpaper from sunrise, dark theme and the night wallpaper from sunset, on the home and lock screen. Sunrise and sunset are worked out on the phone from the weather city or your approximate location. Without your own photo, the daily wallpaper is used if it\'s on in Settings; otherwise the wallpaper and the theme both stay as they are, so the text stays readable. Picking a theme by hand turns this off.</string>
 </resources>

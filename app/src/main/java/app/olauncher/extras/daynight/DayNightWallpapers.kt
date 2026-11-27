@@ -64,25 +64,33 @@ object DayNightWallpapers {
 
     private fun wallType(phase: Phase) = if (phase == Phase.DAY) Constants.WALL_TYPE_LIGHT else Constants.WALL_TYPE_DARK
 
+    enum class Applied { CHANGED, UNCHANGED, FAILED }
+
     /**
      * Sets the wallpaper for [phase] on the home and lock screen: your photo, else the daily
-     * wallpaper downloaded ahead, else a live download. True also when there's nothing to set
-     * (no photo, daily wallpaper off). False if it couldn't, e.g. offline with nothing downloaded.
+     * wallpaper downloaded ahead, else a live download. UNCHANGED when there's nothing to set
+     * (no photo, daily wallpaper off); FAILED if it couldn't, e.g. offline with nothing downloaded.
      */
-    suspend fun apply(context: Context, phase: Phase): Boolean = withContext(Dispatchers.IO) {
+    suspend fun apply(context: Context, phase: Phase): Applied = withContext(Dispatchers.IO) {
         val photo = file(context, phase)
-        if (photo.exists()) return@withContext setPhoto(context, photo)
+        if (photo.exists()) return@withContext result(setPhoto(context, photo))
         val prefs = Prefs(context)
-        if (!prefs.dailyWallpaper) return@withContext true
+        if (!prefs.dailyWallpaper) return@withContext Applied.UNCHANGED
         val ready = dailyFile(context, phase)
         if (ready.exists() && setPhoto(context, ready)) {
             // Same URL as upstream's worker would pick, so it doesn't download it again
             ExtrasPrefs(context).string(dailyUrlKey(phase))?.let { prefs.dailyWallpaperUrl = it }
-            return@withContext true
+            return@withContext Applied.CHANGED
         }
         val url = getTodaysWallpaper(context, wallType(phase), prefs.firstOpenTime)
-        setWallpaper(context, url).also { if (it) prefs.dailyWallpaperUrl = url }
+        result(setWallpaper(context, url).also { if (it) prefs.dailyWallpaperUrl = url })
     }
+
+    private fun result(set: Boolean) = if (set) Applied.CHANGED else Applied.FAILED
+
+    /** No photo for either phase and daily wallpaper off: switching would leave the wallpaper alone. */
+    fun noneSet(context: Context) =
+        !Prefs(context).dailyWallpaper && !hasPhoto(context, Phase.DAY) && !hasPhoto(context, Phase.NIGHT)
 
     /** Forgets both prefetched daily wallpapers, e.g. when their source changed. */
     fun clearDaily(context: Context) {

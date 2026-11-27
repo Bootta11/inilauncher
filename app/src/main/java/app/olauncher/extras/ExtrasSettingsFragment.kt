@@ -37,6 +37,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import app.olauncher.extras.wallpaper.DailyWallpapers
+import app.olauncher.helper.showMessageDialog
 import app.olauncher.extras.wallpaper.WallpaperFolders
 import app.olauncher.extras.look.BackgroundBlur
 import app.olauncher.extras.look.FontChoice
@@ -539,11 +540,28 @@ class ExtrasSettingsFragment : BaseFragment() {
     }
 
     private fun onEnabled(key: String) {
-        if (key == ExtrasKeys.DAYNIGHT_ENABLED) DayNight.syncInBackground(requireContext(), force = true)
+        if (key == ExtrasKeys.DAYNIGHT_ENABLED) {
+            DayNight.syncInBackground(requireContext(), force = true)
+            if (DayNightWallpapers.noneSet(requireContext())) offerDailyWallpaper()
+        }
         if (key == ExtrasKeys.WEATHER_ENABLED) {
             WeatherWorker.schedule(requireContext())
             refreshWeather()
         }
+    }
+
+    /** Day & night without any wallpaper to switch: offer the daily wallpaper (light by day, dark at night). */
+    private fun offerDailyWallpaper() {
+        val context = requireContext()
+        val dialog = context.showMessageDialog(
+            R.string.daynight_offer_daily_title, R.string.daynight_offer_daily_message, R.string.daynight_offer_daily_action
+        ) {
+            val appContext = context.applicationContext
+            app.olauncher.data.Prefs(appContext).dailyWallpaper = true
+            DailyWallpapers.refreshNow(appContext)
+            if (_binding != null) populate()
+        }
+        app.olauncher.extras.HomeButton.track(dialog)
     }
 
     private fun onOff(on: Boolean) = getString(if (on) R.string.on else R.string.off)

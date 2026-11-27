@@ -86,11 +86,15 @@ object DayNight {
     /**
      * Wallpaper first; the theme follows only once it's set, so the text never ends up the wrong
      * colour for the wallpaper behind it. False (nothing changed) when the wallpaper couldn't be set.
+     * When the wallpaper stays as it is, so does the theme: it already matches that wallpaper, and
+     * Android's guess at a wallpaper's brightness isn't reliable (stale on some phones).
      */
     private suspend fun switchTo(app: Context, phase: Phase): Boolean {
-        if (!DayNightWallpapers.apply(app, phase)) return false
+        val applied = DayNightWallpapers.apply(app, phase)
+        if (applied == DayNightWallpapers.Applied.FAILED) return false
         val prefs = Prefs(app)
-        prefs.appTheme = if (phase == Phase.DAY) AppCompatDelegate.MODE_NIGHT_NO else AppCompatDelegate.MODE_NIGHT_YES
+        if (applied == DayNightWallpapers.Applied.CHANGED)
+            prefs.appTheme = if (phase == Phase.DAY) AppCompatDelegate.MODE_NIGHT_NO else AppCompatDelegate.MODE_NIGHT_YES
         ExtrasPrefs(app).setString(ExtrasKeys.DAYNIGHT_LAST_PHASE, phase.name)
         // An open launcher gets a uiMode change and recreates in MainActivity.onConfigurationChanged;
         // otherwise MainActivity picks the theme up when it starts
