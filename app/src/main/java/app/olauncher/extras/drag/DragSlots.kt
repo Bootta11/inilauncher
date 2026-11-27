@@ -8,7 +8,7 @@ import kotlin.math.max
  */
 object DragSlots {
 
-    private const val ROW_WEIGHT = 3f
+    const val ROW_WEIGHT = 3f
 
     data class Size(val width: Int, val height: Int)
     data class Pos(val x: Int, val y: Int)
@@ -78,17 +78,27 @@ object DragSlots {
      * order shown now, so it can't flicker between two places. The row counts more than the place
      * in it, so the empty space after the last item means "last". Ties keep the current place.
      */
-    fun target(from: Int, candidates: List<Int>, sizes: List<Size>, cx: Float, cy: Float, slots: (List<Int>) -> List<Pos>): Int {
+    fun target(from: Int, candidates: List<Int>, sizes: List<Size>, cx: Float, cy: Float, slots: (List<Int>) -> List<Pos>): Int =
+        target(from, from, candidates.filter { it in sizes.indices }, sizes, cx, cy, ROW_WEIGHT) { slots(moved(sizes.size, from, it)) }
+
+    /**
+     * The same for any kind of target (e.g. grid cells): [arrange] gives where every item sits for
+     * a target, [start] is the target it has now.
+     */
+    fun target(
+        from: Int, start: Int, candidates: List<Int>, sizes: List<Size>, cx: Float, cy: Float,
+        rowWeight: Float, arrange: (Int) -> List<Pos>,
+    ): Int {
         fun distance(to: Int): Float {
-            val pos = slots(moved(sizes.size, from, to))[from]
+            val pos = arrange(to)[from]
             val dx = pos.x + sizes[from].width / 2f - cx
-            val dy = (pos.y + sizes[from].height / 2f - cy) * ROW_WEIGHT
+            val dy = (pos.y + sizes[from].height / 2f - cy) * rowWeight
             return dx * dx + dy * dy
         }
-        var best = from
-        var bestDistance = distance(from)
+        var best = start
+        var bestDistance = distance(start)
         candidates.forEach { to ->
-            if (to == from || to !in sizes.indices) return@forEach
+            if (to == start) return@forEach
             val d = distance(to)
             if (d < bestDistance) { best = to; bestDistance = d }
         }

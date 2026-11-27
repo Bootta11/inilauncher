@@ -267,6 +267,9 @@
     <string name="sublist_auto">Add most-used apps</string>
     <string name="sublist_auto_row">Add most-used apps: %1$s</string>
     <string name="sublist_auto_hint">Fills the sub list up to 10 apps with the ones you opened most in the last 30 days, leaving out apps on the home screen. Uses usage access, counted on your phone.</string>
+    <string name="sublist_free">Free placement</string>
+    <string name="sublist_free_row">Free placement: %1$s</string>
+    <string name="sublist_free_hint">Hold an app in the sub list and drop it in any spot of a grid, also below the others; empty spots stay. Dropping it on another app swaps the two.</string>
     <string name="sublist_move_earlier">Move earlier</string>
     <string name="sublist_move_later">Move later</string>
     <string name="sublist_remove">Remove from sub list</string>

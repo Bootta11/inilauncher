@@ -110,8 +110,9 @@ object SubList {
             close(binding)
         }
         val color = textColor(context)
-        bindButton(binding, store, entries, color)
         bindItems(binding, store, entries, color)
+        applyGrid(binding, store, entries)
+        bindButton(binding, store, entries, color)
         // Items changed while open (notifications, menu): fit them again
         if (ui.extrasSubListScroll.isVisible) binding.homeAppsLayout.post {
             if (!binding.root.isAttachedToWindow) return@post
@@ -295,11 +296,117 @@ object SubList {
         return (if (entries.getOrNull(from)?.auto == true) 0..picked else 0 until picked).toList()
     }
 
+    private fun cellKey(entry: Entry) = SubListStore.cellKey(entry.app)
+
+    /** Free placement on: every shown app gets its cell; off: back to one after the other. */
+    private fun applyGrid(binding: FragmentHomeBinding, store: SubListStore, entries: List<Entry>) {
+        val ui = binding.extrasSubList
+        val flow = ui.extrasSubListItems
+        val context = binding.root.context
+        val keys = if (store.freePlacement) entries.map(::cellKey) else null
+        val saved = if (keys != null) store.cells() else emptyMap()
+        flow.cellWidth = context.resources.getDimensionPixelSize(
+            when (store.style) {
+                SubListStore.STYLE_NAMES -> R.dimen.extras_sublist_cell_name
+                SubListStore.STYLE_ICONS_NAMES -> R.dimen.extras_sublist_cell_named
+                else -> R.dimen.extras_sublist_cell_icon
+            }
+        )
+        if (flow.sameGrid(keys, saved)) return
+        // Apps move to their cells (or back into a row) instead of jumping
+        if (flow.isLaidOut && ui.extrasSubListScroll.isVisible) binding.homeAppsLayout.beginTransition(exclude = ui.extrasSubListButton)
+        flow.setGrid(keys, saved)
+    }
+
+    /** The shown entries in the order they read: by cell with free placement. */
+    private fun readingOrder(flow: SubListFlow, entries: List<Entry>): List<Entry> =
+        if (!flow.isGrid || flow.cells.size != entries.size) entries
+        else SubListGrid.readingOrder(flow.cells).map { entries[it] }
+
+    /**
+     * Free placement: drops it on any cell (one row more than shown while dragging, for a new
+     * row); an app already there swaps with it.
+     */
+    private fun startGridDrag(binding: FragmentHomeBinding, view: View, from: Int): DragSession {
+        val ui = binding.extrasSubList
+        val flow = ui.extrasSubListItems
+        val scroll = ui.extrasSubListScroll
+        val cells = flow.cells
+        val columns = flow.columns
+        val scrolls = scroll.canScrollVertically(1) || scroll.canScrollVertically(-1)
+        flow.clipChildren = false
+        scroll.clipChildren = scrolls
+        fun resize(extra: Boolean) {
+            if (flow.extraRow == extra) return
+            // Only the list's height animates; the apps are placed by the drag itself
+            binding.homeAppsLayout.beginTransition(exclude = ui.extrasSubListButton, excludeInside = listOf(flow))
+            flow.extraRow = extra
+        }
+        return DragSession(
+            flow, view, (0 until (SubListGrid.rows(cells, columns) + 1) * columns).toList(), { flow.slotsForCells(cells) },
+            keepInside = true,
+            onDrop = { _, to -> moveCell(binding, from, to) },
+            onEnd = {
+                resize(false)
+                if (flow.getTag(R.id.extras_sublist_bind_waits) == true) {
+                    flow.setTag(R.id.extras_sublist_bind_waits, null)
+                    flow.doOnNextLayout { it.post { if (binding.root.isAttachedToWindow) bind(binding) } }
+                    flow.requestLayout()
+                }
+            },
+            start = cells[from],
+            arrange = { to -> flow.slotsForCells(SubListGrid.swap(cells, from, to)) },
+            rowWeight = 1f,
+            onLift = { resize(true) },
+        )
+    }
+
+    /**
+     * Free placement: the app shown at [from] goes to cell [to] (swapping with an app there).
+     * Saves every shown app's cell, so they all stay where they are now; a most-used app moved
+     * becomes yours. Nothing is rebuilt.
+     */
+    private fun moveCell(binding: FragmentHomeBinding, from: Int, to: Int) {
+        val flow = binding.extrasSubList.extrasSubListItems
+        val context = flow.context
+        val store = SubListStore(context)
+        val view = flow.getChildAt(from) ?: return
+        val entry = view.tag as? Entry ?: return
+        val height = flow.height
+        val columns = flow.columns
+        val cells = SubListGrid.swap(flow.cells, from, to)
+        val shown = shownEntries(flow)
+        val keep = store.apps().map(SubListStore::cellKey).toSet() + shown.map(::cellKey)
+        store.setCells(
+            store.cells().filterKeys { it in keep } +
+                shown.mapIndexed { i, e -> cellKey(e) to SubListGrid.Cell(cells[i] / columns, cells[i] % columns) }
+        )
+        if (entry.auto) {
+            // Picked apps come first, so its view goes after them
+            store.add(entry.app)
+            flow.moveChild(from, shown.count { !it.auto })
+            view.tag = entry.copy(auto = false)
+        }
+        val entries = shownEntries(flow)
+        flow.setGrid(entries.map(::cellKey), store.cells())
+        val color = textColor(context)
+        flow.setTag(R.id.extras_sublist_items_shown, itemsKey(context, store, entries, color))
+        bindButton(binding, store, entries, color) // its peek shows the first apps
+        flow.doOnNextLayout {
+            if (it.height != height) it.post {
+                if (!binding.root.isAttachedToWindow || !binding.extrasSubList.extrasSubListScroll.isVisible) return@post
+                binding.homeAppsLayout.beginTransition(exclude = binding.extrasSubList.extrasSubListButton)
+                place(binding)
+            }
+        }
+    }
+
     private fun startDrag(binding: FragmentHomeBinding, view: View): DragSession? {
         val flow = binding.extrasSubList.extrasSubListItems
         val scroll = binding.extrasSubList.extrasSubListScroll
         val from = flow.indexOfChild(view)
         if (from < 0 || DragSession.of(flow) != null) return null
+        if (flow.isGrid && flow.cells.size == flow.childCount) return startGridDrag(binding, view, from)
         // The lifted app may stick out a little, unless scrolled-away rows would show too
         val scrolls = scroll.canScrollVertically(1) || scroll.canScrollVertically(-1)
         flow.clipChildren = false
@@ -347,7 +454,15 @@ object SubList {
     private fun moveBy(binding: FragmentHomeBinding, view: View, by: Int): Boolean {
         val flow = binding.extrasSubList.extrasSubListItems
         val from = flow.indexOfChild(view)
-        if (from < 0 || DragSession.of(flow) != null || from + by !in candidates(flow, from)) return false
+        if (from < 0 || DragSession.of(flow) != null) return false
+        if (flow.isGrid && flow.cells.size == flow.childCount) {
+            // The cell before or after (swapping with an app there)
+            val to = flow.cells[from] + by
+            if (to < 0) return false
+            moveCell(binding, from, to)
+            return true
+        }
+        if (from + by !in candidates(flow, from)) return false
         moveItem(binding, from, from + by)
         return true
     }
@@ -369,7 +484,7 @@ object SubList {
             SubListStore.BUTTON_COUNT -> button.addView(label(context, context.getString(R.string.sublist_count, entries.size)))
             SubListStore.BUTTON_PEEK -> {
                 val size = context.resources.getDimensionPixelSize(R.dimen.extras_sublist_icon_peek)
-                entries.take(PEEK_ICONS).forEach { entry ->
+                readingOrder(ui.extrasSubListItems, entries).take(PEEK_ICONS).forEach { entry ->
                     button.addView(ImageView(context).apply {
                         setImageDrawable(icon(context, entry, size, color))
                         layoutParams = LinearLayout.LayoutParams(size, size).apply { marginEnd = dp(context, 4) }
@@ -425,6 +540,9 @@ object SubList {
             val view: View = when (style) {
                 SubListStore.STYLE_NAMES -> label(context, entry.app.label + suffix).apply {
                     maxLines = 1
+                    // Free placement gives it a fixed-width cell
+                    ellipsize = TextUtils.TruncateAt.END
+                    gravity = Gravity.CENTER_HORIZONTAL
                     setPadding(paddingLeft, dp(context, 8), paddingRight, dp(context, 8))
                 }
                 // The dot goes on the icon: after the name, the fixed-width cell would cut it off

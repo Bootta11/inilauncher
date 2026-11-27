@@ -64,6 +64,8 @@ object ExtrasKeys {
     const val SUBLIST_STYLE = "sublist_style"
     const val SUBLIST_AUTO = "sublist_auto"
     const val SUBLIST_NO_SUGGEST = "sublist_no_suggest"
+    const val SUBLIST_FREE = "sublist_free"
+    const val SUBLIST_CELLS = "sublist_cells"
 
     // Search & app list
     const val SEARCH_CONTACTS = "search_contacts"

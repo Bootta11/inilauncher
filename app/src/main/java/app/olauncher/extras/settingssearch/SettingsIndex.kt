@@ -81,6 +81,7 @@ object SettingsIndex {
         e(home, R.string.sublist_apps, R.string.sublist_hint, fallback = R.string.sublist)
         e(home, R.string.sublist_button, R.string.sublist_hint, fallback = R.string.sublist)
         e(home, R.string.sublist_style, R.string.sublist_hint, fallback = R.string.sublist)
+        e(home, R.string.sublist_free, R.string.sublist_free_hint, fallback = R.string.sublist)
         e(home, R.string.sublist_auto, R.string.sublist_auto_hint, fallback = R.string.sublist, minSdk = q)
 
         val search = R.string.extras_section_search

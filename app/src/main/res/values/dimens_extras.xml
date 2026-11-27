@@ -10,5 +10,8 @@
     <dimen name="extras_sublist_icon_named">32dp</dimen>
     <dimen name="extras_sublist_icon_peek">16dp</dimen>
     <dimen name="extras_sublist_cell_named">76dp</dimen>
+    <!-- Free placement: the width of a cell with only an icon, and with only a name -->
+    <dimen name="extras_sublist_cell_icon">48dp</dimen>
+    <dimen name="extras_sublist_cell_name">96dp</dimen>
     <dimen name="extras_sublist_name_size">12sp</dimen>
 </resources>

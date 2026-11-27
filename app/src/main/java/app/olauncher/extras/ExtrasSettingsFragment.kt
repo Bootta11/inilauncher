@@ -484,6 +484,8 @@ class ExtrasSettingsFragment : BaseFragment() {
             }
             choice(section, R.string.sublist_button, ExtrasKeys.SUBLIST_BUTTON, SubListMenu.BUTTONS)
             choice(section, R.string.sublist_style, ExtrasKeys.SUBLIST_STYLE, SubListMenu.STYLES)
+            toggle(section, R.string.sublist_free, ExtrasKeys.SUBLIST_FREE)
+            addHint(section, R.string.sublist_free_hint)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 toggle(section, R.string.sublist_auto, ExtrasKeys.SUBLIST_AUTO, canEnable = ::usageAccess)
                 addHint(section, R.string.sublist_auto_hint)

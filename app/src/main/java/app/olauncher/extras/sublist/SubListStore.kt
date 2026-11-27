@@ -49,6 +49,17 @@ class SubListStore(context: Context) {
         get() = prefs.bool(ExtrasKeys.SUBLIST_AUTO)
         set(value) = prefs.setBool(ExtrasKeys.SUBLIST_AUTO, value)
 
+    /** "Free placement": the apps sit in cells of a grid ([cells]) instead of one after the other. */
+    var freePlacement: Boolean
+        get() = prefs.bool(ExtrasKeys.SUBLIST_FREE)
+        set(value) = prefs.setBool(ExtrasKeys.SUBLIST_FREE, value)
+
+    /** Saved cells by [cellKey], also for most-used apps (they keep their place without being picked). */
+    fun cells(): Map<String, SubListGrid.Cell> = SubListGrid.decode(prefs.string(ExtrasKeys.SUBLIST_CELLS))
+
+    fun setCells(cells: Map<String, SubListGrid.Cell>) =
+        prefs.setString(ExtrasKeys.SUBLIST_CELLS, SubListGrid.encode(cells).ifEmpty { null })
+
     /** Packages that "Add most-used apps" should leave out. */
     fun noSuggest(): Set<String> =
         prefs.string(ExtrasKeys.SUBLIST_NO_SUGGEST).orEmpty().split(',').filter { it.isNotBlank() }.toSet()
@@ -57,6 +68,8 @@ class SubListStore(context: Context) {
         prefs.setString(ExtrasKeys.SUBLIST_NO_SUGGEST, (noSuggest() + packageName).joinToString(","))
 
     companion object {
+        fun cellKey(app: FolderApp) = "${app.packageName}|${app.userSerial}"
+
         const val BUTTON_DOTS = ""
         const val BUTTON_GRID = "grid"
         const val BUTTON_COUNT = "count"

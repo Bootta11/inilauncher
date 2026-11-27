@@ -59,6 +59,10 @@ object SubListMenu {
                 onChanged()
             }
         }
+        option(context.getString(R.string.sublist_free_row, context.getString(if (store.freePlacement) R.string.on else R.string.off))) {
+            store.freePlacement = !store.freePlacement
+            onChanged()
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val state = context.getString(if (store.auto) R.string.on else R.string.off)
             option(context.getString(R.string.sublist_auto_row, state)) {

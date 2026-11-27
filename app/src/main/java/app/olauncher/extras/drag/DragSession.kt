@@ -18,6 +18,10 @@ import kotlin.math.hypot
  * [candidates]: the places it may go to. [slots]: where every child would sit in a given order.
  * [vertical]: moves up and down only. [keepInside]: stays within the container (plus a little).
  * [onDrop]: move the child and save it, (from, to). [onEnd]: always, after everything else.
+ *
+ * Targets are places in the order by default. With [arrange], a target is anything the caller
+ * numbers (e.g. a grid cell): [arrange] gives where every child sits for it, [start] is the
+ * dragged one's target now, and [rowWeight] how much more rows count than columns.
  */
 class DragSession(
     private val container: ViewGroup,
@@ -29,6 +33,10 @@ class DragSession(
     private val keepInside: Boolean = false,
     private val onDrop: (from: Int, to: Int) -> Unit,
     private val onEnd: () -> Unit = {},
+    start: Int? = null,
+    private val arrange: ((target: Int) -> List<DragSlots.Pos>)? = null,
+    private val rowWeight: Float = DragSlots.ROW_WEIGHT,
+    private val onLift: () -> Unit = {},
 ) {
     private val slop = ViewConfiguration.get(view.context).scaledTouchSlop
     private val density = view.resources.displayMetrics.density
@@ -36,6 +44,7 @@ class DragSession(
     private val from = items.indexOf(view)
     private val sizes = items.map { DragSlots.Size(it.width, it.height) }
     private val home = slots(items.indices.toList())
+    private val start = start ?: from
     private val scroll = EdgeScroller.around(container)
     private val edge = scroll?.let { EdgeScroller(it) { follow() } }
     private val scrollNow get() = scroll?.scrollY ?: 0
@@ -44,7 +53,7 @@ class DragSession(
     private var downY = 0f
     private var rawX = 0f
     private var rawY = 0f
-    private var target = from
+    private var target = this.start
     private var over = false
 
     /** The finger has moved, so letting go drops it instead of opening a menu. */
@@ -74,6 +83,7 @@ class DragSession(
             view.animate().scaleX(liftScale).scaleY(liftScale).alpha(LIFT_ALPHA).setStartDelay(0)
                 .setDuration(Motion.SHORT).setInterpolator(Motion.easing).start()
         else { view.scaleX = liftScale; view.scaleY = liftScale; view.alpha = LIFT_ALPHA }
+        onLift()
     }
 
     fun move(x: Float, y: Float) {
@@ -101,18 +111,21 @@ class DragSession(
         view.translationY = dy
         val cx = home[from].x + sizes[from].width / 2f + dx
         val cy = home[from].y + sizes[from].height / 2f + dy
-        val next = DragSlots.target(from, candidates, sizes, cx, cy, slots)
+        val next = DragSlots.target(from, start, candidates, sizes, cx, cy, rowWeight, ::places)
         if (next == target) return
         target = next
         view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
         makeRoom()
     }
 
+    /** Where every child sits if it is dropped at [to]. */
+    private fun places(to: Int) = arrange?.invoke(to) ?: slots(DragSlots.moved(items.size, from, to))
+
     private fun within(value: Float, low: Float, high: Float) = if (low > high) 0f else value.coerceIn(low, high)
 
     /** The others slide to where they'd be if it were dropped now. */
     private fun makeRoom() {
-        val places = slots(DragSlots.moved(items.size, from, target))
+        val places = places(target)
         items.forEachIndexed { i, item ->
             if (i == from) return@forEachIndexed
             val x = (places[i].x - home[i].x).toFloat()
@@ -127,7 +140,7 @@ class DragSession(
     fun release(): Boolean {
         if (over) return true
         if (!dragging) {
-            settle(from)
+            settle(start)
             return false
         }
         settle(target)
@@ -137,15 +150,15 @@ class DragSession(
     /** The gesture was taken away: back to where it was. */
     fun cancel() {
         if (over) return
-        target = from
+        target = start
         makeRoom()
-        settle(from)
+        settle(start)
     }
 
     private fun settle(to: Int) {
         over = true
         edge?.stop()
-        val place = slots(DragSlots.moved(items.size, from, to))[from]
+        val place = places(to)[from]
         if (!view.context.animationsOn()) return finish(to)
         view.animate().translationX((place.x - home[from].x).toFloat()).translationY((place.y - home[from].y).toFloat())
             .scaleX(1f).scaleY(1f).alpha(1f).setStartDelay(0).setDuration(Motion.SHORT).setInterpolator(Motion.easing)
@@ -153,7 +166,7 @@ class DragSession(
     }
 
     /** Ends it at once, without a move (the list is closing or the item is gone). */
-    fun stopNow() = finish(from)
+    fun stopNow() = finish(start)
 
     private var finished = false
 
@@ -170,7 +183,7 @@ class DragSession(
         view.translationZ = 0f
         view.isPressed = false
         if (container.getTag(R.id.drag_session) === this) container.setTag(R.id.drag_session, null)
-        if (to != from) onDrop(from, to)
+        if (to != start) onDrop(from, to)
         onEnd()
     }
 
