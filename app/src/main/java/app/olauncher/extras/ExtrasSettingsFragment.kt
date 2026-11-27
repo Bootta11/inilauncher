@@ -23,6 +23,9 @@ import app.olauncher.extras.daynight.Phase
 import app.olauncher.extras.folders.FolderStore
 import app.olauncher.extras.folders.Folders
 import app.olauncher.extras.search.SlotSwipes
+import app.olauncher.extras.settingssearch.SettingsIndex
+import app.olauncher.extras.settingssearch.SettingsScreen
+import app.olauncher.extras.settingssearch.SettingsSearch
 import app.olauncher.helper.appUsagePermissionGranted
 import app.olauncher.extras.notifications.InilauncherNotificationListener
 import app.olauncher.extras.notifications.NotificationDots
@@ -123,12 +126,27 @@ class ExtrasSettingsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         extras = ExtrasPrefs(requireContext())
         populate()
+        // Opened from the settings search: land on that setting once (after onResume's populate)
+        if (savedInstanceState == null) pendingFocus = arguments?.getInt(SettingsSearch.ARG_FOCUS) ?: 0
+        arguments?.remove(SettingsSearch.ARG_FOCUS)
     }
+
+    /** The settings search's row to land on, 0 = none. */
+    private var pendingFocus = 0
 
     override fun onResume() {
         super.onResume()
         // Permissions may have changed in system settings while we were away
         populate()
+        if (pendingFocus != 0) {
+            SettingsSearch.focusExtras(binding.scrollView, mapOf(
+                R.string.extras_section_home to binding.sectionHome,
+                R.string.extras_section_search to binding.sectionSearch,
+                R.string.extras_section_look to binding.sectionLook,
+                R.string.extras_section_privacy to binding.sectionPrivacy,
+            ), pendingFocus)
+            pendingFocus = 0
+        }
     }
 
     private fun populate() {
@@ -183,9 +201,19 @@ class ExtrasSettingsFragment : BaseFragment() {
         addHint(binding.sectionPrivacy, R.string.lock_hidden_apps_hint)
 
         sections.forEach { if (it.childCount == 1) addHint(it, R.string.extras_nothing_yet) }
+        if (app.olauncher.BuildConfig.DEBUG) warnUnindexedRows(sections)
 
         // Version line, so testers can tell builds apart (selectable)
         binding.versionLine.text = getString(R.string.version_line, app.olauncher.versionLine)
+    }
+
+    /** Debug builds: a row the settings search can't find means SettingsIndex needs an entry. */
+    private fun warnUnindexedRows(sections: List<LinearLayout>) {
+        val indexed = SettingsIndex.entries.filter { it.screen == SettingsScreen.EXTRAS }.map { it.label }.toSet()
+        sections.flatMap { s -> (0 until s.childCount).map { s.getChildAt(it) } }
+            .mapNotNull { it.getTag(R.id.settings_label) as? Int }
+            .filter { it !in indexed }
+            .forEach { android.util.Log.w("SettingsIndex", "Extras row missing from SettingsIndex: ${resources.getResourceEntryName(it)}") }
     }
 
     /** "Lock hidden apps": turning it on needs a screen lock, turning it off needs that lock opened. */
@@ -668,6 +696,7 @@ class ExtrasSettingsFragment : BaseFragment() {
         ).apply { marginStart = gap })
         row.addView(valueView, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply { marginStart = 2 * gap })
         row.setOnClickListener { onClick(valueView) }
+        row.setTag(R.id.settings_label, label) // found by the settings search
         section.addView(row)
         return valueView
     }

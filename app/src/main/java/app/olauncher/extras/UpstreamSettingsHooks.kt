@@ -21,7 +21,7 @@ object UpstreamSettingsHooks {
     /** This fork's source (GPL), shown instead of upstream's repo. */
     private const val URL_SOURCE = "https://github.com/Bootta11/inilauncher"
 
-    fun apply(binding: FragmentSettingsBinding) {
+    fun apply(fragment: androidx.fragment.app.Fragment, binding: FragmentSettingsBinding) {
         binding.moreFeatures.setText(R.string.extras_settings_row)
         binding.aboutOlauncher.setText(R.string.about_inilauncher)
         // Upstream's Play Store rate/share links, its developer's social and app promo
@@ -32,6 +32,7 @@ object UpstreamSettingsHooks {
         binding.github.setOnClickListener { it.context.openUrl(URL_SOURCE) }
         bindUpdateCheck(binding)
         bindIcons(binding)
+        app.olauncher.extras.settingssearch.SettingsSearch.attach(fragment, binding)
     }
 
     /**

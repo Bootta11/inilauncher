@@ -18,4 +18,7 @@
     <!-- Inilauncher: the drag running in a container, and whether a refresh waits for it -->
     <item name="drag_session" type="id" />
     <item name="extras_sublist_bind_waits" type="id" />
+    <!-- Inilauncher: an Extras row's label string, so the settings search can find the row -->
+    <item name="settings_label" type="id" />
+    <item name="settings_search_shown" type="id" />
 </resources>

@@ -333,4 +333,9 @@
     <string name="daynight_offer_daily_action">Turn on daily wallpaper</string>
     <string name="daynight_turned_off">Day &amp; night by sun turned off</string>
     <string name="daynight_hint">Light theme and the day wallpaper from sunrise, dark theme and the night wallpaper from sunset, on the home and lock screen. Sunrise and sunset are worked out on the phone from the weather city or your approximate location. Without your own photo, the daily wallpaper is used if it\'s on in Settings; otherwise the wallpaper and the theme both stay as they are, so the text stays readable. Picking a theme by hand turns this off.</string>
+    <!-- Settings search -->
+    <string name="settings_search_hint">Search settings</string>
+    <string name="settings_search_none">No matching settings</string>
+    <string name="settings_search_general">Settings</string>
+    <string name="settings_search_in_extras">Extras › %1$s</string>
 </resources>

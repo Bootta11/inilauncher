@@ -95,7 +95,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener, View.OnLongClickL
         populateActionHints()
         initClickListeners()
         initObservers()
-        app.olauncher.extras.UpstreamSettingsHooks.apply(binding)
+        app.olauncher.extras.UpstreamSettingsHooks.apply(this, binding)
 
         if (showPentastic)
             binding.footer.text = getText(R.string.new_app_minimal_todo_lists)
