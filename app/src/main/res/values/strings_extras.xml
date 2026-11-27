@@ -13,9 +13,9 @@
     <string name="about_inilauncher">About</string>
     <string name="about_inilauncher_title" translatable="false">Inilauncher</string>
     <string name="about_inilauncher_message">Inilauncher is a minimal Android launcher with optional extras.
-        \n\nIt is a modified version of Olauncher by Tanuj (github.com/tanujnotes/Olauncher) and, like Olauncher, is free software under the GNU General Public License v3. You may share and change it under that license; it comes with no warranty.
-        \n\nNo ads, no analytics. Features that use the internet are off by default and say so when you turn them on.</string>
-    <string name="olauncher_on_github">Olauncher on GitHub</string>
+        \n\nNo ads, no analytics. Features that use the internet are off by default and say so when you turn them on.
+        \n\nBased on Olauncher by Tanuj. Free software under the GNU GPL v3, with no warranty.</string>
+    <string name="source_code">Source code</string>
     <!-- Look -->
     <string name="font">Font</string>
     <string name="font_default">Default</string>

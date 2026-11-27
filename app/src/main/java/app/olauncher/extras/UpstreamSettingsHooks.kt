@@ -3,7 +3,6 @@ package app.olauncher.extras
 import android.content.Context
 import androidx.core.view.isVisible
 import app.olauncher.R
-import app.olauncher.data.Constants
 import app.olauncher.databinding.FragmentSettingsBinding
 import app.olauncher.helper.createDialog
 import app.olauncher.extras.iconpack.AppIcons
@@ -15,6 +14,9 @@ import app.olauncher.helper.openUrl
  */
 object UpstreamSettingsHooks {
 
+    /** This fork's source (GPL), shown instead of upstream's repo. */
+    private const val URL_SOURCE = "https://github.com/Bootta11/inilauncher"
+
     fun apply(binding: FragmentSettingsBinding) {
         binding.moreFeatures.setText(R.string.extras_settings_row)
         binding.aboutOlauncher.setText(R.string.about_inilauncher)
@@ -22,6 +24,8 @@ object UpstreamSettingsHooks {
         // links, and its privacy policy don't apply to this fork
         listOf(binding.share, binding.rate, binding.twitter, binding.privacy, binding.footer)
             .forEach { it.isVisible = false }
+        // Upstream's footer "GitHub" link opened Olauncher's repo
+        binding.github.setOnClickListener { it.context.openUrl(URL_SOURCE) }
         bindIcons(binding)
     }
 
@@ -45,8 +49,8 @@ object UpstreamSettingsHooks {
             title = R.string.about_inilauncher_title,
             action = R.string.okay,
             message = R.string.about_inilauncher_message,
-            neutral = R.string.olauncher_on_github,
-            onNeutral = { context.openUrl(Constants.URL_OLAUNCHER_GITHUB) },
+            neutral = R.string.source_code,
+            onNeutral = { context.openUrl(URL_SOURCE) },
         ).showRespectingStatusBar()
     }
 }
