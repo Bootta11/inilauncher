@@ -29,7 +29,7 @@ Two flavors: `direct` (released as an APK on Zealot and updates itself) and `pla
 
 - [Features](docs/features.md): what each extra does
 - [Permissions & privacy](docs/permissions.md): what each feature needs and whether it uses the network
-- [Privacy policy](docs/privacy.md): the public policy, served by GitHub Pages at `https://bootta11.github.io/inilauncher/privacy` (Pages publishes the `docs/` folder of `master`); linked from Settings and the Play listing
+- [Website](docs/website.md): the public site at https://inilauncher.bootta.dev (`site/`), with the [privacy policy](site/privacy.md) linked from Settings and the Play listing
 - [Architecture](docs/architecture.md): how the fork is laid out
 - [Syncing with Olauncher](docs/upstream-sync.md): pulling in upstream fixes
 - [App releases & updates](docs/app-updates.md)

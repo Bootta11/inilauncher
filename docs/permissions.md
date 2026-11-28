@@ -1,6 +1,6 @@
 # Permissions & privacy
 
-The public, plain-language version for users and the Play listing is the [privacy policy](privacy.md). Keep both in step when a feature changes what it needs or sends.
+The public, plain-language version for users and the Play listing is the [privacy policy](../site/privacy.md). Keep both in step when a feature changes what it needs or sends.
 
 Inilauncher asks for a permission only when you turn on the feature that needs it. If you say no, the feature stays off and says why.
 

@@ -1,0 +1,70 @@
+---
+layout: default
+title: Inilauncher
+body_class: home
+---
+<section class="hero">
+  <div class="hero-text">
+    <p class="eyebrow">Home screen for Android</p>
+    <h1>Less phone.<br>More you.</h1>
+    <p class="lede">Inilauncher is a calm, text-first home screen. A few apps, a fast search and simple gestures. When you want more, turn on only the extras you need.</p>
+    <div class="actions">
+      {% if site.play_url != "" %}<a class="button primary" href="{{ site.play_url }}">Get it on Google Play</a>{% endif %}
+      {% if site.apk_url != "" %}<a class="button{% if site.play_url == "" %} primary{% endif %}" href="{{ site.apk_url }}">Download APK</a>{% endif %}
+      <a class="button{% if site.play_url == "" and site.apk_url == "" %} primary{% endif %}" href="{{ site.source_url }}">Source code</a>
+    </div>
+    <p class="promise">No ads · No tracking · Internet features are opt&#8209;in</p>
+  </div>
+  <figure class="phone">
+    <picture>
+      <source srcset="/assets/shots/home-light.webp" media="(prefers-color-scheme: light)">
+      <img src="/assets/shots/home.webp" alt="Inilauncher home screen: the time, the date and a short list of app names over a photo" width="720" height="1600">
+    </picture>
+  </figure>
+</section>
+
+<section class="screens" aria-label="Screenshots">
+  <figure>
+    <picture>
+      <img src="/assets/shots/apps.webp" alt="The app list: every app by name, in alphabetical order" width="720" height="1600" loading="lazy">
+    </picture>
+    <figcaption>Type a few letters and go</figcaption>
+  </figure>
+  <figure>
+    <picture>
+      <source srcset="/assets/shots/sublist-light.webp" media="(prefers-color-scheme: light)">
+      <img src="/assets/shots/sublist.webp" alt="A second list of apps placed freely on the home screen" width="720" height="1600" loading="lazy">
+    </picture>
+    <figcaption>Arrange it your way</figcaption>
+  </figure>
+  <figure>
+    <picture>
+      <source srcset="/assets/shots/extras-light.webp" media="(prefers-color-scheme: light)">
+      <img src="/assets/shots/extras.webp" alt="The Extras settings screen with optional features" width="720" height="1600" loading="lazy">
+    </picture>
+    <figcaption>Extras, all off by default</figcaption>
+  </figure>
+</section>
+
+<section id="features" class="features">
+  <h2>Quiet by default</h2>
+  <div class="grid">
+    <div><h3>Just text</h3><p>App names instead of icons, so your phone stops calling for attention. Icons are there if you want them.</p></div>
+    <div><h3>Fast search</h3><p>Start typing to find any app, contact or setting. Do quick sums with the built-in calculator.</p></div>
+    <div><h3>Simple gestures</h3><p>Swipe left or right to open an app, swipe down for notifications, double tap to lock.</p></div>
+    <div><h3>Screen time</h3><p>See how long you've used your phone today, right on the home screen.</p></div>
+  </div>
+
+  <h2>Extras when you want them</h2>
+  <ul class="chips">
+    <li>Weather</li><li>Upcoming events</li><li>Widgets</li><li>Folders</li><li>Notifications on apps</li>
+    <li>Music controls</li><li>A note on the home screen</li><li>Fonts</li><li>Icon packs</li>
+    <li>Daily wallpaper</li><li>Day &amp; night look by the sun</li><li>Locked hidden apps</li><li>E-ink mode</li>
+    <li>Backup &amp; share your setup</li>
+  </ul>
+</section>
+
+<section class="privacy-note">
+  <h2>Your phone, your data</h2>
+  <p>Inilauncher has no account, no ads and no analytics. What it knows about you stays on your phone. The few features that use the internet, like weather, are off until you turn them on, and the <a href="/privacy">privacy policy</a> lists exactly what each one sends.</p>
+</section>

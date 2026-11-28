@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="{{ site.lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title and page.url != "/" %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#101513" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f4f4f0" media="(prefers-color-scheme: light)">
+  <link rel="canonical" href="{{ site.url }}{{ page.url | replace: '.html', '' }}">
+  <meta property="og:title" content="{{ page.title | default: site.title }}">
+  <meta property="og:description" content="{{ page.description | default: site.description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ site.url }}{{ page.url | replace: '.html', '' }}">
+  <meta property="og:image" content="{{ site.url }}/assets/og.png">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="{{ page.body_class }}">
+  <header class="top">
+    <a class="brand" href="/"><img src="/assets/favicon.svg" alt="" width="28" height="28"> Inilauncher</a>
+    <nav>
+      <a href="/#features">Features</a>
+      <a href="/privacy">Privacy</a>
+      <a href="{{ site.source_url }}">Source</a>
+    </nav>
+  </header>
+
+  <main>
+{{ content }}
+  </main>
+
+  <footer class="bottom">
+    <p>Inilauncher is free software under the <a href="{{ site.source_url }}/blob/master/LICENSE">GNU GPL v3</a>, based on <a href="https://github.com/tanujnotes/Olauncher">Olauncher</a> by Tanuj.</p>
+    <p><a href="/privacy">Privacy policy</a> · <a href="{{ site.source_url }}">Source code</a> · <a href="{{ site.source_url }}/issues">Feedback</a></p>
+  </footer>
+</body>
+</html>

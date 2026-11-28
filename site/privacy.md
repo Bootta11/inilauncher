@@ -1,11 +1,14 @@
 ---
-title: Inilauncher privacy policy
+layout: default
+title: Privacy policy
+description: What Inilauncher does with your data. In short, nothing leaves your phone unless you turn on a feature that needs the internet.
 permalink: /privacy
 ---
+<article class="doc" markdown="1">
 
-# Inilauncher privacy policy
+# Privacy policy
 
-Last updated: 28 November 2026
+*Last updated: 28 November 2026*
 
 Inilauncher is a minimal Android home screen app. This policy explains what it does with your data.
 
@@ -74,3 +77,5 @@ If this policy changes, the new version is published at this address with a new 
 ## Contact
 
 Questions about privacy: open an issue at [github.com/Bootta11/inilauncher/issues](https://github.com/Bootta11/inilauncher/issues).
+
+</article>

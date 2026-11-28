@@ -1,0 +1,17 @@
+# Inilauncher's public website (https://inilauncher.bootta.dev), built by GitHub Pages from this folder
+# (.github/workflows/pages.yml). Only this folder is published; developer docs stay in docs/.
+title: Inilauncher
+description: A minimal, text-first home screen for Android. Optional extras, no ads, no tracking.
+url: https://inilauncher.bootta.dev
+lang: en
+
+# Download buttons: each shows only when it has a link.
+play_url: ""        # Google Play listing, once it's live
+apk_url: ""         # direct APK download page, if you want to offer one
+source_url: https://github.com/Bootta11/inilauncher
+
+markdown: kramdown
+kramdown:
+  auto_ids: true
+exclude:
+  - README.md

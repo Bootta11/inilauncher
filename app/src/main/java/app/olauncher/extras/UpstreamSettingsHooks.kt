@@ -21,8 +21,8 @@ object UpstreamSettingsHooks {
     /** This fork's source (GPL), shown instead of upstream's repo. */
     private const val URL_SOURCE = "https://github.com/Bootta11/inilauncher"
 
-    /** This fork's privacy policy (docs/privacy.md, served by GitHub Pages), also linked from the Play listing. */
-    const val URL_PRIVACY = "https://bootta11.github.io/inilauncher/privacy"
+    /** This fork's privacy policy (site/privacy.md on the website), also linked from the Play listing. */
+    const val URL_PRIVACY = "https://inilauncher.bootta.dev/privacy"
 
     fun apply(fragment: androidx.fragment.app.Fragment, binding: FragmentSettingsBinding) {
         binding.moreFeatures.setText(R.string.extras_settings_row)
