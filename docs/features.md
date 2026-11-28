@@ -96,8 +96,8 @@ Everything Olauncher does still works the same way. The extras below are on **Se
 
 ## Changes from Olauncher
 
-- The "rate us", "share" and "Pro" prompts are gone. Upstream's daily-wallpaper tip stays.
+- The "rate us", "share" and "Pro" prompts are gone, along with their code and texts. Upstream's daily-wallpaper tip stays.
 - "More features…" on the settings screen is now **Extras…**.
-- The About link opens an in-app About with the credit and license. The Play Store share/rate, developer social links, app promo and upstream privacy-policy rows are hidden.
+- The About link opens an in-app About with the credit and license. The Play Store share/rate, developer social links and app promo are hidden. **Privacy** (under Feedback) opens Inilauncher's own [privacy policy](privacy.md). The bottom line shows the installed version; a long press copies it.
 - The daily wallpaper uses Inilauncher's own photo list (a gist) instead of Olauncher's, or your own folders. See [Daily wallpapers](wallpapers.md).
 - The app id is `app.inilauncher` (debug: `app.inilauncher.debug`), so it installs next to Olauncher.

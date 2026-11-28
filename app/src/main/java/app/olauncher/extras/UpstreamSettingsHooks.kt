@@ -21,18 +21,23 @@ object UpstreamSettingsHooks {
     /** This fork's source (GPL), shown instead of upstream's repo. */
     private const val URL_SOURCE = "https://github.com/Bootta11/inilauncher"
 
+    /** This fork's privacy policy (docs/privacy.md, served by GitHub Pages), also linked from the Play listing. */
+    const val URL_PRIVACY = "https://bootta11.github.io/inilauncher/privacy"
+
     fun apply(fragment: androidx.fragment.app.Fragment, binding: FragmentSettingsBinding) {
         binding.moreFeatures.setText(R.string.extras_settings_row)
         binding.aboutOlauncher.setText(R.string.about_inilauncher)
-        // Upstream's Play Store rate/share links, its developer's social and app promo
-        // links, and its privacy policy don't apply to this fork
-        listOf(binding.share, binding.rate, binding.twitter, binding.privacy, binding.footer)
+        // Upstream's Play Store rate/share links and its developer's social link don't apply to this
+        // fork; each is reused below or stays hidden. Its footer note becomes the version line.
+        listOf(binding.share, binding.rate, binding.twitter)
             .forEach { it.isVisible = false }
         // Upstream's footer "GitHub" link opened Olauncher's repo
         binding.github.setOnClickListener { it.context.openUrl(URL_SOURCE) }
         bindUpdateCheck(binding)
         bindWhatsNew(binding)
         bindFeedback(binding)
+        bindPrivacy(binding)
+        bindVersion(binding)
         bindIcons(binding)
         app.olauncher.extras.settingssearch.SettingsSearch.attach(fragment, binding)
     }
@@ -85,17 +90,51 @@ object UpstreamSettingsHooks {
      */
     private fun bindFeedback(binding: FragmentSettingsBinding) {
         val link = binding.twitter
-        val about = binding.aboutOlauncher
-        (link.parent as? android.view.ViewGroup)?.removeView(link)
-        val card = about.parent as android.view.ViewGroup
-        link.setPadding(about.paddingLeft, about.paddingTop, about.paddingRight, about.paddingBottom)
-        link.gravity = about.gravity
-        link.maxLines = Int.MAX_VALUE
-        card.addView(link, card.indexOfChild(about) + 1,
-            android.widget.LinearLayout.LayoutParams(about.layoutParams as android.view.ViewGroup.MarginLayoutParams))
+        moveUnder(link, binding.aboutOlauncher)
         link.setText(R.string.feedback)
-        link.isVisible = true
         link.setOnClickListener { app.olauncher.extras.feedback.FeedbackLinks.showMenu(link) }
+    }
+
+    /** Upstream's privacy link opens this fork's policy instead. It joins About and Feedback in the first card. */
+    private fun bindPrivacy(binding: FragmentSettingsBinding) {
+        val link = binding.privacy
+        moveUnder(link, binding.twitter)
+        link.setText(R.string.privacy)
+        link.setOnClickListener { it.context.openUrl(URL_PRIVACY) }
+    }
+
+    /** Moves a footer [link] into [above]'s card, right under it, styled like it. */
+    private fun moveUnder(link: android.widget.TextView, above: android.widget.TextView) {
+        (link.parent as? android.view.ViewGroup)?.removeView(link)
+        val card = above.parent as android.view.ViewGroup
+        link.setPadding(above.paddingLeft, above.paddingTop, above.paddingRight, above.paddingBottom)
+        link.gravity = above.gravity
+        link.maxLines = Int.MAX_VALUE
+        card.addView(link, card.indexOfChild(above) + 1,
+            android.widget.LinearLayout.LayoutParams(above.layoutParams as android.view.ViewGroup.MarginLayoutParams))
+        link.isVisible = true
+    }
+
+    /**
+     * Upstream's footer note becomes the installed version ("Inilauncher 0.1.2 (102) · 1e5c898"),
+     * faded like a caption. A long press copies it, e.g. for a bug report.
+     */
+    private fun bindVersion(binding: FragmentSettingsBinding) {
+        val footer = binding.footer
+        val context = footer.context
+        val line = context.getString(R.string.settings_version, app.olauncher.versionLine)
+        footer.text = line
+        // Faded through the text colour: the settings search fades it back in fully opaque
+        footer.setTextColor(androidx.core.graphics.ColorUtils.setAlphaComponent(footer.currentTextColor, 128))
+        footer.isVisible = true
+        footer.setOnLongClickListener {
+            val clipboard = context.getSystemService(android.content.ClipboardManager::class.java)
+            clipboard?.setPrimaryClip(android.content.ClipData.newPlainText(line, line))
+            // Android 13+ shows its own "Copied" confirmation
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.TIRAMISU)
+                context.showToast(R.string.version_copied)
+            true
+        }
     }
 
     /** Appearance → App icons: off, system, monochrome, grayscale, letter dots or an icon pack. */

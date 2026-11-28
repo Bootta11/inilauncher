@@ -381,4 +381,8 @@
     <string name="feedback_feature">Suggest a feature</string>
     <string name="feedback_email">Send by email</string>
     <string name="feedback_no_app">No app found to open this</string>
+    <!-- Version line (bottom of Settings) -->
+    <string name="settings_version_label">Version</string>
+    <string name="settings_version">Inilauncher %1$s</string>
+    <string name="version_copied">Version copied</string>
 </resources>

@@ -76,8 +76,9 @@ object SettingsSearch {
             when (entry.screen) {
                 SettingsScreen.MAIN -> {
                     val view = binding.root.findViewById<View>(entry.viewId) ?: return
-                    // The setting's row, unless the view sits right in a card (then just the view)
-                    val row = (view.parent as? View)?.takeIf { it.parent !== layout } ?: view
+                    // The setting's row, unless the view sits right in a card or in the column itself
+                    // (the version line): then just the view
+                    val row = (view.parent as? View)?.takeIf { it !== layout && it.parent !== layout } ?: view
                     afterTransitions(layout) { focus(binding.scrollView, row) }
                 }
                 SettingsScreen.EXTRAS -> fragment.findNavController().navigate(

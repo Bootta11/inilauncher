@@ -20,3 +20,13 @@ Every visible change in the launcher is animated. Nothing jumps, pops, blinks or
 - **Dialogs:** use `OlDialog`. Its card sits inside a full-height, see-through window, so content changes resize the card smoothly. It opens centred, then keeps its top edge in place. Don't call `window.setLayout` or set a window background on it. To change the soft-input mode, keep `SOFT_INPUT_ADJUST_RESIZE`.
 - **Don't animate:** typing (search results per keystroke) and scrolling. They must stay instant.
 - **Check it on a phone:** watch for jumps, overshoots and edges moving the wrong way, and check frame stats (`adb shell dumpsys gfxinfo <package>`: reset, act, read; few janky frames). `adb shell screenrecord` crashes on some phones (e.g. OnePlus). A burst of raw `screencap` shots, about 140 ms apart, still shows each edge's path. Also check with "Force e-ink" turned on, which must make everything instant.
+
+## Releases: always add What's new
+
+Every release with a change people can see gets a What's new entry for the version being tagged. Follow `docs/app-updates.md#whats-new`.
+
+- **Before tagging:** add the entry at the top of `app/src/main/assets/whatsnew/whatsnew.json`, with an intro and one page per visible change.
+- **Screenshots when possible:** take them on the screenshot emulator with `scripts/whatsnew-shot.sh`, in dark and light themes. If no emulator can be used, still add the entry without images. Never skip the entry.
+- **Get it approved first:** put the pages on a private review page for the user, and tag only after they approve it.
+- **Only fixes nobody sees:** ask the user before tagging without an entry. Don't decide alone.
+- **If a release already went out without one:** say so plainly, and add the notes to the next version. Never move a pushed tag.
