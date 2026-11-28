@@ -1,5 +1,21 @@
 [
   {
+    "version": "0.1.9",
+    "intro": "Two small things in Settings that arrived without notes, and Inilauncher now has its own website at inilauncher.bootta.dev.",
+    "features": [
+      {
+        "title": "Your version at a glance",
+        "text": "The bottom of Settings shows which version you have. Hold it to copy it, handy for a bug report.",
+        "image": "settings-version.webp"
+      },
+      {
+        "title": "Privacy policy",
+        "text": "Settings → Privacy opens Inilauncher's privacy policy: what each feature needs, and what, if anything, leaves your phone.",
+        "image": "settings-privacy.webp"
+      }
+    ]
+  },
+  {
     "version": "0.1.8",
     "intro": "Exports can now include pictures of your look, taken on stand-in screens that never show your own apps or messages. Also new since the last notes: a quick way to send feedback.",
     "features": [
