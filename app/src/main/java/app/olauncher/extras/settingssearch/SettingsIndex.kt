@@ -39,6 +39,7 @@ object SettingsIndex {
             m(R.string.about_inilauncher, general, R.id.aboutOlauncher),
             m(R.string.extras_settings_row, general, R.id.moreFeatures),
             m(R.string.update_check, general, R.id.rate),
+            m(R.string.whats_new, general, R.id.share),
             m(R.string.apps_on_home_screen, R.string.home_screen, R.id.homeAppsNum),
             m(R.string.show_date_time, R.string.home_screen, R.id.dateTime),
             m(R.string.home_layout_alignment, R.string.home_screen, R.id.alignment),
@@ -114,6 +115,9 @@ object SettingsIndex {
         e(look, R.string.daynight_night_wallpaper, R.string.daynight_hint, fallback = R.string.daynight)
 
         e(R.string.extras_section_privacy, R.string.lock_hidden_apps, R.string.lock_hidden_apps_hint)
+        e(R.string.extras_section_backup, R.string.config_export, R.string.config_export_hint)
+        e(R.string.extras_section_backup, R.string.config_import, R.string.config_import_hint)
+        e(R.string.extras_section_backup, R.string.config_undo, fallback = R.string.config_import)
         return list
     }
 

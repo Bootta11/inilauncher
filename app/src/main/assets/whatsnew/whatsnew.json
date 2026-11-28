@@ -1,0 +1,32 @@
+[
+  {
+    "version": "0.1.6",
+    "intro": "Inilauncher now shows what's new after each update, and you can back up and share your setup. Here's what arrived in the last few versions.",
+    "features": [
+      {
+        "title": "Back up and share your setup",
+        "text": "Settings → Extras → Backup & sharing: save your look and settings to a file, share it, or import one. You see every change first and can undo it.",
+        "image": "backup-export.webp",
+        "imageLight": "backup-export-light.webp"
+      },
+      {
+        "title": "Search settings",
+        "text": "Type in the box at the top of Settings to find any setting, on Settings or Extras. Tap a result to jump straight to it.",
+        "image": "settings-search.webp",
+        "imageLight": "settings-search-light.webp"
+      },
+      {
+        "title": "Free placement in the sub list",
+        "text": "Long-press ⋯ and turn on Free placement: drop apps in any spot, leave gaps, or drop one app on another to swap them.",
+        "image": "sublist-free.webp",
+        "imageLight": "sublist-free-light.webp"
+      },
+      {
+        "title": "Check for updates",
+        "text": "At the bottom of Settings. New versions also show a card on the home screen. Tap Update and it installs itself.",
+        "image": "check-updates.webp",
+        "imageLight": "check-updates-light.webp"
+      }
+    ]
+  }
+]

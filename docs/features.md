@@ -29,6 +29,8 @@ Everything Olauncher does still works the same way. The extras below are on **Se
 | App icons and icon packs | Search & app list | done |
 | Per-app swipe actions | Search & app list | done |
 | Self-update from the release server (card on the home screen, Settings → Check for updates) | Settings | done |
+| What's new after each update (pages with screenshots, Settings → What's new) | Settings | done |
+| Export, import and share the configuration ([details](configuration.md)) | Backup & sharing | done |
 
 ## How the extras work
 

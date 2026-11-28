@@ -36,6 +36,9 @@ Filled in as each feature lands. Every row lists the permission, what it's used 
 | Calculator, A–Z scroller, icons, per-app swipes | None | No |
 | Fonts, folders, note, blur, e-ink | None | No |
 
+Importing a configuration file never grants a permission: a setting that needs one is only switched on when you've
+already allowed it, otherwise it's skipped ([Configuration files](configuration.md#security)).
+
 ## Network and hardening
 
 - Every request is https only, with a time limit and a size limit (weather, web suggestions, the daily wallpaper and its list, update checks), so a slow or broken server can't hang a feature or use up memory. Cleartext traffic is off for the whole app.

@@ -31,6 +31,7 @@ object UpstreamSettingsHooks {
         // Upstream's footer "GitHub" link opened Olauncher's repo
         binding.github.setOnClickListener { it.context.openUrl(URL_SOURCE) }
         bindUpdateCheck(binding)
+        bindWhatsNew(binding)
         bindIcons(binding)
         app.olauncher.extras.settingssearch.SettingsSearch.attach(fragment, binding)
     }
@@ -61,6 +62,19 @@ object UpstreamSettingsHooks {
                     UpdateCheck.FAILED -> context.showToast(R.string.update_check_failed)
                 }
             }
+        }
+    }
+
+    /** Upstream's hidden "Share" link becomes "What's new": this version's notes again (both builds). */
+    private fun bindWhatsNew(binding: FragmentSettingsBinding) {
+        val link = binding.share
+        link.setText(R.string.whats_new)
+        link.isVisible = true
+        link.setOnClickListener {
+            val context = link.context
+            val notes = app.olauncher.extras.whatsnew.WhatsNew.load(context)
+            app.olauncher.extras.whatsnew.WhatsNewDialog.show(context,
+                app.olauncher.extras.whatsnew.WhatsNew.latest(notes, BuildConfig.VERSION_CODE.toLong()))
         }
     }
 

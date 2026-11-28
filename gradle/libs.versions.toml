@@ -12,6 +12,7 @@ workRuntimeKtx = "2.10.1"
 junit = "4.13.2"
 biometric = "1.1.0"
 orgJson = "20240303"
+viewpager2 = "1.1.0"
 [libraries]
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -27,3 +28,4 @@ work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "w
 junit = { module = "junit:junit", version.ref = "junit" }
 org-json = { module = "org.json:json", version.ref = "orgJson" }
 biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }
+viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }

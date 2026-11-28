@@ -81,11 +81,17 @@ jobs:
           ZEALOT_TOKEN: ${{ secrets.ZEALOT_API_TOKEN }}
           ZEALOT_CHANNEL_KEY: ${{ vars.ZEALOT_CHANNEL_KEY }}
         run: |
-          # The changelog is the annotated tag's message (falls back to the commit subject). Checkout leaves the tag
-          # lightweight, so fetch the real one first.
-          git fetch --force --depth=1 origin "refs/tags/$GITHUB_REF_NAME:refs/tags/$GITHUB_REF_NAME"
-          changelog=$(git for-each-ref --format='%(contents)' "refs/tags/$GITHUB_REF_NAME")
-          [ -n "$changelog" ] || changelog=$(git log -1 --format=%s)
+          # The changelog is this version's What's new entry (intro + feature titles), so the update card says what
+          # the dialog will show; without one, the annotated tag's message (falls back to the commit subject).
+          # Checkout leaves the tag lightweight, so fetch the real one first.
+          version="${{ steps.version.outputs.name }}"
+          changelog=$(jq -r --arg v "$version" '.[] | select(.version == $v) | ([.intro] + [.features[].title | "• " + .]) | map(select(. != "")) | join("\n")' app/src/main/assets/whatsnew/whatsnew.json)
+          if [ -z "$changelog" ]; then
+            echo "::warning::No What's new entry for $version in app/src/main/assets/whatsnew/whatsnew.json"
+            git fetch --force --depth=1 origin "refs/tags/$GITHUB_REF_NAME:refs/tags/$GITHUB_REF_NAME"
+            changelog=$(git for-each-ref --format='%(contents)' "refs/tags/$GITHUB_REF_NAME")
+            [ -n "$changelog" ] || changelog=$(git log -1 --format=%s)
+          fi
           curl -fsS --retry 3 \
             -F "file=@app/build/outputs/apk/direct/release/app-direct-release.apk" \
             -F "channel_key=$ZEALOT_CHANNEL_KEY" \

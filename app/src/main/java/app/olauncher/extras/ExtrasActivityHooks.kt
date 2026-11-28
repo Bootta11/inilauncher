@@ -30,6 +30,9 @@ object ExtrasActivityHooks {
         if (WeatherRepository(activity).isEnabled()) WeatherWorker.schedule(activity)
         // Direct build: "Version X is available" card over every screen (no-op in the Play build)
         app.olauncher.extras.update.UpdateBanner.attach(activity)
+        showWhatsNewOnce(activity)
+        // Debug builds: a configuration pushed with scripts/push-config.sh (adb run-as only)
+        app.olauncher.extras.config.LauncherConfig.debugAutoImport(activity)
         activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onResume(owner: LifecycleOwner) {
                 app.olauncher.ApkUpdates.check(activity)
@@ -64,6 +67,21 @@ object ExtrasActivityHooks {
         ContextCompat.registerReceiver(activity, screenOff, HiddenAppsLock.screenOffFilter, ContextCompat.RECEIVER_NOT_EXPORTED)
         activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onDestroy(owner: LifecycleOwner) = activity.unregisterReceiver(screenOff)
+        })
+    }
+
+    /** After an update: the new version's notes, once, when the home screen is up (WhatsNew). */
+    private fun showWhatsNewOnce(activity: AppCompatActivity) {
+        activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onResume(owner: LifecycleOwner) {
+                activity.lifecycle.removeObserver(this)
+                val notes = app.olauncher.extras.whatsnew.WhatsNew.takeUnseen(activity)
+                if (notes.isEmpty()) return
+                // Let the home screen settle first, so the dialog opens over it instead of with it
+                activity.window.decorView.postDelayed({
+                    if (!activity.isFinishing && !activity.isDestroyed) app.olauncher.extras.whatsnew.WhatsNewDialog.show(activity, notes)
+                }, 600)
+            }
         })
     }
 }

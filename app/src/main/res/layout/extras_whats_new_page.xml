@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher: one page of the What's new dialog: screenshot (optional), title, a line or two -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <app.olauncher.extras.whatsnew.ScreenshotView
+        android:id="@+id/pageImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:importantForAccessibility="no" />
+
+    <TextView
+        android:id="@+id/pageTitle"
+        style="@style/TextSmallBold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:textColor="?attr/primaryColor"
+        tools:text="Search settings" />
+
+    <TextView
+        android:id="@+id/pageText"
+        style="@style/TextSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:includeFontPadding="false"
+        android:lineSpacingExtra="2dp"
+        android:textColor="?attr/primaryColor"
+        tools:text="Type in Settings to jump to any option." />
+</LinearLayout>

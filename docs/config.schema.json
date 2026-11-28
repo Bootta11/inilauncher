@@ -1,0 +1,472 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "app": {
+      "maxLength": 40,
+      "type": "string"
+    },
+    "format": {
+      "const": "inilauncher-config"
+    },
+    "layout": {
+      "additionalProperties": false,
+      "properties": {
+        "folders": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "apps": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "activity": {
+                      "maxLength": 255,
+                      "minLength": 1,
+                      "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)*(\\$[A-Za-z_][A-Za-z0-9_]*)*$",
+                      "type": "string"
+                    },
+                    "package": {
+                      "maxLength": 255,
+                      "minLength": 3,
+                      "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)+$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "package"
+                  ],
+                  "type": "object"
+                },
+                "maxItems": 100,
+                "type": "array"
+              },
+              "name": {
+                "maxLength": 40,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ],
+            "type": "object"
+          },
+          "maxItems": 50,
+          "type": "array"
+        },
+        "homeApps": {
+          "items": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "activity": {
+                    "maxLength": 255,
+                    "minLength": 1,
+                    "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)*(\\$[A-Za-z_][A-Za-z0-9_]*)*$",
+                    "type": "string"
+                  },
+                  "package": {
+                    "maxLength": 255,
+                    "minLength": 3,
+                    "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)+$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "package"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "folder": {
+                    "maxLength": 40,
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "folder"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "widgets": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "widgets"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "maxItems": 8,
+          "type": "array"
+        },
+        "homeAppsCount": {
+          "maximum": 8,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "slotSwipes": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "package": {
+                "maxLength": 255,
+                "minLength": 3,
+                "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)+$",
+                "type": "string"
+              },
+              "side": {
+                "enum": [
+                  "left",
+                  "right"
+                ],
+                "type": "string"
+              },
+              "slot": {
+                "maximum": 8,
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "slot",
+              "side",
+              "package"
+            ],
+            "type": "object"
+          },
+          "maxItems": 16,
+          "type": "array"
+        },
+        "sublist": {
+          "additionalProperties": false,
+          "properties": {
+            "apps": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "activity": {
+                    "maxLength": 255,
+                    "minLength": 1,
+                    "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)*(\\$[A-Za-z_][A-Za-z0-9_]*)*$",
+                    "type": "string"
+                  },
+                  "package": {
+                    "maxLength": 255,
+                    "minLength": 3,
+                    "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)+$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "package"
+                ],
+                "type": "object"
+              },
+              "maxItems": 100,
+              "type": "array"
+            },
+            "cells": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "col": {
+                    "maximum": 20,
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "package": {
+                    "maxLength": 255,
+                    "minLength": 3,
+                    "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)+$",
+                    "type": "string"
+                  },
+                  "row": {
+                    "maximum": 50,
+                    "minimum": 0,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "package",
+                  "row",
+                  "col"
+                ],
+                "type": "object"
+              },
+              "maxItems": 100,
+              "type": "array"
+            }
+          },
+          "type": "object"
+        },
+        "swipeLeft": {
+          "additionalProperties": false,
+          "properties": {
+            "activity": {
+              "maxLength": 255,
+              "minLength": 1,
+              "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)*(\\$[A-Za-z_][A-Za-z0-9_]*)*$",
+              "type": "string"
+            },
+            "package": {
+              "maxLength": 255,
+              "minLength": 3,
+              "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "package"
+          ],
+          "type": "object"
+        },
+        "swipeRight": {
+          "additionalProperties": false,
+          "properties": {
+            "activity": {
+              "maxLength": 255,
+              "minLength": 1,
+              "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)*(\\$[A-Za-z_][A-Za-z0-9_]*)*$",
+              "type": "string"
+            },
+            "package": {
+              "maxLength": 255,
+              "minLength": 3,
+              "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "package"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "look": {
+      "additionalProperties": false,
+      "properties": {
+        "alignment": {
+          "enum": [
+            "left",
+            "center",
+            "right"
+          ],
+          "type": "string"
+        },
+        "appIcons": {
+          "maxLength": 270,
+          "pattern": "^(off|system|mono|gray|letter|letter_color|letter_outline|pack:[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)+)$",
+          "type": "string"
+        },
+        "blur": {
+          "type": "boolean"
+        },
+        "boldFont": {
+          "type": "boolean"
+        },
+        "bottomAlignment": {
+          "type": "boolean"
+        },
+        "dateTime": {
+          "enum": [
+            "on",
+            "off",
+            "date"
+          ],
+          "type": "string"
+        },
+        "eink": {
+          "type": "boolean"
+        },
+        "font": {
+          "enum": [
+            "default",
+            "sans",
+            "condensed",
+            "serif",
+            "mono",
+            "casual"
+          ],
+          "type": "string"
+        },
+        "gestureMotion": {
+          "type": "boolean"
+        },
+        "notifications.dotStyle": {
+          "enum": [
+            "dot",
+            "count"
+          ],
+          "type": "string"
+        },
+        "statusBar": {
+          "type": "boolean"
+        },
+        "sublist.button": {
+          "enum": [
+            "dots",
+            "grid",
+            "count",
+            "peek"
+          ],
+          "type": "string"
+        },
+        "sublist.style": {
+          "enum": [
+            "icons",
+            "icons_names",
+            "names"
+          ],
+          "type": "string"
+        },
+        "textSize": {
+          "maximum": 2.0,
+          "minimum": 0.5,
+          "type": "number"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "meta": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "maxLength": 200,
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 40,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "settings": {
+      "additionalProperties": false,
+      "properties": {
+        "az.enabled": {
+          "type": "boolean"
+        },
+        "az.height": {
+          "enum": [
+            "full",
+            "thumb"
+          ],
+          "type": "string"
+        },
+        "az.side": {
+          "enum": [
+            "auto",
+            "left",
+            "right"
+          ],
+          "type": "string"
+        },
+        "events.enabled": {
+          "type": "boolean"
+        },
+        "gestures.swipeLeft": {
+          "type": "boolean"
+        },
+        "gestures.swipeRight": {
+          "type": "boolean"
+        },
+        "keyboard.autoShow": {
+          "type": "boolean"
+        },
+        "media.enabled": {
+          "type": "boolean"
+        },
+        "note.enabled": {
+          "type": "boolean"
+        },
+        "notifications.dots": {
+          "type": "boolean"
+        },
+        "notifications.enabled": {
+          "type": "boolean"
+        },
+        "notifications.folders": {
+          "type": "boolean"
+        },
+        "notifications.line": {
+          "type": "boolean"
+        },
+        "search.calculator": {
+          "type": "boolean"
+        },
+        "search.contacts": {
+          "type": "boolean"
+        },
+        "search.holdActions": {
+          "type": "boolean"
+        },
+        "search.holdToggle": {
+          "type": "boolean"
+        },
+        "search.shortcuts": {
+          "type": "boolean"
+        },
+        "search.web": {
+          "type": "boolean"
+        },
+        "sortByUsage": {
+          "type": "boolean"
+        },
+        "sublist.auto": {
+          "type": "boolean"
+        },
+        "sublist.enabled": {
+          "type": "boolean"
+        },
+        "sublist.free": {
+          "type": "boolean"
+        },
+        "suggested.enabled": {
+          "type": "boolean"
+        },
+        "weather.fahrenheit": {
+          "type": "boolean"
+        },
+        "widgets.enabled": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "version": {
+      "maximum": 1,
+      "minimum": 1,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "format",
+    "version"
+  ],
+  "title": "Inilauncher configuration",
+  "type": "object"
+}

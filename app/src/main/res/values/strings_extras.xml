@@ -229,6 +229,40 @@
     <string name="slot_swipes_empty_slot">Home app %1$d</string>
 
     <!-- App updates (direct build) -->
+    <!-- Backup & sharing (extras/config, docs/configuration.md) -->
+    <string name="extras_section_backup">Backup &amp; sharing</string>
+    <string name="config_export">Export configuration</string>
+    <string name="config_export_hint">Saves your look and settings, and if you like your home layout, to a file you can keep or share. Your note, location, hidden apps and the lock are never included.</string>
+    <string name="config_import">Import configuration</string>
+    <string name="config_import_hint">Loads a file exported from Inilauncher. You see every change first. Anything unknown or invalid, apps you don\'t have, and settings that need a permission you haven\'t given are skipped.</string>
+    <string name="config_undo">Undo last import</string>
+    <string name="config_part_look">Look</string>
+    <string name="config_part_settings">Settings</string>
+    <string name="config_part_layout">Home layout (apps, sub list, folders)</string>
+    <string name="config_part_layout_import">Home layout (replaces your home apps, sub list and folders)</string>
+    <string name="config_name_hint">Name (optional)</string>
+    <string name="config_description_hint">Description (optional)</string>
+    <string name="config_save">Save</string>
+    <string name="config_share">Share</string>
+    <string name="config_import_action">Import</string>
+    <string name="config_changes">Changes</string>
+    <string name="config_no_changes">Nothing would change.</string>
+    <string name="config_skipped">Skipped</string>
+    <string name="config_online">sends data online</string>
+    <string name="config_not_imported">Can\'t import this file: %1$s</string>
+    <string name="config_imported">Imported. You can undo it in Extras.</string>
+    <string name="config_undone">Import undone.</string>
+    <string name="config_undo_failed">Couldn\'t undo the import.</string>
+    <string name="config_saved">Configuration saved.</string>
+    <string name="config_save_failed">Couldn\'t save the file.</string>
+    <string name="config_lock_subtitle">Unlock to import a configuration</string>
+    <string name="config_from_file">From the file:</string>
+    <string name="whats_new">What\'s new</string>
+    <string name="whats_new_title">What\'s new in %1$s</string>
+    <string name="whats_new_next">Next</string>
+    <string name="whats_new_done">Done</string>
+    <string name="whats_new_skip">Skip</string>
+    <string name="whats_new_none">No notes for this version yet.</string>
     <string name="update_available">Version %1$s is available</string>
     <string name="update_no_notes">A new version of Inilauncher.</string>
     <string name="update_now">Update</string>

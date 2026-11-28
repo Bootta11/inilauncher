@@ -20,6 +20,8 @@ Two flavors: `direct` (released as an APK on Zealot and updates itself) and `pla
 ## Scripts
 
 - `scripts/release-setup.sh`: one-time setup for releases (signing key, Zealot app and channel, GitHub environment and secrets). Try `--dry-run` first.
+- `scripts/push-config.sh`: loads a configuration file into the debug build (see [Configuration files](docs/configuration.md)).
+- `scripts/whatsnew-shot.sh`: takes a phone screenshot for the What's new dialog (see [What's new](docs/app-updates.md#whats-new)).
 - `npm run wallpapers`: a review page for the daily wallpaper list; `scripts/publish-wallpapers.sh` publishes it (see [Daily wallpapers](docs/wallpapers.md)).
 - `scripts/brand-translations.py`: refreshes the translated "Inilauncher" strings after an upstream merge (see [Syncing with Olauncher](docs/upstream-sync.md)).
 
@@ -30,6 +32,7 @@ Two flavors: `direct` (released as an APK on Zealot and updates itself) and `pla
 - [Architecture](docs/architecture.md): how the fork is laid out
 - [Syncing with Olauncher](docs/upstream-sync.md): pulling in upstream fixes
 - [App releases & updates](docs/app-updates.md)
+- [Configuration files](docs/configuration.md): export, import and share the launcher's setup; loading one into the debug build
 - [Daily wallpapers](docs/wallpapers.md): the photo list, reviewing and publishing it, and your own folders
 
 `npm install && npm run docs` serves these docs at `http://inilauncher-docs.localhost:4410`.

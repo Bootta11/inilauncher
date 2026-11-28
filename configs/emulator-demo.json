@@ -1,0 +1,43 @@
+{
+  "format": "inilauncher-config",
+  "version": 1,
+  "meta": {
+    "name": "Emulator demo",
+    "description": "The setup for What's new screenshots: stock apps, sub list grid with names, letter dots, dark theme."
+  },
+  "look": {
+    "theme": "dark",
+    "textSize": 1.0,
+    "font": "default",
+    "appIcons": "letter",
+    "alignment": "left",
+    "dateTime": "on",
+    "sublist.button": "dots",
+    "sublist.style": "icons_names"
+  },
+  "settings": {
+    "sublist.enabled": true,
+    "sublist.free": true
+  },
+  "layout": {
+    "homeAppsCount": 4,
+    "homeApps": [
+      { "package": "com.android.camera2" },
+      { "package": "com.google.android.deskclock" },
+      { "package": "com.google.android.calendar" },
+      { "package": "com.google.android.contacts" }
+    ],
+    "sublist": {
+      "apps": [
+        { "package": "com.google.android.documentsui" },
+        { "package": "com.google.android.apps.maps" },
+        { "package": "com.google.android.apps.docs" }
+      ],
+      "cells": [
+        { "package": "com.google.android.documentsui", "row": 0, "col": 0 },
+        { "package": "com.google.android.apps.maps", "row": 0, "col": 1 },
+        { "package": "com.google.android.apps.docs", "row": 1, "col": 0 }
+      ]
+    }
+  }
+}

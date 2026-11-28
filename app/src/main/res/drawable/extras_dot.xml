@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher: page dot in the What's new dialog -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+    <solid android:color="?attr/primaryColor" />
+    <size android:width="6dp" android:height="6dp" />
+</shape>

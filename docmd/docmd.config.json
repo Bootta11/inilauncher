@@ -23,6 +23,7 @@
     { "title": "Architecture", "path": "/docs/architecture" },
     { "title": "Syncing with Olauncher", "path": "/docs/upstream-sync" },
     { "title": "App releases & updates", "path": "/docs/app-updates" },
+    { "title": "Configuration files", "path": "/docs/configuration" },
     { "title": "Daily wallpapers", "path": "/docs/wallpapers" }
   ]
 }

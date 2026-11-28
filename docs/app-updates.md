@@ -27,7 +27,7 @@ Push a tag `vX.Y.Z`. CI's `android` job:
 
 1. takes the version from the tag: `versionName X.Y.Z`, `versionCode X*10000 + Y*100 + Z` (so `v0.1.2` → 102);
 2. builds the signed direct APK, plus the Play bundle when the upload key secrets are set;
-3. checks the APK's signature and uploads it to Zealot, with the tag's message as the changelog;
+3. checks the APK's signature and uploads it to Zealot. The changelog is the version's [What's new](#whats-new) entry (intro + feature titles), or the tag's message when there is none (CI warns);
 4. keeps the `.aab` as a workflow artifact, for Google Play.
 
 ```bash
@@ -37,6 +37,67 @@ git push origin v0.1.2
 
 Every release needs a new tag; never move a tag that was released. Local builds keep the default version from the
 build file.
+
+## What's new
+
+After an update, the app shows a *What's new* dialog once: an intro page, then one page per feature with a
+screenshot, a title and a line or two. Fresh installs don't see it. **Settings → What's new** (footer, both builds)
+opens it again. If several updates were skipped, it shows the notes of all of them, newest first, up to 3 versions.
+
+The notes ship in the APK (`app/src/main/assets/whatsnew/`), so they work offline and in the Play build:
+
+```
+app/src/main/assets/whatsnew/
+  whatsnew.json          # newest version first
+  0.1.6/settings-search.webp        # dark theme
+  0.1.6/settings-search-light.webp  # light theme
+```
+
+```json
+[{ "version": "0.1.6",
+   "intro": "One or two sentences on what changed.",
+   "features": [{ "title": "Search settings", "text": "Type in Settings to jump to any option.",
+                  "image": "settings-search.webp", "imageLight": "settings-search-light.webp" }] }]
+```
+
+For each release:
+
+1. Add an entry at the top of `whatsnew.json` with the version you will tag. `image` (dark theme) and `imageLight`
+   (light theme) are optional; the dialog shows the one that matches the launcher's theme, or `image` when there's no
+   light one.
+2. Take the screenshots on the screenshot emulator (below), never on a personal phone: once in the dark theme
+   (`scripts/whatsnew-shot.sh 0.1.7 my-feature`) and once in the light theme (`… my-feature-light`). Add
+   `x y width height` (screen pixels) to crop to the part that matters. Each is a WebP of at most 720 px wide
+   (about 20–60 KB); the script prints the folder's total.
+3. **Keep the APK from growing:** only the 3 newest versions keep screenshots (both themes). Delete the folder of the oldest
+   version and remove its `image` fields (its text can stay). The unit test `WhatsNewTest` fails when more versions
+   have screenshots, when a file isn't used, or when the folder goes over 800 KB.
+4. Get the pictures approved before committing: put every page of the entry (its text and both screenshots) on a
+   private review page that opens on a phone (e.g. a private Claude artifact), so they can be checked away from the
+   computer. Commit and tag only after the approval.
+5. Tag as usual. The Zealot changelog is built from the same entry.
+
+### The screenshot emulator
+
+Screenshots come from an emulator with a demo setup, so no personal apps, notifications or accounts end up in the
+app or the repo, and every release looks the same:
+
+- AVD `inilauncher-shots`: Pixel 6 profile (1080 × 2400), Android 15 *Google APIs* image (no Play Store, which is
+  much lighter), GPU mode `angle_indirect` (`host` gives black `screencap`s, software rendering is too slow). Create
+  it with `avdmanager create avd -n inilauncher-shots -k "system-images;android-35;google_apis;arm64-v8a" -d pixel_6`
+  and set `hw.gpu.enabled=yes`, `hw.gpu.mode=angle_indirect`, `hw.ramSize=3072` in its `config.ini`.
+- Install the debug build and make it the home app: `adb shell cmd role add-role-holder android.app.role.HOME app.inilauncher.debug 0`.
+- Load the demo setup in one step: `scripts/push-config.sh configs/emulator-demo.json` (home apps Camera, Clock,
+  Calendar, Contacts; sub list Files, Maps, Drive with names and free placement; letter dots; dark theme). See
+  [Configuration files](configuration.md#debug-builds-and-the-emulator).
+- Wallpapers from the daily wallpaper list, the same for every release so all screenshots match: dark theme the
+  starry sky with a tree (pair 8, dark), light theme the snowy forest (pair 27, light). Don't change them per release. Push the photo to `/sdcard/Pictures`, then set it with
+  `am start -n com.google.android.apps.photos/.setwallpaper.SetWallpaperActivity -a android.intent.action.ATTACH_DATA -d content://media/external/images/media/<id> -t image/jpeg`.
+- Run the script with `ANDROID_SERIAL=emulator-5554` when a phone is connected too.
+
+The app compares the installed version code with the one it last showed (`whats_new_seen_version_code`), so local
+builds with the default version code see nothing. To try it, build with `-PversionCode=… -PversionName=…` (see
+`WhatsNew.kt`).
 
 
 ## APK updates

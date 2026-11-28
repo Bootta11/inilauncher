@@ -56,6 +56,8 @@ object ExtrasKeys {
     const val WIDGET_RECENT_APPS = "widget_recent_apps"
     const val ASKED_POST_NOTIFICATIONS = "asked_post_notifications"
     const val UPDATE_DISMISSED = "update_dismissed_version_code"
+    /** Version code whose "What's new" notes were shown (or skipped on a fresh install); see WhatsNew. */
+    const val WHATS_NEW_SEEN = "whats_new_seen_version_code"
 
     // Home: sub list under the home apps
     const val SUBLIST_ENABLED = "sublist_enabled"

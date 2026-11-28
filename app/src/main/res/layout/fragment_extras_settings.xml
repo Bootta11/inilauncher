@@ -75,6 +75,15 @@
                     android:text="@string/extras_section_privacy" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/sectionBackup"
+                style="@style/ExtrasCard">
+
+                <TextView
+                    style="@style/ExtrasSectionTitle"
+                    android:text="@string/extras_section_backup" />
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/versionLine"
                 style="@style/ExtrasRowHint"

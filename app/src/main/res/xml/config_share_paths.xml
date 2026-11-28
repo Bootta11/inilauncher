@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inilauncher: only the exported configuration being shared (cache/shared/), see extras/config/ConfigUi -->
+<paths>
+    <cache-path name="shared" path="shared/" />
+</paths>

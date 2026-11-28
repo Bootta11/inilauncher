@@ -117,6 +117,19 @@ class ExtrasSettingsFragment : BaseFragment() {
         }
     }
 
+    /** Backup & sharing: the file text waiting for the system's save dialog. */
+    private var pendingExport: String? = null
+    private val saveConfig = registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
+        ExtrasState.awaitingSystemScreen = false
+        val text = pendingExport ?: return@registerForActivityResult
+        pendingExport = null
+        if (uri != null) app.olauncher.extras.config.ConfigUi.save(requireContext(), uri, text)
+    }
+    private val openConfig = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        ExtrasState.awaitingSystemScreen = false
+        if (uri != null && _binding != null) app.olauncher.extras.config.ConfigUi.import(this, uri)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentExtrasSettingsBinding.inflate(inflater, container, false)
         return binding.root
@@ -144,13 +157,14 @@ class ExtrasSettingsFragment : BaseFragment() {
                 R.string.extras_section_search to binding.sectionSearch,
                 R.string.extras_section_look to binding.sectionLook,
                 R.string.extras_section_privacy to binding.sectionPrivacy,
+                R.string.extras_section_backup to binding.sectionBackup,
             ), pendingFocus)
             pendingFocus = 0
         }
     }
 
     private fun populate() {
-        val sections = listOf(binding.sectionHome, binding.sectionSearch, binding.sectionLook, binding.sectionPrivacy)
+        val sections = listOf(binding.sectionHome, binding.sectionSearch, binding.sectionLook, binding.sectionPrivacy, binding.sectionBackup)
         sections.forEach { it.removeViews(1, it.childCount - 1) }
 
         // Home screen
@@ -199,6 +213,9 @@ class ExtrasSettingsFragment : BaseFragment() {
         // Privacy & security
         lockRow()
         addHint(binding.sectionPrivacy, R.string.lock_hidden_apps_hint)
+
+        // Backup & sharing
+        backupRows()
 
         sections.forEach { if (it.childCount == 1) addHint(it, R.string.extras_nothing_yet) }
         if (app.olauncher.BuildConfig.DEBUG) warnUnindexedRows(sections)
@@ -532,6 +549,29 @@ class ExtrasSettingsFragment : BaseFragment() {
 
         addRow(section, R.string.slot_swipes, "") { showSlotSwipes() }
         addHint(section, R.string.slot_swipes_hint)
+    }
+
+    /** Export, import and undo of the launcher's configuration (extras/config). */
+    private fun backupRows() {
+        val section = binding.sectionBackup
+        addRow(section, R.string.config_export, "") {
+            app.olauncher.extras.config.ConfigDialogs.export(requireContext(),
+                onSave = { text, name ->
+                    pendingExport = text
+                    ExtrasState.awaitingSystemScreen = true
+                    saveConfig.launch(name)
+                },
+                onShare = { text, name -> app.olauncher.extras.config.ConfigUi.share(this, text, name) })
+        }
+        addHint(section, R.string.config_export_hint)
+        addRow(section, R.string.config_import, "") {
+            ExtrasState.awaitingSystemScreen = true
+            openConfig.launch(arrayOf("application/json", "text/plain", "application/octet-stream"))
+        }
+        addHint(section, R.string.config_import_hint)
+        if (app.olauncher.extras.config.LauncherConfig.canUndo(requireContext())) {
+            addRow(section, R.string.config_undo, "") { app.olauncher.extras.config.ConfigUi.undo(this) }
+        }
     }
 
     /** Usage access, granted on the same system screen upstream uses for screen time. */
