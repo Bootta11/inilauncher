@@ -32,6 +32,7 @@ object UpstreamSettingsHooks {
         binding.github.setOnClickListener { it.context.openUrl(URL_SOURCE) }
         bindUpdateCheck(binding)
         bindWhatsNew(binding)
+        bindFeedback(binding)
         bindIcons(binding)
         app.olauncher.extras.settingssearch.SettingsSearch.attach(fragment, binding)
     }
@@ -76,6 +77,25 @@ object UpstreamSettingsHooks {
             app.olauncher.extras.whatsnew.WhatsNewDialog.show(context,
                 app.olauncher.extras.whatsnew.WhatsNew.latest(notes, BuildConfig.VERSION_CODE.toLong()))
         }
+    }
+
+    /**
+     * Upstream's hidden X/Twitter link becomes "Feedback": a bug report, a feature idea or an email.
+     * Four links don't fit the footer row, so it moves into the first card, under About.
+     */
+    private fun bindFeedback(binding: FragmentSettingsBinding) {
+        val link = binding.twitter
+        val about = binding.aboutOlauncher
+        (link.parent as? android.view.ViewGroup)?.removeView(link)
+        val card = about.parent as android.view.ViewGroup
+        link.setPadding(about.paddingLeft, about.paddingTop, about.paddingRight, about.paddingBottom)
+        link.gravity = about.gravity
+        link.maxLines = Int.MAX_VALUE
+        card.addView(link, card.indexOfChild(about) + 1,
+            android.widget.LinearLayout.LayoutParams(about.layoutParams as android.view.ViewGroup.MarginLayoutParams))
+        link.setText(R.string.feedback)
+        link.isVisible = true
+        link.setOnClickListener { app.olauncher.extras.feedback.FeedbackLinks.showMenu(link) }
     }
 
     /** Appearance → App icons: off, system, monochrome, grayscale, letter dots or an icon pack. */

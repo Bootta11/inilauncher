@@ -1,0 +1,22 @@
+# Opened from the app (Settings → Feedback → Suggest a feature).
+name: Feature idea
+description: Suggest something new or a change to Inilauncher
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: Inilauncher tries to stay small and simple. Ideas that fit that work best.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would you like to do?
+      description: The problem or the situation, in your own words.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+      description: How you imagine it working.
+    validations:
+      required: true

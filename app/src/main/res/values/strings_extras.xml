@@ -375,4 +375,10 @@
     <string name="settings_search_none">No matching settings</string>
     <string name="settings_search_general">Settings</string>
     <string name="settings_search_in_extras">Extras › %1$s</string>
+    <!-- Feedback (Settings) -->
+    <string name="feedback">Feedback</string>
+    <string name="feedback_bug">Report a bug</string>
+    <string name="feedback_feature">Suggest a feature</string>
+    <string name="feedback_email">Send by email</string>
+    <string name="feedback_no_app">No app found to open this</string>
 </resources>

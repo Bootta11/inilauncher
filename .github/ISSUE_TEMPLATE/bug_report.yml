@@ -1,0 +1,52 @@
+# Opened pre-filled from the app (Settings → Feedback → Report a bug). The field ids
+# version, build, android and device are filled from the link; see extras/feedback/Feedback.kt.
+name: Bug report
+description: Something in Inilauncher doesn't work as it should
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What went wrong, and what did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open Settings → Extras…
+        2. Turn on …
+        3. …
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or screen recording
+      description: Optional. Drag files in here.
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      placeholder: "0.2.0 (200)"
+    validations:
+      required: true
+  - type: input
+    id: build
+    attributes:
+      label: Build
+      placeholder: "direct, abc1234"
+  - type: input
+    id: android
+    attributes:
+      label: Android version
+      placeholder: "15 (API 35)"
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Phone
+      placeholder: "Google Pixel 8"

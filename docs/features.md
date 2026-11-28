@@ -30,6 +30,7 @@ Everything Olauncher does still works the same way. The extras below are on **Se
 | Per-app swipe actions | Search & app list | done |
 | Self-update from the release server (card on the home screen, Settings → Check for updates) | Settings | done |
 | What's new after each update (pages with screenshots, Settings → What's new) | Settings | done |
+| Feedback: report a bug or suggest a feature (pre-filled GitHub issue forms, optional email) | Settings | done |
 | Export, import and share the configuration ([details](configuration.md)) | Backup & sharing | done |
 
 ## How the extras work
@@ -90,6 +91,8 @@ Everything Olauncher does still works the same way. The extras below are on **Se
 - **Per-app swipe actions:** for each home-screen app, choose an app that opens when you swipe left or right on its name. Other swipes keep Olauncher's swipe-left/right apps.
 
 - **Choosing an app** (the sub list, weather **Tap opens**, per-app swipe actions) opens a full-screen list like the app list: search by name, icons, and the A–Z strip with the same side and height settings. Choosing one app also has a **Nothing** / **Usual swipe app** button to clear it.
+
+- **Feedback:** Settings → Feedback opens a small dialog. **Report a bug** and **Suggest a feature** open the project's GitHub issue forms (`.github/ISSUE_TEMPLATE/`) in the browser. The bug form comes pre-filled with the app version, build, Android version and phone model, and nothing else. The person reviews it and posts it under their own GitHub account, so the app holds no token, sends nothing by itself and needs no server, and GitHub handles spam. **Send by email** opens the mail app with the same details. It only shows when the build sets an address: put `feedbackEmail=you@example.com` in `~/.gradle/gradle.properties` (or pass `-PfeedbackEmail=…`, e.g. from a CI variable), so the address isn't committed.
 
 ## Changes from Olauncher
 

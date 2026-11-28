@@ -37,6 +37,9 @@ android {
         versionCode appVersionCode
         versionName appVersionName
         buildConfigField "String", "GIT_SHA", "\"${System.getenv('GIT_SHA') ?: 'dev'}\""
+        // Settings → Feedback → "Send by email" (hidden when empty). Set feedbackEmail in
+        // ~/.gradle/gradle.properties or pass -PfeedbackEmail=…, so no address is committed.
+        buildConfigField "String", "FEEDBACK_EMAIL", "\"${(project.findProperty('feedbackEmail') ?: '').toString().trim()}\""
 
         resourceConfigurations += ["en", "ar", "cs", "da", "de", "el", "es-rES", "es-rUS", "fa", "fi", "fr", "iw", "hi", "hr", "hu", "in", "it", "ja", "ko", "nb", "nl", "pl", "pt-rBR", "ro", "ru-rRU", "sv", "th", "tr", "uk", "vi", "zh", "zh-rTW"]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
