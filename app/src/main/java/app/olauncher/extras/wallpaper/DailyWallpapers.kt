@@ -1,5 +1,6 @@
 package app.olauncher.extras.wallpaper
 
+import app.olauncher.extras.showcase.Showcase
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -151,7 +152,8 @@ object DailyWallpapers {
         }
     }
 
-    private fun cachedPairs(context: Context): List<WallpaperPair>? = try {
+    /** The saved list (or the built-in pair), without going online. */
+    internal fun cachedPairs(context: Context): List<WallpaperPair> = try {
         File(context.filesDir, LIST_FILE).takeIf { it.exists() }?.readText()?.let(WallpaperList::parse)
     } catch (e: Exception) {
         null
@@ -159,6 +161,7 @@ object DailyWallpapers {
 
     /** Upstream's wallpaper worker (every 4 h). Folders don't need a network; the list does. */
     fun scheduleWorker(context: Context) {
+        if (Showcase.inProcess) return
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(if (usesFolders(context)) NetworkType.NOT_REQUIRED else NetworkType.CONNECTED)
             .build()
@@ -177,6 +180,7 @@ object DailyWallpapers {
 
     /** After the source or a folder changed: show today's wallpaper from the new place now. */
     fun refreshNow(context: Context) {
+        if (Showcase.inProcess) return
         val app = context.applicationContext
         DayNightWallpapers.clearDaily(app)
         val prefs = Prefs(app)

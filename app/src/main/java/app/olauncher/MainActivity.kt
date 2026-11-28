@@ -44,7 +44,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
-class MainActivity : AppCompatActivity() {
+open class MainActivity : AppCompatActivity() { // Inilauncher: open for extras.showcase.ShowcaseActivity
 
     private lateinit var prefs: Prefs
     private lateinit var navController: NavController
@@ -207,6 +207,7 @@ class MainActivity : AppCompatActivity() {
             openLauncherChooser(it)
         }
         viewModel.resetLauncherLiveData.observe(this) {
+            if (app.olauncher.extras.showcase.Showcase.inProcess) return@observe // Inilauncher: the showcase never changes the default launcher
             if (isDefaultLauncher() || Build.VERSION.SDK_INT < Build.VERSION_CODES.Q)
                 resetLauncherViaFakeActivity()
             else
@@ -319,6 +320,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun restartLauncherOrCheckTheme(forceRestart: Boolean = false) {
+        if (app.olauncher.extras.showcase.Showcase.inProcess) return // Inilauncher: the cache folder is shared with the launcher
         if (forceRestart || prefs.launcherRestartTimestamp.hasBeenHours(4)) {
             prefs.launcherRestartTimestamp = System.currentTimeMillis()
             cacheDir.deleteRecursively()

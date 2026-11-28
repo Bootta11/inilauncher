@@ -91,4 +91,7 @@ object ExtrasKeys {
 
     // Folders (JSON)
     const val FOLDERS = "folders"
+
+    // Showcase screens for screenshots (JSON, extras/showcase/ShowcaseChoice); never exported
+    const val SHOWCASE = "showcase"
 }

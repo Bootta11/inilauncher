@@ -1,5 +1,29 @@
 [
   {
+    "version": "0.1.8",
+    "intro": "Exports can now include pictures of your look, taken on stand-in screens that never show your own apps or messages. Also new since the last notes: a quick way to send feedback.",
+    "features": [
+      {
+        "title": "Screenshots of your look",
+        "text": "Export configuration now adds pictures of your home screen, sub list, a folder and the app list, all in one .zip. Import takes the .zip too.",
+        "image": "showcase-export.webp",
+        "imageLight": "showcase-export-light.webp"
+      },
+      {
+        "title": "Showcase screens",
+        "text": "Extras → Backup & sharing → Showcase screens: choose the stand-in apps and the background. Open showcase to look around or take your own screenshots without anything personal.",
+        "image": "showcase-screens.webp",
+        "imageLight": "showcase-screens-light.webp"
+      },
+      {
+        "title": "Feedback",
+        "text": "Settings → Feedback: report a bug or suggest a feature. It opens a ready-made form, and nothing is sent until you send it.",
+        "image": "feedback.webp",
+        "imageLight": "feedback-light.webp"
+      }
+    ]
+  },
+  {
     "version": "0.1.6",
     "intro": "Inilauncher now shows what's new after each update, and you can back up and share your setup. Here's what arrived in the last few versions.",
     "features": [

@@ -108,6 +108,7 @@ object DayNight {
 
     /** Runs [sync] outside any screen's lifecycle, so a recreate halfway doesn't cancel it. */
     fun syncInBackground(context: Context, force: Boolean = false) {
+        if (app.olauncher.extras.showcase.Showcase.inProcess) return // theme and wallpaper stay as the showcase has them
         scope.launch { sync(context, force) }
     }
 

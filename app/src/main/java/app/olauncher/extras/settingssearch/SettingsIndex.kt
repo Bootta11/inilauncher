@@ -121,6 +121,7 @@ object SettingsIndex {
         e(R.string.extras_section_backup, R.string.config_export, R.string.config_export_hint)
         e(R.string.extras_section_backup, R.string.config_import, R.string.config_import_hint)
         e(R.string.extras_section_backup, R.string.config_undo, fallback = R.string.config_import)
+        e(R.string.extras_section_backup, R.string.showcase_title, R.string.showcase_row_hint)
         return list
     }
 

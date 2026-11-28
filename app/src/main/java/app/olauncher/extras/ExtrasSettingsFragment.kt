@@ -125,6 +125,11 @@ class ExtrasSettingsFragment : BaseFragment() {
         pendingExport = null
         if (uri != null) app.olauncher.extras.config.ConfigUi.save(requireContext(), uri, text)
     }
+    /** True on the showcase screens themselves (their own process), where some rows are left out. */
+    private val showcaseScreens get() = app.olauncher.extras.showcase.Showcase.inProcess
+
+    /** Screenshots for exports, taken on the showcase screens (extras/showcase). */
+    private val showcase = app.olauncher.extras.showcase.ShowcaseExport(this)
     private val openConfig = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         ExtrasState.awaitingSystemScreen = false
         if (uri != null && _binding != null) app.olauncher.extras.config.ConfigUi.import(this, uri)
@@ -173,8 +178,10 @@ class ExtrasSettingsFragment : BaseFragment() {
             Manifest.permission.READ_CALENDAR, R.string.events_need_permission)
         addHint(binding.sectionHome, R.string.events_hint)
         toggle(binding.sectionHome, R.string.note_on_home, ExtrasKeys.NOTE_ENABLED)
-        toggle(binding.sectionHome, R.string.widgets, ExtrasKeys.WIDGETS_ENABLED) { Folders.notifyChanged() }
-        addHint(binding.sectionHome, R.string.widgets_hint)
+        if (!showcaseScreens) { // the widget host belongs to the launcher
+            toggle(binding.sectionHome, R.string.widgets, ExtrasKeys.WIDGETS_ENABLED) { Folders.notifyChanged() }
+            addHint(binding.sectionHome, R.string.widgets_hint)
+        }
         notificationAccessToggle(R.string.notifications_on_home, ExtrasKeys.NOTIFICATIONS_ENABLED)
         addHint(binding.sectionHome, R.string.notifications_hint)
         notificationDotRows()
@@ -210,12 +217,15 @@ class ExtrasSettingsFragment : BaseFragment() {
         dailyWallpaperRows()
         dayNightRows()
 
-        // Privacy & security
-        lockRow()
-        addHint(binding.sectionPrivacy, R.string.lock_hidden_apps_hint)
-
-        // Backup & sharing
-        backupRows()
+        // Privacy & security, Backup & sharing: only in the real launcher (the showcase shares its files folder)
+        if (showcaseScreens) {
+            addHint(binding.sectionPrivacy, R.string.showcase_not_here)
+            addHint(binding.sectionBackup, R.string.showcase_not_here)
+        } else {
+            lockRow()
+            addHint(binding.sectionPrivacy, R.string.lock_hidden_apps_hint)
+            backupRows()
+        }
 
         sections.forEach { if (it.childCount == 1) addHint(it, R.string.extras_nothing_yet) }
         if (app.olauncher.BuildConfig.DEBUG) warnUnindexedRows(sections)
@@ -556,22 +566,30 @@ class ExtrasSettingsFragment : BaseFragment() {
         val section = binding.sectionBackup
         addRow(section, R.string.config_export, "") {
             app.olauncher.extras.config.ConfigDialogs.export(requireContext(),
-                onSave = { text, name ->
-                    pendingExport = text
-                    ExtrasState.awaitingSystemScreen = true
-                    saveConfig.launch(name)
+                onSave = { text, name, shots ->
+                    if (shots) showcase.export(text, name, share = false) else {
+                        pendingExport = text
+                        ExtrasState.awaitingSystemScreen = true
+                        saveConfig.launch(name)
+                    }
                 },
-                onShare = { text, name -> app.olauncher.extras.config.ConfigUi.share(this, text, name) })
+                onShare = { text, name, shots ->
+                    if (shots) showcase.export(text, name, share = true)
+                    else app.olauncher.extras.config.ConfigUi.share(this, text, name)
+                },
+                onShowcase = { showcase.editor() })
         }
         addHint(section, R.string.config_export_hint)
         addRow(section, R.string.config_import, "") {
             ExtrasState.awaitingSystemScreen = true
-            openConfig.launch(arrayOf("application/json", "text/plain", "application/octet-stream"))
+            openConfig.launch(arrayOf("application/json", "application/zip", "text/plain", "application/octet-stream"))
         }
         addHint(section, R.string.config_import_hint)
         if (app.olauncher.extras.config.LauncherConfig.canUndo(requireContext())) {
             addRow(section, R.string.config_undo, "") { app.olauncher.extras.config.ConfigUi.undo(this) }
         }
+        addRow(section, R.string.showcase_title, "") { showcase.editor() }
+        addHint(section, R.string.showcase_row_hint)
     }
 
     /** Usage access, granted on the same system screen upstream uses for screen time. */

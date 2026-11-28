@@ -25,6 +25,7 @@
     <uses-permission android:name="android.permission.ACCESS_HIDDEN_PROFILES" />
 
     <application
+        android:name=".extras.InilauncherApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -53,6 +54,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Inilauncher: showcase screens for screenshots, in their own process with their own
+             preferences; only started from Extras, and the process ends when it closes -->
+        <activity
+            android:name=".extras.showcase.ShowcaseActivity"
+            android:configChanges="uiMode"
+            android:exported="false"
+            android:process=":showcase"
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
             android:name=".helper.PinItemActivity"

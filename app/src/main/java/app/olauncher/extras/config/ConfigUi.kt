@@ -27,14 +27,28 @@ object ConfigUi {
         context.showToast(if (ok) R.string.config_saved else R.string.config_save_failed)
     }
 
+    /** Writes a configuration bundle (.zip with screenshots) to a file the user picked. */
+    fun saveBytes(context: Context, uri: Uri, bytes: ByteArray) {
+        val ok = try {
+            context.contentResolver.openOutputStream(uri, "wt")?.use { it.write(bytes) } != null
+        } catch (e: Exception) {
+            false
+        }
+        context.showToast(if (ok) R.string.config_saved else R.string.config_save_failed)
+    }
+
     /** Shares [text] as a .json file through the share sheet; the previous shared file is removed first. */
-    fun share(fragment: Fragment, text: String, fileName: String) {
+    fun share(fragment: Fragment, text: String, fileName: String) =
+        shareBytes(fragment, text.toByteArray(Charsets.UTF_8), fileName, "application/json")
+
+    /** Shares [bytes] as [fileName] ([mime]) through the share sheet; the previous shared file is removed first. */
+    fun shareBytes(fragment: Fragment, bytes: ByteArray, fileName: String, mime: String) {
         val context = fragment.requireContext()
         val dir = File(context.cacheDir, "shared").apply { deleteRecursively(); mkdirs() }
-        val file = File(dir, fileName).apply { writeText(text) }
+        val file = File(dir, fileName).apply { writeBytes(bytes) }
         val uri = FileProvider.getUriForFile(context, "${context.packageName}.configshare", file)
         val send = Intent(Intent.ACTION_SEND)
-            .setType("application/json")
+            .setType(mime)
             .putExtra(Intent.EXTRA_STREAM, uri)
             .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         fragment.startActivity(Intent.createChooser(send, null))

@@ -32,6 +32,7 @@ Everything Olauncher does still works the same way. The extras below are on **Se
 | What's new after each update (pages with screenshots, Settings → What's new) | Settings | done |
 | Feedback: report a bug or suggest a feature (pre-filled GitHub issue forms, optional email) | Settings | done |
 | Export, import and share the configuration ([details](configuration.md)) | Backup & sharing | done |
+| Screenshots of the look in exports, taken on showcase screens with stand-in apps ([details](configuration.md#screenshots)) | Backup & sharing | done |
 
 ## How the extras work
 

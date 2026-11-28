@@ -128,6 +128,7 @@ object DayNightWallpapers {
     }
 
     private fun setPhoto(context: Context, photo: File): Boolean {
+        if (app.olauncher.extras.showcase.Showcase.inProcess) return false
         val bitmap = try {
             BitmapFactory.decodeFile(photo.path)
         } catch (e: OutOfMemoryError) {

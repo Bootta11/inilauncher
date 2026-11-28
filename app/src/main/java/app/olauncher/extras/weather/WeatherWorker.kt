@@ -24,12 +24,16 @@ class WeatherWorker(context: Context, params: WorkerParameters) : CoroutineWorke
         private const val NAME = "inilauncher_weather"
 
         fun schedule(context: Context) {
+            if (app.olauncher.extras.showcase.Showcase.inProcess) return // the showcase never schedules work
             val request = PeriodicWorkRequestBuilder<WeatherWorker>(1, TimeUnit.HOURS)
                 .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                 .build()
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(NAME, ExistingPeriodicWorkPolicy.UPDATE, request)
         }
 
-        fun cancel(context: Context) = WorkManager.getInstance(context).cancelUniqueWork(NAME)
+        fun cancel(context: Context) {
+            if (app.olauncher.extras.showcase.Showcase.inProcess) return
+            WorkManager.getInstance(context).cancelUniqueWork(NAME)
+        }
     }
 }

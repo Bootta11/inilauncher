@@ -20,6 +20,13 @@ import app.olauncher.extras.privacy.HiddenAppsLock
 object ExtrasActivityHooks {
 
     fun observe(activity: AppCompatActivity, viewModel: MainViewModel) {
+        // The showcase only shows screens: no prompts, workers, update checks or imports there
+        if (!app.olauncher.extras.showcase.Showcase.inProcess) observeLauncher(activity)
+        observeScreens(activity, viewModel)
+    }
+
+    /** What only the real launcher does. */
+    private fun observeLauncher(activity: AppCompatActivity) {
         // Local notifications (e.g. "updated, tap to open"): channel + one-time permission prompt
         AppNotifier.ensureChannel(activity)
         val askNotifications = activity.registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
@@ -40,7 +47,15 @@ object ExtrasActivityHooks {
                 app.olauncher.extras.daynight.DayNight.syncInBackground(activity)
             }
         })
+        val screenOff = HiddenAppsLock.screenOffReceiver()
+        ContextCompat.registerReceiver(activity, screenOff, HiddenAppsLock.screenOffFilter, ContextCompat.RECEIVER_NOT_EXPORTED)
+        activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) = activity.unregisterReceiver(screenOff)
+        })
+    }
 
+    /** Folders and the widget panel opening, in the launcher and the showcase alike. */
+    private fun observeScreens(activity: AppCompatActivity, viewModel: MainViewModel) {
         Folders.openRequests.observe(activity) { id ->
             if (id == null) return@observe
             Folders.openRequests.value = null
@@ -48,6 +63,8 @@ object ExtrasActivityHooks {
         }
         WidgetPanel.openRequests.observe(activity) { open ->
             if (open != true) return@observe
+            // The widget host belongs to the launcher; a second one in the showcase would take its updates
+            if (app.olauncher.extras.showcase.Showcase.inProcess) { WidgetPanel.openRequests.value = false; return@observe }
             WidgetPanel.openRequests.value = false
             val nav = activity.findNavController(R.id.nav_host_fragment)
             if (nav.currentDestination?.id != R.id.widgetPanelFragment) {
@@ -62,12 +79,6 @@ object ExtrasActivityHooks {
             viewModel.getAppList()
             viewModel.refreshHome(true)
         }
-
-        val screenOff = HiddenAppsLock.screenOffReceiver()
-        ContextCompat.registerReceiver(activity, screenOff, HiddenAppsLock.screenOffFilter, ContextCompat.RECEIVER_NOT_EXPORTED)
-        activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
-            override fun onDestroy(owner: LifecycleOwner) = activity.unregisterReceiver(screenOff)
-        })
     }
 
     /** After an update: the new version's notes, once, when the home screen is up (WhatsNew). */

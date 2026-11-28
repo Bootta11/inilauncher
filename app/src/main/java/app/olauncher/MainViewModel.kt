@@ -426,10 +426,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun setWallpaperWorker() {
+        if (app.olauncher.extras.showcase.Showcase.inProcess) return // Inilauncher: the showcase never touches the wallpaper or WorkManager
         app.olauncher.extras.wallpaper.DailyWallpapers.scheduleWorker(appContext) // Inilauncher: no network needed for photo folders
     }
 
     fun cancelWallpaperWorker() {
+        if (app.olauncher.extras.showcase.Showcase.inProcess) return // Inilauncher
         WorkManager.getInstance(appContext).cancelUniqueWork(Constants.WALLPAPER_WORKER_NAME)
         prefs.dailyWallpaperUrl = ""
         prefs.dailyWallpaper = false
@@ -469,6 +471,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getPrivateSpaceAppList() {
+        if (app.olauncher.extras.showcase.Showcase.inProcess) return // Inilauncher: no private space on showcase screens
         viewModelScope.launch {
             val handle = getPrivateSpaceUserHandle(appContext)
             privateSpaceAvailable.value = handle != null

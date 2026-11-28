@@ -257,6 +257,34 @@
     <string name="config_save_failed">Couldn\'t save the file.</string>
     <string name="config_lock_subtitle">Unlock to import a configuration</string>
     <string name="config_from_file">From the file:</string>
+    <string name="config_screenshots">Screenshots of the look (saves a .zip)</string>
+    <string name="config_screenshots_setup">Taken on showcase screens with stand-in apps. Choose apps and background…</string>
+    <!-- Showcase screens (extras/showcase, docs/configuration.md#screenshots) -->
+    <string name="showcase_title">Showcase screens</string>
+    <string name="showcase_row_hint">Your launcher\'s look with stand-in apps and none of your notifications, note, events or weather. Exports take their screenshots here, and you can open them to take your own.</string>
+    <string name="showcase_hint">Screenshots use these apps and this background. Inside the showcase you can change any setting: it only changes the showcase. Exporting copies your current look again.</string>
+    <string name="showcase_home">Home apps</string>
+    <string name="showcase_sublist">Sub list</string>
+    <string name="showcase_folder">Folder apps</string>
+    <string name="showcase_folder_name">Folder name</string>
+    <string name="showcase_app_list">App list</string>
+    <string name="showcase_background">Background</string>
+    <string name="showcase_bg_theme">Plain (theme colour)</string>
+    <string name="showcase_bg_daily">Today\'s daily wallpaper</string>
+    <string name="showcase_bg_list">A photo from Inilauncher\'s list</string>
+    <string name="showcase_bg_image">Your own picture (shows in shared screenshots)</string>
+    <string name="showcase_none">None</string>
+    <string name="showcase_limit">Up to %1$d apps here</string>
+    <string name="showcase_open">Open showcase</string>
+    <string name="showcase_reset">Reset</string>
+    <string name="showcase_reset_done">Showcase reset to default apps and your current look.</string>
+    <string name="showcase_no_shots">Couldn\'t take screenshots; saving the settings only.</string>
+    <string name="showcase_image_failed">Couldn\'t open that picture.</string>
+    <string name="showcase_not_here">Not available on showcase screens.</string>
+    <plurals name="showcase_apps">
+        <item quantity="one">%d app</item>
+        <item quantity="other">%d apps</item>
+    </plurals>
     <string name="whats_new">What\'s new</string>
     <string name="whats_new_title">What\'s new in %1$s</string>
     <string name="whats_new_next">Next</string>

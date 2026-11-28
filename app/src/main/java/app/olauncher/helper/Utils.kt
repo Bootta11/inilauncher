@@ -129,6 +129,8 @@ suspend fun getAppsList(
                 appList.addAll(pinned)
             }
 
+            // Inilauncher: the showcase's app list holds only its stand-in apps
+            if (app.olauncher.extras.showcase.Showcase.inProcess) app.olauncher.extras.showcase.ShowcaseSetup.keepDrawerApps(context, appList)
             appList.sortWith(compareBy(collator) { it.appLabel })
         } catch (e: Exception) {
             e.printStackTrace()
@@ -306,6 +308,7 @@ fun setPlainWallpaperByTheme(context: Context, appTheme: Int) {
 }
 
 fun setPlainWallpaper(context: Context, color: Int) {
+    if (app.olauncher.extras.showcase.Showcase.inProcess) return // Inilauncher: the showcase never sets the wallpaper
     try {
         val bitmap = createBitmap(1000, 2000)
         bitmap.eraseColor(context.getColor(color))
@@ -394,6 +397,7 @@ suspend fun getWallpaperBitmap(originalImage: Bitmap, width: Int, height: Int): 
 }
 
 suspend fun setWallpaper(appContext: Context, url: String): Boolean {
+    if (app.olauncher.extras.showcase.Showcase.inProcess) return false // Inilauncher
     return withContext(Dispatchers.IO) {
         val (width, height) = getScreenDimensions(appContext)
         val originalImageBitmap = app.olauncher.extras.wallpaper.DailyWallpapers.loadBitmap(appContext, url, width, height) ?: return@withContext false // Inilauncher: screen-sized, list or folder

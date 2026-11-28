@@ -345,6 +345,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, View.OnLongClickListe
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun populateScreenTime() {
         if (requireContext().appUsagePermissionGranted().not()) return
+        if (app.olauncher.extras.showcase.Showcase.inProcess) return // Inilauncher: no real screen time on showcase screens
 
         viewModel.getTodaysScreenTime()
         binding.tvScreenTime.visibility = View.VISIBLE

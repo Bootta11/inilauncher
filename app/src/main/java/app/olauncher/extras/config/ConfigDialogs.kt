@@ -18,13 +18,22 @@ import app.olauncher.R
 import app.olauncher.databinding.DialogBaseBinding
 import app.olauncher.helper.OlDialog
 import app.olauncher.helper.animateChanges
+import app.olauncher.helper.fadeVisible
 import app.olauncher.helper.getColorFromAttr
 
 /** The export and import dialogs of Extras → Backup & sharing. */
 object ConfigDialogs {
 
-    /** Asks what to include and a name, then hands the file text to [onSave] or [onShare]. */
-    fun export(context: Context, onSave: (String, String) -> Unit, onShare: (String, String) -> Unit) {
+    /**
+     * Asks what to include and a name, then hands the file text, its file name and whether to add
+     * screenshots to [onSave] or [onShare]. [onShowcase] opens the screenshot setup (stand-in apps).
+     */
+    fun export(
+        context: Context,
+        onSave: (text: String, fileName: String, screenshots: Boolean) -> Unit,
+        onShare: (text: String, fileName: String, screenshots: Boolean) -> Unit,
+        onShowcase: () -> Unit,
+    ) {
         val dialog = OlDialog(context)
         val b = DialogBaseBinding.inflate(LayoutInflater.from(dialog.context))
         b.tvTitle.setText(R.string.config_export)
@@ -39,6 +48,16 @@ object ConfigDialogs {
             Part.LAYOUT to check(context, R.string.config_part_layout, false),
         )
         boxes.values.forEach(body::addView)
+        body.animateChanges() // the showcase link fades in and out with its tick box
+        // Screenshots of the look, taken on stand-in screens (extras/showcase): never your own apps or data
+        val shots = check(context, R.string.config_screenshots, true)
+        body.addView(shots)
+        val showcase = text(context, context.getString(R.string.config_screenshots_setup), faded = true).apply {
+            setPadding(dp(context, 36), 0, 0, dp(context, 10))
+            setOnClickListener { onShowcase() }
+        }
+        body.addView(showcase)
+        shots.setOnCheckedChangeListener { _, on -> showcase.fadeVisible(on, 0.6f) }
         b.contentContainer.addView(body)
         b.contentContainer.isVisible = true
         b.tvNeutral.setText(R.string.config_share)
@@ -58,21 +77,21 @@ object ConfigDialogs {
         fun build(): Pair<String, String> {
             val meta = ConfigMeta(name.text.toString(), description.text.toString())
             val text = LauncherConfig.export(context, parts(), meta)
-            return text to fileName(meta.name)
+            return text to fileName(meta.name, zip = shots.isChecked)
         }
         b.ivClose.setOnClickListener { dialog.dismiss() }
-        b.tvAction.setOnClickListener { val (text, file) = build(); dialog.dismiss(); onSave(text, file) }
-        b.tvNeutral.setOnClickListener { val (text, file) = build(); dialog.dismiss(); onShare(text, file) }
+        b.tvAction.setOnClickListener { val (text, file) = build(); dialog.dismiss(); onSave(text, file, shots.isChecked) }
+        b.tvNeutral.setOnClickListener { val (text, file) = build(); dialog.dismiss(); onShare(text, file, shots.isChecked) }
         dialog.setView(b.root)
         dialog.showRespectingStatusBar()
         // Dialogs block the keyboard by default; the name fields need it (as in HomeNote)
         dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
     }
 
-    /** A safe file name from the configuration's name. */
-    fun fileName(name: String): String {
+    /** A safe file name from the configuration's name; [zip]: a bundle with screenshots. */
+    fun fileName(name: String, zip: Boolean = false): String {
         val slug = name.lowercase().replace(Regex("[^a-z0-9]+"), "-").trim('-').take(30)
-        return "inilauncher-" + slug.ifEmpty { "config" } + ".json"
+        return "inilauncher-" + slug.ifEmpty { "config" } + if (zip) ".zip" else ".json"
     }
 
     /**

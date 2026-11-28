@@ -94,6 +94,15 @@ app or the repo, and every release looks the same:
   starry sky with a tree (pair 8, dark), light theme the snowy forest (pair 27, light). Don't change them per release. Push the photo to `/sdcard/Pictures`, then set it with
   `am start -n com.google.android.apps.photos/.setwallpaper.SetWallpaperActivity -a android.intent.action.ATTACH_DATA -d content://media/external/images/media/<id> -t image/jpeg`.
 - Run the script with `ANDROID_SERIAL=emulator-5554` when a phone is connected too.
+- Shut it down as soon as the screenshots are taken, so it doesn't drain the battery:
+  `adb -s emulator-5554 emu kill`.
+
+**On a phone instead:** when the emulator can't be used (a real-device feature, a phone-only look), use the
+showcase: **Extras → Backup & sharing → Showcase screens → Open showcase**. It shows the launcher with stand-in apps,
+your chosen background and no status or navigation bar, so `scripts/whatsnew-shot.sh` takes a clean picture there
+too. Set it up like the demo: stand-in apps (Camera, Clock, Calendar, Contacts on home), background **A photo from
+Inilauncher's list** (the same pairs as above), and switch the theme inside the showcase for the light picture. Its
+settings only change the showcase ([Configuration files → Screenshots](configuration.md#screenshots)).
 
 The app compares the installed version code with the one it last showed (`whats_new_seen_version_code`), so local
 builds with the default version code see nothing. To try it, build with `-PversionCode=… -PversionName=…` (see

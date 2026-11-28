@@ -23,6 +23,9 @@ object HomeButton {
     fun track(dialog: Dialog) { dialogs += dialog }
     fun track(popup: PopupMenu) { popups += popup }
 
+    /** Dialogs on screen now (the showcase adds them to its screenshots). */
+    fun showingDialogs(): List<Dialog> = dialogs.filter { it.isShowing }
+
     /** Runs [action] on every Home press until [owner] is destroyed. */
     fun onPress(owner: LifecycleOwner, action: () -> Unit) {
         actions += action

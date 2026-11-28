@@ -37,14 +37,14 @@ object LauncherConfig {
     /** Debug builds only: written by scripts/push-config.sh through `adb run-as`. */
     const val DEBUG_IMPORT_FILE = "import-config.json"
 
-    private class Prefs(private val prefs: SharedPreferences) : KeyValues {
+    internal class Prefs(private val prefs: SharedPreferences) : KeyValues {
         override fun bool(key: String, default: Boolean) = try { prefs.getBoolean(key, default) } catch (e: ClassCastException) { default }
         override fun int(key: String, default: Int) = try { prefs.getInt(key, default) } catch (e: ClassCastException) { default }
         override fun float(key: String, default: Float) = try { prefs.getFloat(key, default) } catch (e: ClassCastException) { default }
         override fun string(key: String): String? = try { prefs.getString(key, null) } catch (e: ClassCastException) { null }
     }
 
-    private class Editor(val editor: SharedPreferences.Editor) : KeyEdits {
+    internal class Editor(val editor: SharedPreferences.Editor) : KeyEdits {
         override fun putBool(key: String, value: Boolean) { editor.putBoolean(key, value) }
         override fun putInt(key: String, value: Int) { editor.putInt(key, value) }
         override fun putFloat(key: String, value: Float) { editor.putFloat(key, value) }
@@ -83,10 +83,14 @@ object LauncherConfig {
     fun export(context: Context, parts: Set<Part>, meta: ConfigMeta): String =
         ConfigFile.export(store(context), parts, meta, BuildConfig.VERSION_NAME)
 
-    /** Reads a picked file, refusing anything over the size limit before it's all in memory. */
+    /**
+     * Reads a picked file, refusing anything over the size limit before it's all in memory. A .zip
+     * with screenshots ([ConfigBundle]) gives its `config.json`; nothing else in it is read.
+     */
     fun read(context: Context, uri: Uri): String {
         val input = context.contentResolver.openInputStream(uri) ?: throw SchemaError("file", "can't be opened")
-        val bytes = input.use { it.readNBytesCompat(JsonGuard.MAX_BYTES + 1) }
+        val bytes = input.use { it.readNBytesCompat(ConfigBundle.MAX_BYTES + 1) }
+        if (ConfigBundle.isZip(bytes)) return ConfigBundle.readConfig(bytes)
         if (bytes.size > JsonGuard.MAX_BYTES) throw SchemaError("file", "is larger than ${JsonGuard.MAX_BYTES / 1024} KB")
         return String(bytes, Charsets.UTF_8)
     }

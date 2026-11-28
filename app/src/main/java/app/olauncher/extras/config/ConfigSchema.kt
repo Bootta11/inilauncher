@@ -195,6 +195,7 @@ object ConfigSchema {
         ExtrasKeys.SUBLIST_NO_SUGGEST to "usage history", ExtrasKeys.SUGGESTED_NO_SUGGEST to "usage history",
         ExtrasKeys.SUGGESTED_PINNED to "usage history",
         ExtrasKeys.ASKED_POST_NOTIFICATIONS to "state", ExtrasKeys.UPDATE_DISMISSED to "state", ExtrasKeys.WHATS_NEW_SEEN to "state",
+        ExtrasKeys.SHOWCASE to "screenshot setup on this phone",
     )
 
     /** The whole file as JSON Schema 2020-12 (docs/config.schema.json), generated from the types above. */

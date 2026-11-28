@@ -27,6 +27,7 @@ class DayNightWorker(context: Context, params: WorkerParameters) : CoroutineWork
 
         /** [needsNetwork]: a retry for a wallpaper that has to be downloaded. */
         fun schedule(context: Context, atMs: Long, needsNetwork: Boolean = false) {
+            if (app.olauncher.extras.showcase.Showcase.inProcess) return // the showcase never schedules work
             // A minute late, so the switch is clearly past when it runs
             val delay = (atMs - System.currentTimeMillis()).coerceAtLeast(0) + 60_000
             val request = OneTimeWorkRequestBuilder<DayNightWorker>()
@@ -38,6 +39,9 @@ class DayNightWorker(context: Context, params: WorkerParameters) : CoroutineWork
             WorkManager.getInstance(context).enqueueUniqueWork(NAME, ExistingWorkPolicy.REPLACE, request)
         }
 
-        fun cancel(context: Context) = WorkManager.getInstance(context).cancelUniqueWork(NAME)
+        fun cancel(context: Context) {
+            if (app.olauncher.extras.showcase.Showcase.inProcess) return
+            WorkManager.getInstance(context).cancelUniqueWork(NAME)
+        }
     }
 }

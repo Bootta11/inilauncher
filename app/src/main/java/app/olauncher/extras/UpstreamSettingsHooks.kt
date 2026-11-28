@@ -47,7 +47,7 @@ object UpstreamSettingsHooks {
      * version shows the update card; otherwise a toast says it's the latest or the check failed.
      */
     private fun bindUpdateCheck(binding: FragmentSettingsBinding) {
-        if (!ApkUpdates.supported) return
+        if (!ApkUpdates.supported || app.olauncher.extras.showcase.Showcase.inProcess) return
         val link = binding.rate
         link.setText(R.string.update_check)
         link.isVisible = true
