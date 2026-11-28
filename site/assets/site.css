@@ -1,4 +1,5 @@
-/* Inilauncher website. Colours from the app icon; dark by default, light when the device prefers it. */
+/* Inilauncher website. Colours from the app icon. Dark by default, light when the device prefers it;
+   the header's theme switch sets data-theme="dark" or "light" on <html> to override the device. */
 :root {
   --bg: #101513;
   --surface: #17201c;
@@ -12,7 +13,7 @@
   color-scheme: dark;
 }
 @media (prefers-color-scheme: light) {
-  :root {
+  :root:not([data-theme="dark"]) {
     --bg: #f4f4f0;
     --surface: #ffffff;
     --text: #17201c;
@@ -23,6 +24,25 @@
     color-scheme: light;
   }
 }
+:root[data-theme="light"] {
+  --bg: #f4f4f0;
+  --surface: #ffffff;
+  --text: #17201c;
+  --muted: #5d6460;
+  --line: #dcddd7;
+  --accent: #17201c;
+  --accent-text: #f4f4f0;
+  color-scheme: light;
+}
+
+/* Screenshots: each comes as a dark and a light picture; show the one that matches the theme. */
+.shot-light { display: none; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .shot-dark { display: none; }
+  :root:not([data-theme="dark"]) .shot-light { display: block; }
+}
+:root[data-theme="light"] .shot-dark { display: none; }
+:root[data-theme="light"] .shot-light { display: block; }
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -58,25 +78,37 @@ h1 { font-weight: 200; font-size: clamp(48px, 8vw, 88px); line-height: 1.02; let
 .button.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
 .promise { color: var(--muted); font-size: 15px; margin-top: 24px; }
 
-.phone, .screens figure { margin: 0; }
-.phone img, .screens img {
+.phone { margin: 0; }
+.phone img {
   border-radius: var(--radius); border: 1px solid var(--line);
   box-shadow: 0 30px 80px -30px rgb(0 0 0 / .45);
 }
 .phone { justify-self: center; max-width: 340px; }
 
-/* Screenshots */
-.screens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; padding: 24px 0 72px; }
-.screens figcaption { color: var(--muted); text-align: center; margin-top: 14px; font-size: 15px; }
 
 /* Features */
-h2 { font-weight: 300; font-size: clamp(30px, 4.5vw, 44px); letter-spacing: -0.01em; margin: 0 0 28px; }
-.features { padding: 24px 0 56px; border-top: 1px solid var(--line); padding-top: 64px; }
-.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-bottom: 64px; }
-.grid h3 { font-weight: 500; font-size: 19px; margin: 0 0 8px; }
-.grid p { color: var(--muted); margin: 0; }
-.chips { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 10px; }
-.chips li { border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; color: var(--muted); }
+h2 { font-weight: 300; font-size: clamp(30px, 4.5vw, 44px); letter-spacing: -0.01em; margin: 0 0 12px; text-wrap: balance; }
+.features { border-top: 1px solid var(--line); padding: 64px 0 40px; }
+.section-lede { color: var(--muted); font-size: 19px; max-width: 40em; margin: 0 0 48px; }
+.group { margin-bottom: 64px; }
+.group-title { font-weight: 500; font-size: 14px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin: 0 0 20px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 28px; }
+.card { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.card h4 { font-weight: 500; font-size: 18px; margin: 12px 0 0; }
+.card p { color: var(--muted); margin: 0; font-size: 15px; }
+.frame { aspect-ratio: 9 / 16; overflow: hidden; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); }
+.frame img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.frame.contain { display: grid; place-items: center; padding: 14px; }
+.frame.contain img { height: auto; max-height: 100%; object-fit: contain; border-radius: 12px; }
+.also { list-style: none; padding: 0; margin: 24px 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px 28px; color: var(--muted); font-size: 15px; }
+.also strong { color: var(--text); font-weight: 500; }
+
+.theme-toggle {
+  font: inherit; color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 999px;
+  padding: 4px 14px; cursor: pointer; min-width: 4.5em;
+}
+.theme-toggle:hover { border-color: var(--muted); }
+.theme-toggle:focus-visible, .button:focus-visible, a:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
 
 .privacy-note { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 40px; margin: 24px 0 72px; }
 .privacy-note p { color: var(--muted); font-size: 19px; max-width: 44em; margin: 0; }
@@ -100,14 +132,14 @@ th { color: var(--muted); font-weight: 500; }
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; padding-top: 24px; gap: 40px; }
   .phone { max-width: 300px; }
-  .grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 600px) {
   body { font-size: 16px; }
   .top nav { gap: 14px; font-size: 15px; }
   .lede { font-size: 18px; }
-  .screens { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 72%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 48px; }
-  .screens figure { scroll-snap-align: center; }
-  .grid { grid-template-columns: 1fr; gap: 22px; }
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  .card h4 { font-size: 16px; }
+  .card p { font-size: 14px; }
+  .top { flex-wrap: wrap; }
   .privacy-note { padding: 26px; }
 }

@@ -3,6 +3,12 @@ layout: default
 title: Inilauncher
 body_class: home
 ---
+{% comment %}
+Each feature card shows a dark and a light screenshot (site/assets/shots/features/<shot>-dark|light.webp); the CSS
+shows the one that matches the page's theme. The cards come from site/_data/features.yml.
+{% endcomment %}
+{% assign groups = site.data.features %}
+
 <section class="hero">
   <div class="hero-text">
     <p class="eyebrow">Home screen for Android</p>
@@ -16,52 +22,37 @@ body_class: home
     <p class="promise">No ads · No tracking · Internet features are opt&#8209;in</p>
   </div>
   <figure class="phone">
-    <picture>
-      <source srcset="/assets/shots/home-light.webp" media="(prefers-color-scheme: light)">
-      <img src="/assets/shots/home.webp" alt="Inilauncher home screen: the time, the date and a short list of app names over a photo" width="720" height="1600">
-    </picture>
-  </figure>
-</section>
-
-<section class="screens" aria-label="Screenshots">
-  <figure>
-    <picture>
-      <img src="/assets/shots/apps.webp" alt="The app list: every app by name, in alphabetical order" width="720" height="1600" loading="lazy">
-    </picture>
-    <figcaption>Type a few letters and go</figcaption>
-  </figure>
-  <figure>
-    <picture>
-      <source srcset="/assets/shots/sublist-light.webp" media="(prefers-color-scheme: light)">
-      <img src="/assets/shots/sublist.webp" alt="A second list of apps placed freely on the home screen" width="720" height="1600" loading="lazy">
-    </picture>
-    <figcaption>Arrange it your way</figcaption>
-  </figure>
-  <figure>
-    <picture>
-      <source srcset="/assets/shots/extras-light.webp" media="(prefers-color-scheme: light)">
-      <img src="/assets/shots/extras.webp" alt="The Extras settings screen with optional features" width="720" height="1600" loading="lazy">
-    </picture>
-    <figcaption>Extras, all off by default</figcaption>
+    <img class="shot-dark" src="/assets/shots/features/home-dark.webp" alt="Inilauncher home screen: the time, weather, upcoming events, a note and four app names over a night sky" width="720" height="1600">
+    <img class="shot-light" src="/assets/shots/features/home-light.webp" alt="Inilauncher home screen in the light theme over a snowy forest" width="720" height="1600">
   </figure>
 </section>
 
 <section id="features" class="features">
-  <h2>Quiet by default</h2>
-  <div class="grid">
-    <div><h3>Just text</h3><p>App names instead of icons, so your phone stops calling for attention. Icons are there if you want them.</p></div>
-    <div><h3>Fast search</h3><p>Start typing to find any app, contact or setting. Do quick sums with the built-in calculator.</p></div>
-    <div><h3>Simple gestures</h3><p>Swipe left or right to open an app, swipe down for notifications, double tap to lock.</p></div>
-    <div><h3>Screen time</h3><p>See how long you've used your phone today, right on the home screen.</p></div>
-  </div>
+  <h2>Everything it does</h2>
+  <p class="section-lede">Out of the box it's just your apps. Every extra below is off until you turn it on in <strong>Settings → Extras</strong>.</p>
 
-  <h2>Extras when you want them</h2>
-  <ul class="chips">
-    <li>Weather</li><li>Upcoming events</li><li>Widgets</li><li>Folders</li><li>Notifications on apps</li>
-    <li>Music controls</li><li>A note on the home screen</li><li>Fonts</li><li>Icon packs</li>
-    <li>Daily wallpaper</li><li>Day &amp; night look by the sun</li><li>Locked hidden apps</li><li>E-ink mode</li>
-    <li>Backup &amp; share your setup</li>
-  </ul>
+  {% for group in groups %}
+  <div class="group">
+    <h3 class="group-title">{{ group.title }}</h3>
+    <div class="cards">
+      {% for f in group.items %}
+      <article class="card">
+        <div class="frame{% if f.fit == 'contain' %} contain{% endif %}">
+          <img class="shot-dark" src="/assets/shots/features/{{ f.shot }}-dark.webp" alt="{{ f.alt }}" loading="lazy">
+          <img class="shot-light" src="/assets/shots/features/{{ f.shot }}{% if f.single %}-dark{% else %}-light{% endif %}.webp" alt="{{ f.alt }}" loading="lazy">
+        </div>
+        <h4>{{ f.title }}</h4>
+        <p>{{ f.text }}</p>
+      </article>
+      {% endfor %}
+    </div>
+    {% if group.more %}
+    <ul class="also" aria-label="Also in {{ group.title }}">
+      {% for m in group.more %}<li><strong>{{ m.title }}.</strong> {{ m.text }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+  {% endfor %}
 </section>
 
 <section class="privacy-note">

@@ -13,12 +13,17 @@ developer docs in `docs/` stay out of it.
 ## Editing
 
 - **Text and layout:** `site/index.html`, `site/_layouts/default.html` (header and footer), `site/assets/site.css`.
-  Dark by default, light when the device prefers it; screenshots switch with it (`<picture>` with a `-light` file).
+  Dark by default, light when the device prefers it. The header's switch (Auto → Dark → Light) overrides that and is
+  remembered in the visitor's browser.
+- **Feature cards:** `site/_data/features.yml`, grouped as on the page. Each card names a `shot`: the page shows
+  `site/assets/shots/features/<shot>-dark.webp` or `-light.webp` to match the theme (`single: true` uses one picture for
+  both, `fit: contain` for pictures that aren't a whole screen). `more` lists features without a picture.
 - **Download buttons:** set `play_url` (and optionally `apk_url`) in `site/_config.yml`. A button shows only when it
   has a link; until then the page offers the source code.
-- **Screenshots:** `site/assets/shots/*.webp`, 720 px wide, taken on the screenshot emulator with the demo setup
-  ([App releases & updates → The screenshot emulator](app-updates.md#the-screenshot-emulator)); `-light` files are the
-  light theme. Convert with `cwebp -q 80 -resize 720 0 in.png -o out.webp`.
+- **Screenshots:** `site/assets/shots/features/*.webp`, 720 px wide, taken on the screenshot emulator
+  ([App releases & updates → The screenshot emulator](app-updates.md#the-screenshot-emulator)) with every extra turned
+  on, made-up contacts and calendar events, and text messages sent with `adb emu sms send`. Nothing comes from a personal
+  phone. Convert with `cwebp -q 78 -resize 720 0 in.png -o out.webp`.
 - **Privacy policy:** keep `site/privacy.md` in step with [Permissions & privacy](permissions.md) whenever a feature
   changes what it needs or sends, and update its date.
 - **Preview locally:** `docker run --rm -v "$PWD/site:/srv/jekyll" -p 4000:4000 jekyll/jekyll:3.8 jekyll serve`, then

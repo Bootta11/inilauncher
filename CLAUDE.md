@@ -30,3 +30,12 @@ Every release with a change people can see gets a What's new entry for the versi
 - **Get it approved first:** put the pages on a private review page for the user, and tag only after they approve it.
 - **Only fixes nobody sees:** ask the user before tagging without an entry. Don't decide alone.
 - **If a release already went out without one:** say so plainly, and add the notes to the next version. Never move a pushed tag.
+
+## Screenshot emulator: start it right
+
+Screenshots for What's new and the website come from the `inilauncher-shots` emulator. Follow `docs/app-updates.md#the-screenshot-emulator` and its "Driving the emulator" list.
+
+- **Start it windowless, at normal priority:** run `emulator -avd inilauncher-shots -no-window -no-snapshot-save -no-audio` as a tracked background task, never with `&` from zsh (background jobs get niced) and never with a window that's off screen (macOS throttles it). Check `ps -o pri,nice,pcpu` on the qemu process: nice 0, several cores busy. A throttled emulator freezes on every dialog, theme switch and keystroke, and its "isn't responding" errors are not app bugs.
+- **Wait for it to settle** after boot (`/proc/loadavg` below about 4) before tapping.
+- **Prefer configs and preferences over menus and typing:** extras, theme, font and icons via `scripts/push-config.sh`; note text and weather place via the debug build's preferences; demo data (made-up contacts, events, SMS) via `adb`.
+- **Clean up:** put the emulator back to the plain demo setup and shut it down when done.

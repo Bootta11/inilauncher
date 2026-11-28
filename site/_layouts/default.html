@@ -17,6 +17,10 @@
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <link rel="stylesheet" href="/assets/site.css">
+  <script>
+    // Apply the saved theme (Auto, Dark or Light) before the page draws, so it doesn't flash.
+    try { var t = localStorage.getItem('theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
 </head>
 <body class="{{ page.body_class }}">
   <header class="top">
@@ -25,6 +29,7 @@
       <a href="/#features">Features</a>
       <a href="/privacy">Privacy</a>
       <a href="{{ site.source_url }}">Source</a>
+      <button class="theme-toggle" type="button" aria-label="Theme: Auto">Auto</button>
     </nav>
   </header>
 
@@ -36,5 +41,21 @@
     <p>Inilauncher is free software under the <a href="{{ site.source_url }}/blob/master/LICENSE">GNU GPL v3</a>, based on <a href="https://github.com/tanujnotes/Olauncher">Olauncher</a> by Tanuj.</p>
     <p><a href="/privacy">Privacy policy</a> · <a href="{{ site.source_url }}">Source code</a> · <a href="{{ site.source_url }}/issues">Feedback</a></p>
   </footer>
+  <script>
+    // Theme switch: Auto (follows the device) → Dark → Light.
+    (function () {
+      var root = document.documentElement, btn = document.querySelector('.theme-toggle');
+      var order = ['auto', 'dark', 'light'], names = { auto: 'Auto', dark: 'Dark', light: 'Light' };
+      function current() { return root.dataset.theme || 'auto'; }
+      function show() { var c = current(); btn.textContent = names[c]; btn.setAttribute('aria-label', 'Theme: ' + names[c] + '. Change theme'); }
+      btn.addEventListener('click', function () {
+        var next = order[(order.indexOf(current()) + 1) % order.length];
+        if (next === 'auto') delete root.dataset.theme; else root.dataset.theme = next;
+        try { if (next === 'auto') localStorage.removeItem('theme'); else localStorage.setItem('theme', next); } catch (e) {}
+        show();
+      });
+      show();
+    })();
+  </script>
 </body>
 </html>

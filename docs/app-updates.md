@@ -85,17 +85,57 @@ app or the repo, and every release looks the same:
 - AVD `inilauncher-shots`: Pixel 6 profile (1080 × 2400), Android 15 *Google APIs* image (no Play Store, which is
   much lighter), GPU mode `angle_indirect` (`host` gives black `screencap`s, software rendering is too slow). Create
   it with `avdmanager create avd -n inilauncher-shots -k "system-images;android-35;google_apis;arm64-v8a" -d pixel_6`
-  and set `hw.gpu.enabled=yes`, `hw.gpu.mode=angle_indirect`, `hw.ramSize=3072` in its `config.ini`.
+  and set `hw.gpu.enabled=yes`, `hw.gpu.mode=angle_indirect`, `hw.ramSize=4096`, `hw.cpu.ncore=6` and
+  `hw.keyboard=yes` in its `config.ini` (with 3 GB and 4 cores it stalled for minutes on theme switches, wallpapers and typing;
+  the hardware keyboard keeps the on-screen keyboard from loading when a script types).
+- Start it without a window and at normal priority: `emulator -avd inilauncher-shots -no-window -no-snapshot-save -no-audio`,
+  in its own terminal tab (not with `&` from zsh, which runs background jobs niced). With a window that isn't on screen,
+  macOS throttles it (App Nap): it gets about one core and stalls for minutes on dialogs, theme switches and typing,
+  with "isn't responding" errors. `adb exec-out screencap` works the same without a window.
 - Install the debug build and make it the home app: `adb shell cmd role add-role-holder android.app.role.HOME app.inilauncher.debug 0`.
 - Load the demo setup in one step: `scripts/push-config.sh configs/emulator-demo.json` (home apps Camera, Clock,
   Calendar, Contacts; sub list Files, Maps, Drive with names and free placement; letter dots; dark theme). See
   [Configuration files](configuration.md#debug-builds-and-the-emulator).
 - Wallpapers from the daily wallpaper list, the same for every release so all screenshots match: dark theme the
-  starry sky with a tree (pair 8, dark), light theme the snowy forest (pair 27, light). Don't change them per release. Push the photo to `/sdcard/Pictures`, then set it with
+  starry sky with a tree (pair 8, dark), light theme the snowy forest (pair 27, light). Pairs count from 1: pair 8 is
+  `pairs[7]` in `wallpapers/daily_wallpapers.json`. Don't change them per release. Push the photo to `/sdcard/Pictures`, then set it with
   `am start -n com.google.android.apps.photos/.setwallpaper.SetWallpaperActivity -a android.intent.action.ATTACH_DATA -d content://media/external/images/media/<id> -t image/jpeg`.
 - Run the script with `ANDROID_SERIAL=emulator-5554` when a phone is connected too.
 - Shut it down as soon as the screenshots are taken, so it doesn't drain the battery:
   `adb -s emulator-5554 emu kill`.
+
+#### Driving the emulator
+
+What makes scripted screenshots reliable (learned the hard way; every point cost an afternoon of frozen screens):
+
+- **Speed first.** Run it windowless and un-niced (above). Check `ps -o pri,nice,pcpu -p $(pgrep -f qemu-system)`:
+  nice 0 and several hundred % CPU while busy is right; priority 4 or ~100 % CPU means macOS is throttling it.
+- **Let it settle.** After a cold boot Android works hard for a few minutes (load 20–30). Wait until
+  `adb shell cat /proc/loadavg` drops below about 4 before tapping, or dialogs show "isn't responding" (the launcher's
+  notification listener can take over 20 s to start then).
+- **Retry screenshots.** A `screencap` taken while the screen redraws can come back half black. Take it again until no
+  big black band is left.
+- **Wait for what you tapped.** Check the screen with `adb shell uiautomator dump` (look for the text you expect)
+  before the next step, rather than sleeping a fixed time.
+- **Typing.** `adb shell settings put secure show_ime_with_hard_keyboard 0` keeps the on-screen keyboard away, so
+  `adb shell input text` goes straight into the field (`%s` is a space) and the app list stays visible. Set it back
+  to `1` afterwards.
+- **Settings that aren't in a config** (note text, weather place, both private): write them into the debug build's
+  preferences while the app is stopped: `adb shell am force-stop app.inilauncher.debug`, then copy
+  `shared_prefs/app.inilauncher.extras.xml` out and back in with `adb shell run-as app.inilauncher.debug …`
+  (`note_text`, `weather_enabled`, `weather_place_name`, `weather_place_lat`, `weather_place_lon`).
+- **Turning extras on and off, theme, font, icons:** a config file with `scripts/push-config.sh` (it restarts the
+  app), not the menus. The theme menu froze the slow emulator more than once.
+- **Demo contacts and events** (made-up only): insert them with `adb shell content insert`. Escape spaces in values
+  (`data1:s:Maya\ Lindqvist`), or they arrive empty. Calendar events need a local calendar first:
+  `content://com.android.calendar/calendars?caller_is_syncadapter=true&account_name=demo&account_type=LOCAL`.
+- **Notifications that look real:** `adb emu sms send 15555550142 "text"` gives a Messages notification. The sender
+  shows as a contact's name only when the contact's number is the full `+15555550142`. System notices ("Set a screen
+  lock", "Serial console enabled") can be hidden with
+  `adb shell cmd notification snooze --for 7200000 '<key>'` (keys from `adb shell dumpsys notification --noredact`).
+- **Wallpapers:** the Photos set-wallpaper screen needs a few seconds to load before **Set wallpaper** works.
+- **Clean up afterwards:** load a config that turns the extras off again, set `weather_enabled` back to false, put the
+  demo wallpaper back, so the next What's new screenshots start from the plain demo.
 
 **On a phone instead:** when the emulator can't be used (a real-device feature, a phone-only look), use the
 showcase: **Extras → Backup & sharing → Showcase screens → Open showcase**. It shows the launcher with stand-in apps,

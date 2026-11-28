@@ -1,0 +1,101 @@
+# Feature cards on the home page (site/index.html). `shot` is the base name in assets/shots/features/:
+# <shot>-dark.webp and <shot>-light.webp. `fit: contain` for pictures that aren't a whole screen,
+# `single: true` when one picture serves both themes. `more` lists features without a picture.
+- title: Home screen
+  items:
+    - title: Weather, events and a note
+      shot: home
+      alt: Home screen with the temperature, the next three calendar events, a short note and a notifications line under the clock
+      text: The temperature under the date, your next events from the coming 24 hours, a short note to yourself, and today's screen time in the corner.
+    - title: Notifications on your apps
+      shot: notifications
+      alt: Notification cards over the home screen, with Reply and Clear all
+      text: A line under the clock counts your notifications. Tap it to read them as cards, reply, or swipe them away. Apps get a small dot or a count.
+    - title: Sub list
+      shot: sublist
+      alt: A grid of small app icons with names under the home apps
+      text: A tap on ⋯ opens a second row of apps you use often but don't want in the main list. Place them freely in a grid.
+    - title: Widgets
+      shot: widgets
+      alt: The widget panel with a clock widget
+      text: A widget panel one tap away, at the top of the app list or on a swipe. Drag widgets around and resize them to fit.
+  more:
+    - title: Music controls
+      text: what's playing, with previous, play/pause and next.
+    - title: Per-app swipes
+      text: give each home app its own swipe action.
+
+- title: Search & app list
+  items:
+    - title: An app list that keeps up
+      shot: applist
+      alt: The app list with suggested apps at the top, Widgets and a Tools folder, and an A to Z strip on the right
+      text: Suggested apps at the top, folders, and an A–Z strip on the side to jump through a long list with your thumb.
+    - title: Folders
+      shot: folder
+      alt: A folder named Tools open over the app list
+      text: Group apps into folders in the app list, then put a folder on the home screen or on a swipe.
+    - title: Search everything
+      shot: search
+      alt: Search results for "ma" with contacts, app shortcuts, web suggestions and apps
+      text: Type a few letters to find apps, contacts and app shortcuts. Web suggestions are there if you turn them on.
+    - title: Calculator
+      shot: calc
+      alt: The search box with 12*3-4 and the answer 32
+      text: Type a sum in the search box and the answer appears. Tap it to copy.
+  more:
+    - title: Sort by usage
+      text: put the apps you open most at the top.
+
+- title: Look
+  items:
+    - title: Fonts
+      shot: font
+      alt: The home screen in a serif font
+      text: Sans, condensed, serif, monospace or casual, using the fonts already on your phone.
+    - title: Icons, if you want them
+      shot: icons
+      alt: The home screen with colourful app icons next to the names
+      text: Keep it text only, or add letter dots, system icons, monochrome or grayscale icons, or an icon pack.
+    - title: Day & night
+      shot: daynight
+      single: true
+      alt: The home screen split in two, dark over a night sky on one side and light over a snowy forest on the other
+      text: A new wallpaper every day, from Inilauncher's photo list or your own folders. Switch to light by day and dark at night, by the sun.
+    - title: Blur and settings
+      shot: extras
+      alt: The Extras settings screen over a blurred wallpaper, with switches for weather, upcoming events, a note and widgets
+      text: The wallpaper softens behind the app list and settings. Each extra says what it needs and whether it uses the internet.
+  more:
+    - title: E-ink mode
+      text: light theme, no animations and no blur for e-ink screens.
+    - title: Gesture animations
+      text: the home screen follows your finger as you swipe.
+
+- title: Settings & sharing
+  items:
+    - title: Search settings
+      shot: settings-search
+      fit: contain
+      alt: Settings search results
+      text: Type in Settings to jump straight to any option.
+    - title: Back up and share your setup
+      shot: backup-export
+      fit: contain
+      alt: The export dialog with the parts to include
+      text: Save your look and settings to a file, share it, or load someone else's. You see every change before it applies.
+    - title: Showcase screens
+      shot: showcase-screens
+      fit: contain
+      alt: The showcase screens settings with stand-in apps
+      text: Screenshots of your look with stand-in apps, so you can share it without showing your own apps or messages.
+    - title: Feedback
+      shot: feedback
+      fit: contain
+      alt: The feedback menu with report a bug and suggest a feature
+      text: Report a bug or suggest a feature from Settings. Nothing is sent until you send it.
+  more:
+    - title: Lock hidden apps
+      text: your fingerprint, face or screen lock before hidden apps show.
+    - title: What's new
+      text: a short tour of the changes after each update.
